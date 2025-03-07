@@ -1,0 +1,8 @@
+---
+to: components/<%= name %>/<%= name %>.module.scss
+---
+.container {
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 5px;
+}
