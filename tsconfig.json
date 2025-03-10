@@ -2,34 +2,36 @@
   "compilerOptions": {
     "jsx": "preserve",
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
     "noEmit": true,
     "incremental": true,
     "module": "esnext",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
+    "types": ["node", "jest", "next"],
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["src/utils/*"],
+      "@styles/*": ["src/styles/*"],
+      "@storybook/*": [".storybook/*"],
+      "@config/*": ["config/*"],
+      "@themes/*": ["themes/*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "baseUrl": "./",
-    "paths": {
-      "@components/*": ["components/*"],
-      "@utils/*": ["utils/*"],
-      "@styles/*": ["styles/*"],
-      "@storybook/*": [".storybook/*"]
-    },
-    "forceConsistentCasingInFileNames": true
+    ]
   },
   "trailingComma": "all",
   "tabWidth": 2,
@@ -39,11 +41,7 @@
   "arrowParens": "always",
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js"],
       "options": {
         "semi": true,
         "singleQuote": true,
@@ -52,18 +50,13 @@
       }
     },
     {
-      "files": [
-        "*.json"
-      ],
+      "files": ["*.json"],
       "options": {
         "tabWidth": 2
       }
     },
     {
-      "files": [
-        "app/pages/styles/*.js",
-        "app/elements/styles/*.js"
-      ],
+      "files": ["src/app/pages/styles/*.js", "src/app/elements/styles/*.js"],
       "options": {
         "semi": true,
         "singleQuote": false,
@@ -80,10 +73,5 @@
     "stories/**/*.tsx",
     ".storybook/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    ".storybook/generated",
-    "dist",
-    "build"
-  ]
+  "exclude": ["node_modules", ".storybook/generated", "dist", "build"]
 }

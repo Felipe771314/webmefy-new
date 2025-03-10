@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 
 interface ProductProps {
-  id: string;
   title: string;
   image: string;
   price: string;
@@ -10,7 +9,7 @@ interface ProductProps {
   onAddToCart: () => void;
 }
 
-const ProductCard: React.FC<ProductProps> = ({ id, title, image, price, vendor, onAddToCart }) => {
+const ProductCard: React.FC<ProductProps> = ({ title, image, price, vendor, onAddToCart }) => {
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={image || '/placeholder.jpg'} alt={title} />

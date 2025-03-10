@@ -1,7 +1,11 @@
 import Shopify from 'shopify-api-node';
 
-if (!process.env.SHOPIFY_SHOP_NAME || !process.env.SHOPIFY_API_KEY || !process.env.SHOPIFY_API_PASSWORD) {
-  throw new Error("❌ Missing Shopify environment variables. Check your .env.local file.");
+if (
+  !process.env.SHOPIFY_SHOP_NAME ||
+  !process.env.SHOPIFY_API_KEY ||
+  !process.env.SHOPIFY_API_PASSWORD
+) {
+  throw new Error('❌ Missing Shopify environment variables. Check your .env.local file.');
 }
 
 // Configuración de Shopify API
@@ -24,7 +28,7 @@ export async function getProducts() {
 
 export async function getProductById(id: string) {
   try {
-    const product = await shopify.product.get(Number(id)); 
+    const product = await shopify.product.get(Number(id));
     return product;
   } catch (error) {
     console.error('Error fetching product:', error);
