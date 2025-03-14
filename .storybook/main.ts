@@ -1,12 +1,11 @@
-import type { StorybookConfig } from '@storybook/nextjs';
+import type { StorybookConfig } from "@storybook/react-webpack5";
 
 const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
-  framework: '@storybook/nextjs',
-  docs: {
-    autodocs: true,
-  },
+  stories: ["../components/atoms/**/*.stories.tsx", 
+            "../components/molecules/**/*.stories.tsx",
+            "../components/organisms/**/*.stories.tsx"],
+  addons: ["@storybook/addon-links", "@storybook/addon-essentials"],
+  framework: "@storybook/react-webpack5",
 };
 
 export default config;

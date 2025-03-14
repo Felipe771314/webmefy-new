@@ -1,166 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shopify Store - Next.js Boilerplate 🛒
 
-## Getting Started
+Este proyecto es una implementación escalable y modular basada en **Next.js**, diseñada para integrarse con **Shopify** utilizando **LiquidJS** y proporcionar una infraestructura robusta para el desarrollo de componentes reutilizables con **Storybook**.
 
-First, run the development server:
+## 🚀 Tecnologías y Librerías
+
+- **Framework:** Next.js 15.2.1 (con soporte para Turbopack y Webpack)
+- **Componentes UI:** React 19, Bootstrap 5.3.3, React-Bootstrap
+- **Gestión de API:** Axios, GraphQL Request, Shopify API Node
+- **Estilos y Theming:** Bootstrap con sistema de Tokens
+- **Generación de Componentes:** Hygen
+- **Testing:** Jest, Testing Library, Istanbul (coverage)
+- **Linting y Formateo:** ESLint, Prettier, SonarQube
+- **Storybook:** Documentación visual y pruebas UI
+- **Despliegue:** Soporte para Vercel, integración con Shopify, SonarQube
+
+---
+
+## 📂 Estructura del Proyecto
+
+
+---
+
+## 🎯 Funcionalidades Clave
+
+✅ **Integración con Shopify**:  
+- Conexión con Shopify API mediante `shopify-api-node`
+- Soporte para plantillas dinámicas con `LiquidJS`
+
+✅ **Sistema de Temas y Tokens**:  
+- Uso de **Bootstrap con sistema de tokens**
+- **Temas personalizados** para cada cliente en `/themes/`
+
+✅ **Creación Rápida de Componentes**:  
+- Generación automática con **Hygen**
+- **Soporte para Storybook** con documentación visual
+- Estilos organizados en **SCSS Modules**
+
+✅ **Pruebas y Cobertura de Código**:  
+- **Jest + Testing Library** para pruebas unitarias
+- **Istanbul** para cobertura de código
+- Reportes en `/coverage/`
+
+✅ **Linting y Formateo**:  
+- **ESLint** con reglas estrictas
+- **Prettier** para formateo automático
+- **SonarQube** para análisis de calidad de código
+
+✅ **Despliegue y CI/CD**:  
+- **Soporte para Vercel**
+- Integración con **Shopify Theme Kit**
+- **SonarQube + Jenkins** para calidad de código y pipelines
+
+---
+
+## 🛠 Comandos Útiles
 
 ```bash
+# Iniciar el servidor en desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Compilar el proyecto para producción
+npm run build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Iniciar en modo producción
+npm run start
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Linting y formateo de código
+npm run lint
+npm run lint:fix
+npm run format
 
-## Learn More
+# Pruebas unitarias
+npm run test
+npm run test:watch
+npm run test:coverage
 
-To learn more about Next.js, take a look at the following resources:
+# Generar nuevos componentes con Hygen
+npm run gen:component --name NombreDelComponente
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-shopify-store/
-│
-├── .github/                      # Configuración de GitHub
-├── .next/                        # Carpeta generada por Next.js para el build
-├── .storybook/                   # Configuración de Storybook
-│   ├── main.ts                   # Configuración principal de Storybook
-│   ├── preview.ts                 # Configuración del preview de Storybook
-│
-├── _templates/                    # Plantillas de generación automática de componentes
-│   ├── component/
-│   │   ├── new/
-│   │   │   ├── index.ejs.t        # Plantilla de nuevo componente
-│   │   │   ├── index.test.ejs.t   # Prueba unitaria para el nuevo componente
-│   │   │   ├── stories.ejs.t      # Storybook asociado al componente
-│   │   │   ├── styles.module.scss.ejs.t  # Estilos SCSS para el componente
-│   │   │   ├── test.ejs.t         # Prueba del componente
-│   │   │
-│   ├── generator/
-│   │   ├── help/
-│   │   ├── new/
-│   │   │   ├── prompt.js
-│   │   │   ├── with-prompt
-│   │   │   ├── hello.ejs.t
-│   │   │   ├── prompt.ejs.t
-│   │   │   ├── prompt.js
-│
-├── app/                           # Aplicación principal
-│   ├── hello.js                   # Archivo de prueba
-│
-├── components/                     # Componentes reutilizables
-│   ├── Cart.tsx
-│   ├── Navbar.tsx
-│   ├── ProductCard.tsx
-│
-├── config/                         # Configuración dinámica del proyecto
-│   ├── clients/
-│   │   ├── client1.ts
-│   │   ├── client2.ts
-│   │   ├── client3.ts
-│   ├── config.ts
-│   ├── default.js
-│   ├── development.js
-│   ├── production.js
-│
-├── coverage/                        # Reportes de cobertura de tests
-│   ├── lcov-report/
-│   ├── clover.xml
-│   ├── coverage-final.json
-│   ├── lcov.info
-│
-├── modules/                         # Módulos reutilizables del sistema
-│   ├── analytics.js
-│   ├── notifications.js
-│   ├── shopify-api.js
-│
-├── public/                          # Archivos públicos estáticos
-│
-├── src/                             # Código fuente
-│   ├── __tests__/                   # Pruebas unitarias
-│   ├── api/                         # API de conexión
-│   │   ├── analytics.ts
-│   │   ├── shopify.ts
-│   ├── app/                         # Configuración de la aplicación
-│   │   ├── favicon.ico
-│   │   ├── globals.css
-│   │   ├── page.module.css
-│   ├── pages/                       # Páginas principales del sistema
-│   │   ├── index.tsx
-│   │   ├── layout.tsx
-│   │   ├── page.tsx
-│   ├── stories/                     # Configuración de Storybook
-│   │   ├── assets/
-│   │   ├── button.css
-│   │   ├── Configure.mdx
-│   │   ├── header.css
-│   │   ├── page.css
-│   ├── styles/                      # Estilos globales
-│   │   ├── global.css
-│   ├── themes/                      # Configuración de temas por cliente
-│   │   ├── client1.tsx
-│   │   ├── client2.tsx
-│   │   ├── default.tsx
-│   ├── utils/                       # Utilidades y helpers
-│   │   ├── helpers.ts
-│
-├── .env.local                       # Variables de entorno local
-├── .eslintrc.json                    # Configuración de ESLint
-├── .gitignore                        # Archivos ignorados en Git
-├── .prettierrc                       # Configuración de Prettier
-├── eslint.config.mjs                 # Configuración de ESLint extendida
-├── jest.config.js                    # Configuración de Jest
-├── next-env.d.ts                     # Configuración de Tipos de Next.js
-├── next.config.ts                     # Configuración de Next.js
-├── package-lock.json                  # Archivo de lock de dependencias
-├── package.json                        # Configuración de paquetes y scripts
-├── README.md                           # Documentación del proyecto
-├── setupTests.js                        # Configuración de Jest
-├── sonar-project.js                     # Configuración de Sonarqube
-├── sonar-project.properties             # Archivo de configuración de Sonarqube
-├── storybook.log                        # Log de Storybook
-├── tsconfig.json                         # Configuración de TypeScript
+# Ejecutar Storybook
+npm run storybook
+npm run build-storybook
 
 
-📌 Resumen de la Configuración
-Este sistema se ha diseñado para ser modular, reutilizable y escalable con las siguientes características:
+---
 
-✅ Uso de Storybook:
+### 📌 **Explicación del README**
+✅ **Bien estructurado** con detalles sobre el proyecto, librerías, estructura y comandos.  
+✅ **Incluye una hoja de ruta** clara para futuras mejoras.  
+✅ **Documentación técnica** para que cualquier desarrollador pueda entender el proyecto rápidamente.  
+✅ **Fácilmente exportable** para GitHub y otros repositorios.  
 
-Cada componente tiene su propia documentación visual en Storybook.
-Los estilos están separados en SCSS Modules.
-✅ Configuración Modular de Clientes:
-
-En la carpeta config/clients/, cada cliente tiene su propio archivo de configuración en TypeScript.
-Se define un config.ts para manejar todas las configuraciones dinámicamente.
-✅ Estructura de Testing:
-
-Pruebas con Jest y Testing Library.
-Reportes de cobertura en la carpeta coverage/.
-✅ Estilos y Theming:
-
-Uso de Bootstrap para estilos.
-Temas personalizados en themes/ para cada cliente.
-✅ Automatización de Creación de Componentes:
-
-Uso de Hygen para generar nuevos componentes con estructura predefinida.
-✅ Integración con Shopify y LiquidJS:
-
-Shopify se maneja en shopify-api.js.
-Soporte para LiquidJS en caso de requerir plantillas dinámicas.
+Si necesitas alguna mejora o adaptación, dime y lo ajustamos 🚀🔥
