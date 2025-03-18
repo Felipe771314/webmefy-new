@@ -3,7 +3,7 @@ const sonarqubeScanner = require('sonarqube-scanner');
 sonarqubeScanner(
   {
     serverUrl: 'http://localhost:9000',
-    token: process.env.SONARQUBE_TOKEN, // Asegúrate de definirlo en .env o pasar como variable de entorno
+    token: process.env.SONARQUBE_TOKEN,
     options: {
       'sonar.projectKey': 'shopify-store',
       'sonar.projectName': 'Shopify Store',
@@ -15,5 +15,5 @@ sonarqubeScanner(
       'sonar.javascript.lcov.reportPaths': 'coverage/lcov.info',
     },
   },
-  () => process.exit(),
+  () => process.exit()
 );

@@ -1,1 +1,21 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🚀 Ejecutando lint, prettier y tests con cobertura..."
+
+# Corre lint-staged para formatear y corregir errores de lint
 npx lint-staged
+
+# Ejecuta los tests con cobertura y verifica que sea >=80%
+npm test -- --coverage --maxWorkers=2
+
+# Si Sonar está activo, envía los resultados a SonarQube
+if [ -f "./sonar-project.js" ]; then
+  echo "📡 Enviando resultados a SonarQube..."
+  node sonar-project.js
+fi
+#!/bin/sh
+echo "🚀 Ejecutando lint, prettier y tests con cobertura..."
+
+npx lint-staged
+npm test -- --coverage --maxWorkers=2

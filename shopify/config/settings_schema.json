@@ -1,0 +1,13 @@
+[
+  {
+    "name": "theme_info",
+    "settings": [
+      {
+        "type": "text",
+        "id": "theme_name",
+        "label": "Theme Name",
+        "default": "My Custom Theme"
+      }
+    ]
+  }
+]

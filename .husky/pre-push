@@ -1,0 +1,20 @@
+#!/bin/sh
+echo "🚀 Ejecutando pruebas antes del push..."
+
+npm test -- --coverage --maxWorkers=2
+
+COVERAGE_THRESHOLD=80
+ACTUAL_COVERAGE=$(node -e "console.log(require('./coverage/coverage-summary.json').total.statements.pct)")
+
+if (( $(echo "$ACTUAL_COVERAGE < $COVERAGE_THRESHOLD" | bc -l) )); then
+  echo "❌ La cobertura de código es menor al 80%. Corrige esto antes de hacer push."
+  exit 1
+fi
+
+echo "✅ Cobertura aceptable. Procediendo con el push..."
+#!/bin/sh
+if [ -f "./coverage/coverage-summary.json" ]; then
+  node -e "require('./coverage/coverage-summary.json')"
+else
+  echo 'No se encontró coverage/coverage-summary.json. Saltando verificación de cobertura.'
+fi

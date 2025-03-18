@@ -1,77 +1,36 @@
 {
   "compilerOptions": {
-    "jsx": "preserve",
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "preserve", // Correcto para React 17+ y Next.js.
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
     "noEmit": true,
-    "incremental": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true,
-    "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
-    "allowImportingTsExtensions": true,
-    "types": ["node", "jest", "next"],
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node", "jest", "next", "@storybook/react"], // Se incluyen los tipos para Storybook.
     "baseUrl": "./",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@utils/*": ["src/utils/*"],
-      "@styles/*": ["src/styles/*"],
-      "@storybook/*": [".storybook/*"],
-      "@config/*": ["config/*"],
-      "@themes/*": ["themes/*"]
+      "@components/*": ["components/*"],
+      "@utils/*": ["utils/*"],
+      "@styles/*": ["styles/*"],
+      "@storybook/*": [".storybook/*"]
     },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "isolatedModules": true,
+    "strictNullChecks": true
   },
-  "trailingComma": "all",
-  "tabWidth": 2,
-  "semi": true,
-  "singleQuote": true,
-  "printWidth": 120,
-  "arrowParens": "always",
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js"],
-      "options": {
-        "semi": true,
-        "singleQuote": true,
-        "printWidth": 120,
-        "tabWidth": 2
-      }
-    },
-    {
-      "files": ["*.json"],
-      "options": {
-        "tabWidth": 2
-      }
-    },
-    {
-      "files": ["src/app/pages/styles/*.js", "src/app/elements/styles/*.js"],
-      "options": {
-        "semi": true,
-        "singleQuote": false,
-        "printWidth": 150,
-        "tabWidth": 2
-      }
-    }
-  ],
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "stories/**/*.tsx",
-    ".storybook/**/*.ts"
-  ],
+  "include": ["**/*.ts", "**/*.tsx", ".storybook/**/*.ts", "next-env.d.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules", ".storybook/generated", "dist", "build"]
 }

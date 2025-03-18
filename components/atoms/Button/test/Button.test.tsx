@@ -1,7 +1,15 @@
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Button from '../Button';
 
-test('renders Button component', () => {
-  render(<Button />);
-  expect(screen.getByText('Button')).toBeInTheDocument();
+test('renders Button with label', () => {
+  render(<Button label="Click me" />);
+  expect(screen.getByText('Click me')).toBeInTheDocument();
+});
+
+test('triggers onClick handler when clicked', () => {
+  const handleClick = jest.fn();
+  render(<Button label="Click me" onClick={handleClick} />);
+  fireEvent.click(screen.getByText('Click me'));
+  expect(handleClick).toHaveBeenCalledTimes(1);
 });

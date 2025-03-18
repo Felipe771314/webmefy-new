@@ -1,0 +1,27 @@
+
+{% schema %}
+{
+  "name": "Badge",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "variant",
+      "label": "Variant",
+      "default": ""
+    }
+  ]
+}
+{% endschema %}
+
+<!-- Plantilla Liquid para Badge -->
+<div class="badge">
+  {%- for setting in section.settings -%}
+    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
+  {%- endfor -%}
+</div>

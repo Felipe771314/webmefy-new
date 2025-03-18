@@ -1,0 +1,15 @@
+<!-- shopify-theme/layout/theme.liquid -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page_title }}</title>
+    {{ 'example.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <!-- Contenido principal -->
+    {{ content_for_header }}
+    {{ content_for_layout }}
+    {{ content_for_footer }}
+  </body>
+</html>

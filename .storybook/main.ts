@@ -1,11 +1,34 @@
-import type { StorybookConfig } from "@storybook/react-webpack5";
+import type { StorybookConfig } from '@storybook/nextjs';
 
 const config: StorybookConfig = {
-  stories: ["../components/atoms/**/*.stories.tsx", 
-            "../components/molecules/**/*.stories.tsx",
-            "../components/organisms/**/*.stories.tsx"],
-  addons: ["@storybook/addon-links", "@storybook/addon-essentials"],
-  framework: "@storybook/react-webpack5",
+  stories: ['../components/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+  ],
+  framework: {
+    name: '@storybook/nextjs',
+    options: {},
+  },
+  docs: {
+    autodocs: 'tag',
+  },
+  webpackFinal: async (config) => {
+    config.module?.rules?.push({
+      test: /\.(ts|tsx)$/,
+      use: [
+        {
+          loader: require.resolve('ts-loader'),
+          options: {
+            transpileOnly: true,
+          },
+        },
+      ],
+    });
+
+    return config;
+  },
 };
 
 export default config;

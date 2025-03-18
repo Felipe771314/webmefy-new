@@ -1,0 +1,28 @@
+{% schema %}
+{
+  "name": "{{pascalCase name}}",
+  "settings": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Texto del botón",
+      "default": "Comprar ahora"
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Color de fondo",
+      "default": "#ff6600"
+    }
+  ],
+  "presets": [
+    {
+      "name": "{{pascalCase name}}"
+    }
+  ]
+}
+{% endschema %}
+
+<button style="background: {{ settings.color }}; color: white; padding: 10px 20px;">
+  {{ settings.text }}
+</button>

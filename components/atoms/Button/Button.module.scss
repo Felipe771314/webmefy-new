@@ -1,5 +1,86 @@
-.container {
-  background: #f5f5f5;
-  padding: 1rem;
-  border-radius: 5px;
+@use 'sass:map';
+@import '../../../styles/variables.scss'; // Importa el archivo de variables globales
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Tamaños
+.small {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.medium {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.large {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+// Variantes de color
+@each $color, $value in $theme-colors {
+  .#{$color} {
+    background-color: map.get($theme-colors, $color);
+    color: white;
+    
+    &:hover {
+      background-color: darken(map.get($theme-colors, $color), 10%);
+    }
+  }
+
+  .outline-#{$color} {
+    background-color: transparent;
+    border: 2px solid map.get($theme-colors, $color);
+    color: map.get($theme-colors, $color);
+
+    &:hover {
+      background-color: map.get($theme-colors, $color);
+      color: white;
+    }
+  }
+}
+
+// Full Width
+.fullWidth {
+  width: 100%;
+}
+
+// Icono
+.icon {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+.alignLeft {
+  justify-content: flex-start;
+}
+
+.alignCenter {
+  justify-content: center;
+}
+
+.alignRight {
+  justify-content: flex-end;
 }

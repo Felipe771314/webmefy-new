@@ -1,12 +1,25 @@
 module.exports = {
-  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
+  preset: 'ts-jest',
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
   },
+  moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
   moduleNameMapper: {
-    '^@components/(.*)$': '<rootDir>/src/components/$1',
-    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
-    '^@styles/(.*)$': '<rootDir>/src/styles/$1',
+    "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js",
+    "^@components/(.*)$": "<rootDir>/components/$1",
+    "^@utils/(.*)$": "<rootDir>/utils/$1",
+    "^@styles/(.*)$": "<rootDir>/styles/$1",
+    "^@storybook/(.*)$": "<rootDir>/.storybook/$1"
   },
+  setupFilesAfterEnv: ["<rootDir>/setupTests.js"],
+  testPathIgnorePatterns: ["/node_modules/", "/.next/"],
+  globals: {
+    "ts-jest": {
+      tsconfig: "tsconfig.jest.json"
+    }
+  },
+  // Nuevas opciones para cobertura:
+  coverageDirectory: "coverage",
+  coverageReporters: ["json", "json-summary", "lcov", "text"],
 };

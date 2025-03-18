@@ -1,0 +1,45 @@
+
+{% schema %}
+{
+  "name": "Checkbox",
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "Id",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "checked",
+      "label": "Checked",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "onChange",
+      "label": "OnChange",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "disabled",
+      "label": "Disabled",
+      "default": ""
+    }
+  ]
+}
+{% endschema %}
+
+<!-- Plantilla Liquid para Checkbox -->
+<div class="checkbox">
+  {%- for setting in section.settings -%}
+    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
+  {%- endfor -%}
+</div>
