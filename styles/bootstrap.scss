@@ -4,14 +4,14 @@
 // Aquí puedes definir o sobreescribir las variables que deseas
 // Por ejemplo, si tienes un mapa de colores personalizado:
 $custom-theme-colors: (
-  "primary": $primary,
-  "secondary": $secondary,
-  "success": $success,
-  "danger": $danger,
-  "warning": $warning,
-  "info": $info,
-  "light": $light,
-  "dark": $dark,
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'danger': $danger,
+  'warning': $warning,
+  'info': $info,
+  'light': $light,
+  'dark': $dark,
 );
 
 // Importar Bootstrap usando la opción "with" para sobreescribir variables

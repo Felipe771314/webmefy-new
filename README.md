@@ -18,35 +18,40 @@ Este proyecto es una implementación escalable y modular basada en **Next.js**, 
 
 ## 📂 Estructura del Proyecto
 
-
 ---
 
 ## 🎯 Funcionalidades Clave
 
-✅ **Integración con Shopify**:  
+✅ **Integración con Shopify**:
+
 - Conexión con Shopify API mediante `shopify-api-node`
 - Soporte para plantillas dinámicas con `LiquidJS`
 
-✅ **Sistema de Temas y Tokens**:  
+✅ **Sistema de Temas y Tokens**:
+
 - Uso de **Bootstrap con sistema de tokens**
 - **Temas personalizados** para cada cliente en `/themes/`
 
-✅ **Creación Rápida de Componentes**:  
+✅ **Creación Rápida de Componentes**:
+
 - Generación automática con **Hygen**
 - **Soporte para Storybook** con documentación visual
 - Estilos organizados en **SCSS Modules**
 
-✅ **Pruebas y Cobertura de Código**:  
+✅ **Pruebas y Cobertura de Código**:
+
 - **Jest + Testing Library** para pruebas unitarias
 - **Istanbul** para cobertura de código
 - Reportes en `/coverage/`
 
-✅ **Linting y Formateo**:  
+✅ **Linting y Formateo**:
+
 - **ESLint** con reglas estrictas
 - **Prettier** para formateo automático
 - **SonarQube** para análisis de calidad de código
 
-✅ **Despliegue y CI/CD**:  
+✅ **Despliegue y CI/CD**:
+
 - **Soporte para Vercel**
 - Integración con **Shopify Theme Kit**
 - **SonarQube + Jenkins** para calidad de código y pipelines
@@ -86,9 +91,10 @@ npm run build-storybook
 ---
 
 ### 📌 **Explicación del README**
-✅ **Bien estructurado** con detalles sobre el proyecto, librerías, estructura y comandos.  
-✅ **Incluye una hoja de ruta** clara para futuras mejoras.  
-✅ **Documentación técnica** para que cualquier desarrollador pueda entender el proyecto rápidamente.  
-✅ **Fácilmente exportable** para GitHub y otros repositorios.  
+✅ **Bien estructurado** con detalles sobre el proyecto, librerías, estructura y comandos.
+✅ **Incluye una hoja de ruta** clara para futuras mejoras.
+✅ **Documentación técnica** para que cualquier desarrollador pueda entender el proyecto rápidamente.
+✅ **Fácilmente exportable** para GitHub y otros repositorios.
 
 Si necesitas alguna mejora o adaptación, dime y lo ajustamos 🚀🔥
+```

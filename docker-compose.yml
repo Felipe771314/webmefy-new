@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   db:
@@ -11,7 +11,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
-      - "3306:3306"
+      - '3306:3306'
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -20,14 +20,14 @@ services:
     container_name: shopify-redis
     restart: always
     ports:
-      - "6379:6379"
+      - '6379:6379'
 
   sonarqube:
     image: sonarqube:latest
     container_name: shopify-sonarqube
     restart: always
     ports:
-      - "9000:9000"
+      - '9000:9000'
 
 volumes:
   mysql_data:

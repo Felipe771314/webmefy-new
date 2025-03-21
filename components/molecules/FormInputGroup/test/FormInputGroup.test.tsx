@@ -10,7 +10,7 @@ describe('FormInputGroup', () => {
         label="Test Label"
         placeholder="Enter text"
         helpText="Help message"
-      />
+      />,
     );
     expect(screen.getByText('Test Label')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter text')).toBeInTheDocument();

@@ -10,18 +10,19 @@ export interface AlertMessageProps {
  * Molécula: AlertMessage
  * Alerta que se puede cerrar manualmente.
  */
-const AlertMessage: React.FC<AlertMessageProps> = ({
-  message,
-  variant = 'primary',
-}) => {
+const AlertMessage: React.FC<AlertMessageProps> = ({ message, variant = 'primary' }) => {
   const [visible, setVisible] = useState(true);
 
   if (!visible) return null;
 
   return (
-    <div className={`alert alert-${variant} d-flex justify-content-between align-items-center`} role="alert">
+    <div
+      className={`alert alert-${variant} d-flex justify-content-between align-items-center`}
+      role="alert"
+    >
       <span>{message}</span>
-      <Button label="X" onClick={() => setVisible(false)} variant="outline-dark" />
+      {/* Cambiamos "outline-dark" por "outline" para no romper el union type en Button */}
+      <Button label="X" onClick={() => setVisible(false)} variant="outline" />
     </div>
   );
 };

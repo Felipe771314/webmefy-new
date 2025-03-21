@@ -16,13 +16,9 @@ const Spinner: React.FC<SpinnerProps> = ({
   color = 'primary',
   size = 'md',
 }) => {
-  const spinnerClass = classNames(
-    `spinner-${variant}`,
-    `text-${color}`,
-    {
-      [`spinner-${variant}-sm`]: size === 'sm',
-    }
-  );
+  const spinnerClass = classNames(`spinner-${variant}`, `text-${color}`, {
+    [`spinner-${variant}-sm`]: size === 'sm',
+  });
 
   // Para el tamaño "lg", agregamos estilos inline ya que Bootstrap no lo define por defecto.
   const style = size === 'lg' ? { width: '3rem', height: '3rem' } : {};

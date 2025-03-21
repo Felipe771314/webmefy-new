@@ -11,7 +11,7 @@ function parsePropsFromFile(tsxPath, interfaceName) {
   if (!interfaceDec) return [];
 
   // Recorre las propiedades
-  const propsInfo = interfaceDec.getProperties().map(prop => {
+  const propsInfo = interfaceDec.getProperties().map((prop) => {
     const propName = prop.getName();
     const propType = prop.getType().getText();
     let defaultValue = null;
@@ -22,7 +22,7 @@ function parsePropsFromFile(tsxPath, interfaceName) {
     return {
       name: propName,
       type: propType,
-      defaultValue
+      defaultValue,
     };
   });
 
@@ -30,5 +30,5 @@ function parsePropsFromFile(tsxPath, interfaceName) {
 }
 
 module.exports = {
-  parsePropsFromFile
+  parsePropsFromFile,
 };

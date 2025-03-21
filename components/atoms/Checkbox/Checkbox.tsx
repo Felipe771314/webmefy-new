@@ -11,13 +11,7 @@ export interface CheckboxProps {
 /**
  * Átomo: Checkbox (Bootstrap).
  */
-const Checkbox: React.FC<CheckboxProps> = ({
-  id,
-  label,
-  checked,
-  onChange,
-  disabled = false,
-}) => {
+const Checkbox: React.FC<CheckboxProps> = ({ id, label, checked, onChange, disabled = false }) => {
   // Genera un id único si no se proporcionó uno
   const generatedId = React.useId();
   const checkboxId = id || generatedId;

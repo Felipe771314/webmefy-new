@@ -10,10 +10,7 @@ export interface BadgeProps {
 /**
  * Átomo: Badge (Bootstrap).
  */
-const Badge: React.FC<BadgeProps> = ({
-  text,
-  variant = 'primary',
-}) => {
+const Badge: React.FC<BadgeProps> = ({ text, variant = 'primary' }) => {
   // Usamos `bg-*` para Bootstrap v5 (en v4 era `badge-*`)
   const badgeClass = classNames('badge', `bg-${variant}`, styles.customBadge);
 
@@ -21,5 +18,3 @@ const Badge: React.FC<BadgeProps> = ({
 };
 
 export default Badge;
-
-

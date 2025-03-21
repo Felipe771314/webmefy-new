@@ -5,7 +5,16 @@ import styles from './Button.module.scss';
 export interface ButtonProps {
   label: string;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline';
+  variant?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'danger'
+    | 'warning'
+    | 'info'
+    | 'light'
+    | 'dark'
+    | 'outline';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
   icon?: React.ReactNode;
@@ -37,17 +46,12 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={classNames(
-        styles.button,
-        styles[variant],
-        styles[size],
-        {
-          [styles.fullWidth]: fullWidth,
-          [styles.alignLeft]: alignment === 'left',
-          [styles.alignCenter]: alignment === 'center',
-          [styles.alignRight]: alignment === 'right',
-        }
-      )}
+      className={classNames(styles.button, styles[variant], styles[size], {
+        [styles.fullWidth]: fullWidth,
+        [styles.alignLeft]: alignment === 'left',
+        [styles.alignCenter]: alignment === 'center',
+        [styles.alignRight]: alignment === 'right',
+      })}
       onClick={onClick}
       disabled={disabled}
       onMouseEnter={onHover}

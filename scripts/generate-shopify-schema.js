@@ -20,7 +20,7 @@ function parsePropsFromFile(tsxPath, interfaceName) {
   const interfaceDec = sourceFile.getInterface(interfaceName);
   if (!interfaceDec) return [];
 
-  return interfaceDec.getProperties().map(prop => {
+  return interfaceDec.getProperties().map((prop) => {
     const propName = prop.getName();
     const propType = prop.getType().getText();
     return {
@@ -36,7 +36,7 @@ function parsePropsFromFile(tsxPath, interfaceName) {
 function mapPropsToShopifySchema(componentName, propsArray) {
   return {
     name: componentName,
-    settings: propsArray.map(prop => ({
+    settings: propsArray.map((prop) => ({
       type: prop.shopifyType,
       id: prop.name,
       label: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
@@ -53,11 +53,12 @@ const shopifyTypeFolder = 'snippets';
 
 // Función que recorre un directorio de categoría (atoms, molecules, organisms, etc.)
 function processCategory(categoryDir) {
-  const components = fs.readdirSync(categoryDir, { withFileTypes: true })
-    .filter(item => item.isDirectory())
-    .map(dir => dir.name);
+  const components = fs
+    .readdirSync(categoryDir, { withFileTypes: true })
+    .filter((item) => item.isDirectory())
+    .map((dir) => dir.name);
 
-  components.forEach(componentName => {
+  components.forEach((componentName) => {
     // Ruta esperada del componente (por ejemplo: components/atoms/Badge/Badge.tsx)
     const tsxPath = path.join(categoryDir, componentName, `${componentName}.tsx`);
     if (fs.existsSync(tsxPath)) {
@@ -67,7 +68,11 @@ function processCategory(categoryDir) {
         const schemaObj = mapPropsToShopifySchema(componentName, propsArray);
 
         // Ruta de salida en Shopify para este componente
-        const shopifyComponentDir = path.join(shopifyDir, shopifyTypeFolder, componentName.toLowerCase());
+        const shopifyComponentDir = path.join(
+          shopifyDir,
+          shopifyTypeFolder,
+          componentName.toLowerCase(),
+        );
         if (!fs.existsSync(shopifyComponentDir)) {
           fs.mkdirSync(shopifyComponentDir, { recursive: true });
         }
@@ -106,7 +111,7 @@ ${JSON.stringify(schemaObj, null, 2)}
 // Puedes definir las carpetas que quieras procesar.
 const categoriesToProcess = ['atoms', 'molecules', 'organisms'];
 
-categoriesToProcess.forEach(category => {
+categoriesToProcess.forEach((category) => {
   const categoryDir = path.join(componentsDir, category);
   if (fs.existsSync(categoryDir)) {
     processCategory(categoryDir);

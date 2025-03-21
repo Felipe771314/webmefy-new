@@ -36,14 +36,33 @@ const ModalDialog: React.FC<ModalDialogProps> = ({
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{title}</h5>
-                <button type="button" className="btn-close" aria-label="Close" onClick={closeModal}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={closeModal}
+                ></button>
               </div>
               <div className="modal-body">
                 <p>{content}</p>
               </div>
               <div className="modal-footer">
-                <Button label={secondaryActionLabel} onClick={() => { onSecondaryAction && onSecondaryAction(); closeModal(); }} variant="secondary" />
-                <Button label={primaryActionLabel} onClick={() => { onPrimaryAction && onPrimaryAction(); closeModal(); }} variant="primary" />
+                <Button
+                  label={secondaryActionLabel}
+                  onClick={() => {
+                    onSecondaryAction && onSecondaryAction();
+                    closeModal();
+                  }}
+                  variant="secondary"
+                />
+                <Button
+                  label={primaryActionLabel}
+                  onClick={() => {
+                    onPrimaryAction && onPrimaryAction();
+                    closeModal();
+                  }}
+                  variant="primary"
+                />
               </div>
             </div>
           </div>

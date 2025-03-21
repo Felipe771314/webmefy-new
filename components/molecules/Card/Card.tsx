@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import classNames from 'classnames';
 import styles from './Card.module.scss';
@@ -7,23 +8,11 @@ export interface CardProps {
   title: string;
   content: string;
   imageUrl?: string;
-  /**
-   * Se dispara cuando el usuario hace click en la Card completa.
-   */
   onCardClick?: () => void;
-  /**
-   * Define la alineación del contenedor de acciones en la Card.
-   */
   actionsAlignment?: 'left' | 'center' | 'right';
-  /**
-   * Configuración del botón primario.
-   */
   primaryButtonLabel?: string;
   primaryButtonOnClick?: () => void;
   primaryButtonAlignment?: 'left' | 'center' | 'right';
-  /**
-   * Configuración del botón secundario.
-   */
   secondaryButtonLabel?: string;
   secondaryButtonOnClick?: () => void;
   secondaryButtonAlignment?: 'left' | 'center' | 'right';
@@ -44,22 +33,15 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div className={styles.card} onClick={onCardClick}>
-      {imageUrl && (
-        <img src={imageUrl} alt={title} className={styles.image} />
-      )}
+      {imageUrl && <img src={imageUrl} alt={title} className={styles.image} />}
       <h2 className={styles.title}>{title}</h2>
       <p className={styles.content}>{content}</p>
-
-      {/* Contenedor de acciones con alineación configurable */}
       <div
-        className={classNames(
-          styles.actions,
-          {
-            [styles.alignLeft]: actionsAlignment === 'left',
-            [styles.alignCenter]: actionsAlignment === 'center',
-            [styles.alignRight]: actionsAlignment === 'right',
-          }
-        )}
+        className={classNames(styles.actions, {
+          [styles.alignLeft]: actionsAlignment === 'left',
+          [styles.alignCenter]: actionsAlignment === 'center',
+          [styles.alignRight]: actionsAlignment === 'right',
+        })}
       >
         <Button
           label={primaryButtonLabel}
