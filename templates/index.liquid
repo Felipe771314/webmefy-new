@@ -1,2 +1,25 @@
-<!-- shopify-theme/templates/index.liquid -->
-{% section 'homepage' %}
+<!-- sections/homepage.liquid -->
+<div class="homepage-section">
+  <!-- Aquí migras el contenido del theme, por ejemplo, banners, colecciones, etc. -->
+  {{ content_for_index }}
+</div>
+
+{% schema %}
+{
+  "name": "Homepage",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Bienvenido a nuestra tienda"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage",
+      "category": "Home"
+    }
+  ]
+}
+{% endschema %}
