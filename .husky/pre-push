@@ -1,16 +1,26 @@
 #!/bin/sh
+set -e  # Detener el script en el primer error
+
 echo "🚀 Ejecutando pruebas antes del push..."
 
+# Ejecuta las pruebas con cobertura usando Jest
 npm test -- --coverage --maxWorkers=2
 
+# Define el umbral mínimo de cobertura
 COVERAGE_THRESHOLD=80
+
+# Verifica que exista el archivo de resumen de cobertura
 if [ -f "./coverage/coverage-summary.json" ]; then
+  # Extrae la cobertura de statements
   ACTUAL_COVERAGE=$(node -e "console.log(require('./coverage/coverage-summary.json').total.statements.pct)")
+  
+  # Compara la cobertura actual con el umbral utilizando bc para cálculos en flotante
   if (( $(echo "$ACTUAL_COVERAGE < $COVERAGE_THRESHOLD" | bc -l) )); then
-    echo "❌ La cobertura de código es menor al 80%. Corrige esto antes de hacer push."
+    echo "❌ La cobertura de código ($ACTUAL_COVERAGE%) es menor al $COVERAGE_THRESHOLD%. Corrige esto antes de hacer push."
     exit 1
   fi
-  echo "✅ Cobertura aceptable. Procediendo con el push..."
+
+  echo "✅ Cobertura aceptable ($ACTUAL_COVERAGE%). Procediendo con el push..."
 else
   echo "No se encontró coverage/coverage-summary.json. Saltando verificación de cobertura."
 fi

@@ -1,11 +1,18 @@
 #!/bin/sh
+set -e  # Detener el script si ocurre cualquier error
 
 echo "🚀 Ejecutando lint, prettier y tests con cobertura..."
 
+# Ejecuta lint-staged; si falla, el script se detendrá
 npx lint-staged
+
+# Ejecuta los tests con cobertura; si falla, se detendrá
 npm test -- --coverage --maxWorkers=2
 
+# Envía resultados a SonarQube si el archivo existe
 if [ -f "./sonar-project.js" ]; then
   echo "📡 Enviando resultados a SonarQube..."
   node sonar-project.js
 fi
+
+echo "✅ Pre-commit completado correctamente."

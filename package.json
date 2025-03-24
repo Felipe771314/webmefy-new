@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "lint:fix": "eslint --fix .",
+    "lint:fix": "eslint --ignore-pattern assets --fix .",
     "format:prettier": "prettier --write .",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
@@ -31,7 +31,10 @@
     "commitlint": "commitlint --from=HEAD~1",
     "serve:coverage": "npx serve coverage/lcov-report -l 5000",
     "analyze": "cross-env ANALYZE=true next build",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "shopify:dev": "shopify theme dev --store=TU_TIENDA --path=shopify",
+    "shopify:pull": "shopify theme pull --store=TU_TIENDA --path=shopify --only 'templates/*.json' --only 'sections/*.json' --only 'config/settings_data.json' --only 'locales/*.json'",
+    "shopify:push": "shopify theme push --store=TU_TIENDA --path=shopify"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.15.1",
@@ -91,7 +94,7 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.2.1",
     "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-prettier": "^4.0.0",
     "husky": "^9.1.7",
     "hygen": "^6.2.11",
     "jest": "^29.7.0",
