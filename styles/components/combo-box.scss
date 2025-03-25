@@ -1,0 +1,291 @@
+/**
+ * -------------------------------------------------------------
+ * COMBO BOX
+ *
+ * Implementation note: on mobile the combo-box is largely similar to the
+ * popover and therefore re-use lot of styles. I preferred doing some
+ * duplication here rather than rely on JavaScript to dynamically transformed
+ * a non-popover on desktop to a popover
+ * -------------------------------------------------------------
+ */
+
+@media screen and (max-width: 740px) {
+  [dir="ltr"] .combo-box {
+    left: 0;
+  }
+  [dir="rtl"] .combo-box {
+    right: 0;
+  }
+  .combo-box {
+    --heading-color: var(--root-heading-color);
+    --text-color: var(--root-text-color);
+    --background: var(--root-background);
+
+    display: flex;
+    position: fixed;
+    z-index: 10;
+    color: rgb(var(--text-color));
+    background: rgb(var(--background));
+    visibility: hidden;
+    flex-direction: column;
+    bottom: 0;
+    width: 100vw;
+    max-height: 75vh;
+    border-radius: 10px 10px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.7s cubic-bezier(0.75, 0, 0.175, 1),
+      visibility 0.7s cubic-bezier(0.75, 0, 0.175, 1);
+  }
+
+  .combo-box[open] {
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  [dir="ltr"] .combo-box__overlay {
+    left: 0;
+  }
+
+  [dir="rtl"] .combo-box__overlay {
+    right: 0;
+  }
+
+  .combo-box__overlay {
+    position: absolute;
+    content: "";
+    height: 100vh;
+    width: 100%;
+    bottom: calc(
+      100% - 10px
+    ); /* There is a border radius on the header on mobile so we slightly move down the overlay */
+    background: #000000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  }
+
+  .combo-box__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 32px;
+    min-height: 64px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 1px rgb(var(--border-color));
+  }
+
+  .combo-box__header,
+  .combo-box__content {
+    background: inherit;
+  }
+
+  .combo-box__title {
+    margin-bottom: 0;
+  }
+
+  [dir="ltr"] .combo-box__close-button {
+    right: 24px;
+  }
+
+  [dir="rtl"] .combo-box__close-button {
+    left: 24px;
+  }
+
+  .combo-box__close-button {
+    position: absolute;
+    top: 24px;
+    z-index: 1;
+  }
+
+  .combo-box[open] > .combo-box__overlay {
+    visibility: visible;
+    opacity: 0.3;
+  }
+
+  .combo-box__option-list {
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 0px) + 16px);
+  }
+
+  .combo-box__option-item {
+    position: relative;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(var(--border-color));
+  }
+
+  .combo-box__option-item:not([hidden]) {
+    display: block;
+  }
+
+  .combo-box__option-item:last-child {
+    border-bottom: none;
+  }
+
+  [dir="ltr"] .combo-box__option-item[aria-selected="true"]::after {
+    margin-left: 12px;
+  }
+
+  [dir="rtl"] .combo-box__option-item[aria-selected="true"]::after {
+    margin-right: 12px;
+  }
+
+  .combo-box__option-item[aria-selected="true"]::after {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 9px;
+    background-color: currentColor;
+    -webkit-mask-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOSIgdmlld0JveD0iMCAwIDEyIDkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMy40TDQuNzQ5MzEgN0wxMSAxIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+);
+    mask-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOSIgdmlld0JveD0iMCAwIDEyIDkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMy40TDQuNzQ5MzEgN0wxMSAxIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 12px 9px;
+    mask-size: 12px 9px;
+  }
+
+  .combo-box__option-item.is-disabled {
+    color: rgba(var(--text-color), 0.5);
+
+    .color-swatch {
+      opacity: 0.5;
+    }
+  }
+}
+
+@media screen and (min-width: 741px) {
+  [dir="ltr"] .combo-box {
+    left: 0;
+  }
+  [dir="rtl"] .combo-box {
+    right: 0;
+  }
+  .combo-box {
+    position: absolute;
+    display: block;
+    top: 100%;
+    width: 100%;
+    max-height: 245px;
+    overscroll-behavior: contain;
+    overflow: auto;
+    background: rgb(var(--background));
+    z-index: 2;
+    padding: 8px 0;
+    border: 1px solid rgb(var(--border-color));
+    border-top: none;
+    border-radius: 0 0 var(--button-border-radius) var(--button-border-radius);
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  }
+
+  .combo-box--top {
+    top: auto;
+    bottom: 100%;
+    border-top: 1px solid rgb(var(--border-color));
+    border-bottom: none;
+    border-radius: var(--button-border-radius) var(--button-border-radius) 0 0;
+  }
+
+  .combo-box:not([open]) {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .combo-box__header {
+    display: none; /* Nothing on tablet and up */
+  }
+
+  .combo-box__option-list {
+    min-width: max-content;
+  }
+
+  .combo-box__option-item:not([hidden]) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 18px;
+    transition: background 0.2s ease-in-out;
+    text-align: left;
+  }
+
+  .combo-box__option-item.is-disabled {
+    color: rgba(var(--text-color), 0.5);
+
+    .color-swatch {
+      opacity: 0.5;
+    }
+  }
+
+  .combo-box__option-item:hover,
+  .combo-box__option-item:focus {
+    background: rgb(var(--secondary-background));
+  }
+
+  [dir="ltr"] .combo-box__color-swatch {
+    margin-right: 10px;
+  }
+
+  [dir="rtl"] .combo-box__color-swatch {
+    margin-left: 10px;
+  }
+
+  .combo-box__color-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: var(--color-swatch-border-radius);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Adjustment to the toggle button */
+  .combo-box + .select {
+    transition: border-radius 0.2s ease-in-out;
+  }
+
+  [dir="ltr"] .combo-box[open] + .select {
+    border-bottom-left-radius: 0;
+  }
+
+  [dir="rtl"] .combo-box[open] + .select {
+    border-bottom-right-radius: 0;
+  }
+
+  [dir="ltr"] .combo-box[open] + .select {
+    border-bottom-right-radius: 0;
+  }
+
+  [dir="rtl"] .combo-box[open] + .select {
+    border-bottom-left-radius: 0;
+  }
+
+  [dir="ltr"] .combo-box--top[open] + .select {
+    border-top-left-radius: 0;
+  }
+
+  [dir="rtl"] .combo-box--top[open] + .select {
+    border-top-right-radius: 0;
+  }
+
+  [dir="ltr"] .combo-box--top[open] + .select {
+    border-top-right-radius: 0;
+  }
+
+  [dir="rtl"] .combo-box--top[open] + .select {
+    border-top-left-radius: 0;
+  }
+}
+
+.combo-box__option-item--color-swatch:not([hidden]) {
+  display: flex;
+  align-items: center;
+
+  .color-swatch {
+    margin-right: 10px;
+  }
+}

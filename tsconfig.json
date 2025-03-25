@@ -1,49 +1,58 @@
 {
   "compilerOptions": {
     // Habilita el nuevo transform de React
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "jsxImportSource": "react",
-
     // Para permitir generar sourcemaps y mapear el TS en el reporte de cobertura
     "sourceMap": true,
     "inlineSources": true,
-
     // Objetivos de compilación
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
-
     // Ajustes de tipo y chequeo
     "noImplicitAny": false,
     "skipLibCheck": true,
     "strict": false,
     "strictNullChecks": true,
     "isolatedModules": true,
-
     // No emitimos archivos JS (Next.js se encarga)
     "noEmit": true,
-
     // Interoperabilidad
     "esModuleInterop": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-
     // Paths y librerías
-    "types": ["node", "jest", "next", "@storybook/react"],
+    "types": [
+      "node",
+      "jest",
+      "next",
+      "@storybook/react"
+    ],
     "baseUrl": "./",
     "paths": {
-      "@components/*": ["components/*"],
-      "@utils/*": ["utils/*"],
-      "@styles/*": ["styles/*"],
-      "@storybook/*": [".storybook/*"]
+      "@components/*": [
+        "components/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@styles/*": [
+        "styles/*"
+      ],
+      "@storybook/*": [
+        ".storybook/*"
+      ]
     },
-    "lib": ["dom", "dom.iterable", "esnext"],
-
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     // Optimizaciones
     "incremental": true,
-
     // Plugin de Next.js
     "plugins": [
       {
@@ -51,6 +60,17 @@
       }
     ]
   },
-  "include": ["**/*.ts", "**/*.tsx", ".storybook/**/*.ts", "next-env.d.ts", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", ".storybook/generated", "dist", "build"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".storybook/**/*.ts",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".storybook/generated",
+    "dist",
+    "build"
+  ]
 }

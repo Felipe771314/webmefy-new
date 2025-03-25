@@ -1,0 +1,55 @@
+.feat-collections-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+  }
+  .product-list:not([hidden]) {
+    position: initial;
+  }
+
+  .product-list__prev-next {
+    width: 25%;
+    left: 0;
+    bottom: 0;
+    top: initial;
+    justify-content: center;
+  }
+
+  .product-list__arrow {
+    opacity: 1;
+    visibility: initial;
+    transform: initial;
+    margin: 0 10px;
+  }
+
+  &__title,
+  &__product-list {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 1024px) {
+    &__title {
+      width: 25%;
+      flex: 0 0 25%;
+    }
+
+    &__product-list {
+      width: 75%;
+      flex: 0 0 75%;
+    }
+  }
+
+  &__title {
+    margin-bottom: 40px;
+    text-align: center;
+
+    @media screen and (min-width: 1024px) {
+      text-align: var(--aside-title-position);
+    }
+  }
+}

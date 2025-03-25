@@ -1,0 +1,45 @@
+/**
+ * -------------------------------------------------------------
+ * PRICE RANGE
+ * -------------------------------------------------------------
+ */
+
+.price-range {
+  display: block;
+  padding-top: 5px;
+}
+
+.price-range__input-group {
+  display: flex;
+  align-items: center;
+}
+
+.price-range__input {
+  flex: 1 0 0;
+  min-width: 0; /* Required for Firefox */
+}
+
+.price-range__delimiter {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.price-range__range-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.no-js .price-range__range-group {
+  display: none !important; /* When JS is disabled we only rely on the input field */
+}
+
+@media not screen and (pointer: fine) {
+  /* On non-touch device the thumb are bigger so we need to adjust the spacing */
+  .price-range {
+    padding-top: 7px;
+  }
+
+  .price-range__range-group {
+    margin-bottom: 18px;
+  }
+}

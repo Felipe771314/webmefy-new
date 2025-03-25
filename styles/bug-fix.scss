@@ -1,0 +1,32 @@
+/* NOTE: this code is to fix a temporary issue introduced by Safari 15.4 that prevents any overflow: hidden to be scrollable
+   programmatically. Those temporary fixes will be removed from the theme once a new version of Safari is released
+ */
+
+@media screen and (min-width: 1000px) {
+  .product-list__inner--scroller {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overflow: auto hidden;
+    scroll-snap-type: x mandatory;
+  }
+
+  .product-list__inner--scroller .product-item {
+    scroll-snap-align: end;
+  }
+
+  .timeline__list-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overflow: auto hidden;
+    scroll-snap-type: x mandatory;
+  }
+
+  .timeline__item {
+    scroll-snap-align: center;
+  }
+}
+
+/* fix instafeed arrows position */
+.instafeed-new-carousel-container .instafeed-new-arrow {
+  z-index: 1 !important;
+}

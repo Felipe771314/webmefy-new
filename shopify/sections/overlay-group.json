@@ -1,0 +1,40 @@
+{
+  "type": "custom.overlay",
+  "name": "Overlay group",
+  "sections": {
+    "newsletter-popup": {
+      "type": "newsletter-popup",
+      "settings": {
+        "toggle_form": true,
+        "apparition_delay": 5,
+        "show_only_on_index": true,
+        "show_only_for_visitors": true,
+        "show_only_once": true,
+        "image": "shopify://shop_images/Groupe_1.png",
+        "image_position": "left",
+        "image_alignement": "center",
+        "block_position": "center",
+        "title": "Get 10% off",
+        "content": "<p>Promotions, new products and sales. Directly to your inbox.</p>",
+        "terms_text": "<p>For more information on how we handle your data, you can see our Privacy Policy and our Terms of Sale</p>",
+        "text_alignment": "center",
+        "link_style": "primary",
+        "button_size": "full",
+        "background": "rgba(0,0,0,0)",
+        "heading_color": "rgba(0,0,0,0)",
+        "text_color": "rgba(0,0,0,0)",
+        "terms_color": "rgba(0,0,0,0)",
+        "button_background": "rgba(0,0,0,0)",
+        "button_text_color": "rgba(0,0,0,0)"
+      }
+    },
+    "privacy-banner": {
+      "type": "privacy-banner",
+      "settings": {
+        "cookie_bar_title": "Cookie policy",
+        "cookie_bar_content": "<p>I agree to the processing of my data in accordance with the conditions set out in the policy of Privacy.</p>"
+      }
+    }
+  },
+  "order": ["newsletter-popup", "privacy-banner"]
+}

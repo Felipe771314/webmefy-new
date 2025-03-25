@@ -1,0 +1,250 @@
+{
+  "type": "header",
+  "name": "Header Group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "c5d6498a-d297-4a01-bafe-4702555bb518": {
+          "type": "message",
+          "settings": {
+            "text": "30% de remise sur le panier avec le code",
+            "learn_more_text": "Learn more",
+            "announcement_promocode": "PROMO30",
+            "title": "",
+            "content": "",
+            "button_text": "",
+            "button_link": ""
+          }
+        },
+        "df8f64d4-ccd0-4539-93e1-97ffd377257c": {
+          "type": "countdown",
+          "settings": {
+            "deadline": "2022-12-25T10:00:00",
+            "hide_finished": true,
+            "countdown_display": "two_lines",
+            "countdown_item_border": true,
+            "top_title": "Only",
+            "bottom_title": "before the end of sales",
+            "end_message": "Sadly, the promotion is over !",
+            "learn_more_text": "Learn more",
+            "title": "",
+            "content": "",
+            "button_text": "",
+            "button_link": "",
+            "countdown_item_background_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "c5d6498a-d297-4a01-bafe-4702555bb518",
+        "df8f64d4-ccd0-4539-93e1-97ffd377257c"
+      ],
+      "settings": {
+        "close_announcement_bar": true,
+        "announcement_bar_position": "non_sticky",
+        "announcement_text_size": "normal",
+        "autoplay": false,
+        "cycle_speed": 5,
+        "background": "#000000",
+        "text_color": "#ffffff",
+        "button_background": "#1e2d7d",
+        "button_text_color": "#ffffff",
+        "counter_background": "#1e2d7d",
+        "counter_text_color": "#ffffff"
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "ada9a608-3dc8-4324-91cd-52614ed8e0a4": {
+          "type": "mega_menu",
+          "settings": {
+            "menu_item": "boutique",
+            "no_children_column": true,
+            "is_async": true,
+            "images_position": "right",
+            "image_1": "shopify://shop_images/bg-bloc-cat-market-big-1.png",
+            "image_1_heading": "BEST SELLER",
+            "image_1_text": "Découvrez la paire du moment !",
+            "image_1_link": "shopify://products/vans-era-59-desert-cowboy",
+            "image_2_heading": "",
+            "image_2_text": "",
+            "image_2_link": "",
+            "image_3_heading": "",
+            "image_3_text": "",
+            "image_3_link": "",
+            "image_4_heading": "",
+            "image_4_text": "",
+            "image_4_link": "",
+            "image_5_heading": "",
+            "image_5_text": "",
+            "image_5_link": "",
+            "image_6_heading": "",
+            "image_6_text": "",
+            "image_6_link": ""
+          }
+        },
+        "7bec2b1a-9d25-42ee-b381-c955150b0297": {
+          "type": "mega_menu",
+          "settings": {
+            "menu_item": "PROMOTIONS",
+            "no_children_column": false,
+            "is_async": true,
+            "images_position": "right",
+            "image_1": "shopify://shop_images/bg-bloc-cat-market-big-2.png",
+            "image_1_heading": "LES PROMOS !",
+            "image_1_text": "Le coin des bons plans !",
+            "image_1_link": "shopify://collections/promotions",
+            "image_2": "shopify://shop_images/bg-bloc-cat-market-little-1.png",
+            "image_2_heading": "VENTES PRIVEES",
+            "image_2_text": "\"Hiver 2023\"",
+            "image_2_link": "shopify://collections/vente-privee-hivers-2023",
+            "image_3_heading": "",
+            "image_3_text": "",
+            "image_3_link": "",
+            "image_4_heading": "",
+            "image_4_text": "",
+            "image_4_link": "",
+            "image_5_heading": "",
+            "image_5_text": "",
+            "image_5_link": "",
+            "image_6_heading": "",
+            "image_6_text": "",
+            "image_6_link": ""
+          }
+        },
+        "568cb837-79ca-43b3-b599-a888cd7fcddf": {
+          "type": "mega_menu",
+          "settings": {
+            "menu_item": "MARQUES",
+            "no_children_column": false,
+            "is_async": true,
+            "images_position": "right",
+            "image_1": "shopify://shop_images/Adidas-logo.png",
+            "image_1_heading": "Adidas",
+            "image_1_text": "",
+            "image_1_link": "shopify://collections/adidas",
+            "image_2": "shopify://shop_images/Converse-logo.png",
+            "image_2_heading": "Converse",
+            "image_2_text": "",
+            "image_2_link": "shopify://collections/converse",
+            "image_3": "shopify://shop_images/Vans-logo.png",
+            "image_3_heading": "Vans",
+            "image_3_text": "",
+            "image_3_link": "shopify://collections/vans",
+            "image_4": "shopify://shop_images/DrMartens-logo.png",
+            "image_4_heading": "Dr Martens",
+            "image_4_text": "",
+            "image_4_link": "shopify://collections/dr-martens",
+            "image_5": "shopify://shop_images/Timberland-logo.png",
+            "image_5_heading": "Timberland",
+            "image_5_text": "",
+            "image_5_link": "shopify://collections/timberland",
+            "image_6": "shopify://shop_images/Nike-logo_40ca71ab-0c03-43c0-a368-22b27f5612d8.png",
+            "image_6_heading": "Nike",
+            "image_6_text": "",
+            "image_6_link": "shopify://collections/nike"
+          }
+        },
+        "8c10a81d-cb14-4525-aed5-ce18b2bb5d13": {
+          "type": "header_icon",
+          "settings": {
+            "icon_picto": "picto-email",
+            "icon_text": "Contact",
+            "icon_link": "shopify://pages/contact",
+            "keep_in_header": false
+          }
+        },
+        "ae37bd11-0fea-4ffa-bbc5-a6e9466181d9": {
+          "type": "header_wishlist",
+          "settings": {
+            "icon_text": "Wishlist",
+            "keep_in_header": false,
+            "icon_link": ""
+          }
+        },
+        "3bdf54ae-2189-4070-83a8-3cc15e1c22c3": {
+          "type": "nav_colors",
+          "settings": {
+            "menu_item": "",
+            "nav_color": "",
+            "nav_color_home": "",
+            "nav_color_transparent": "",
+            "nav_color_mobile": ""
+          }
+        }
+      },
+      "block_order": [
+        "ada9a608-3dc8-4324-91cd-52614ed8e0a4",
+        "7bec2b1a-9d25-42ee-b381-c955150b0297",
+        "568cb837-79ca-43b3-b599-a888cd7fcddf",
+        "8c10a81d-cb14-4525-aed5-ce18b2bb5d13",
+        "ae37bd11-0fea-4ffa-bbc5-a6e9466181d9",
+        "3bdf54ae-2189-4070-83a8-3cc15e1c22c3"
+      ],
+      "custom_css": [],
+      "settings": {
+        "header_select": "template-5",
+        "enable_sticky_header": true,
+        "keep_same_header_sticky": false,
+        "desktop_icons_layout": "icon",
+        "header_icons_size": "20px",
+        "icons_gap": "20px",
+        "menu_item_spacing": "32px",
+        "search_type": "icon",
+        "search_bar_size": "550px",
+        "search_bar_below": false,
+        "header_icons_alignment": "center",
+        "header_content_width": "container",
+        "header_gutter": "normal",
+        "header_padding_desktop": "20px",
+        "header_padding_mobile": "10px",
+        "header_mobile_searchbar_position": "left",
+        "toggle_hamburger_text": true,
+        "navigation_menu": "menu-principal",
+        "mobile_navigation_menu": "",
+        "mobile_is_async": true,
+        "meta-product-value": "custom.menu_label",
+        "label_color_primary": "#ffffff",
+        "label_color_secondary": "#000000",
+        "label_color_ternary": "#282828",
+        "fastlinks_menu": "",
+        "search_menu": "",
+        "color_menu_1_position": "3",
+        "color_menu_1_color": "#cc0000",
+        "header_logo_spacing": "",
+        "logo": "shopify://shop_images/logo-2.png",
+        "logo_max_width": 280,
+        "mobile_logo_max_width": 100,
+        "sticky_logo_max_width": 140,
+        "mobile_navigation": "panels",
+        "mobile_expanded": false,
+        "mobile_drawer_parent_link": false,
+        "desktop_menu_layout": "fullsize_panel",
+        "cart_icon_price_display": true,
+        "color_main_menu_1_position": "0",
+        "color_main_menu_1_color": "#cc0000",
+        "show_locale_selector": true,
+        "show_locale_flag": "flag_plus_text",
+        "flag_icon_width": "20px",
+        "show_country_selector": true,
+        "transparent_header_index_desktop": true,
+        "transparent_header_product_desktop": false,
+        "transparent_header_collection_desktop": false,
+        "transparent_header_blog_desktop": false,
+        "transparent_header_article_desktop": false,
+        "desktop_transparent_header_metafield": "custom.desktop_transparent_header",
+        "transparent_header_index_mobile": false,
+        "transparent_header_product_mobile": false,
+        "transparent_header_collection_mobile": false,
+        "transparent_header_blog_mobile": false,
+        "transparent_header_article_mobile": false,
+        "mobile_transparent_header_metafield": "custom.mobile_transparent_header",
+        "transparent_header_text_color": "#ffffff",
+        "transparent_logo": "shopify://shop_images/logo.png"
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

@@ -1,0 +1,20 @@
+cart-terms-conditions-checkbox {
+  display: block;
+}
+
+.cart-tcc {
+  &__checkbox-container {
+    margin-bottom: 15px;
+  }
+
+  &__label {
+  }
+
+  &__error {
+    margin-bottom: 20px;
+
+    &.hidden {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,148 @@
+.gift-card {
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact; /* Make sure it prints using the same background */
+  background: rgb(var(--background));
+  min-height: var(--window-height, 100vh);
+  text-align: center;
+}
+
+.gift-card__wrapper {
+  max-width: 530px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gift-card__logo {
+  margin-bottom: 32px;
+}
+
+.gift-card__logo-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gift-card__image-wrapper {
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -65px;
+}
+
+.gift-card__image {
+  border-radius: 18px;
+}
+
+.gift-card__card {
+  padding: 32px;
+  background: rgb(var(--section-card-background));
+  color: rgb(var(--text-color));
+}
+
+.gift-card__card + .gift-card__card {
+  margin-top: 16px;
+}
+
+.gift-card__main {
+  padding-top: calc(32px + 65px); /* 65px is the offset of the image */
+}
+
+.gift-card__amount {
+  color: rgb(var(--product-on-sale-accent));
+}
+
+.gift-card__code-container {
+  display: grid;
+  grid-gap: 8px;
+  gap: 8px;
+}
+
+.gift-card__code {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-left: 12px;
+  padding-right: 12px;
+  height: var(--button-height);
+  line-height: var(--button-height);
+  border: 1px solid rgb(var(--border-color));
+  border-radius: 0;
+  background: transparent;
+}
+
+.gift-card__expires-on {
+  margin-top: 16px;
+}
+
+.gift-card__aside {
+  display: grid;
+  grid-gap: 24px;
+  gap: 24px;
+}
+
+.gift-card__qr {
+  display: block;
+}
+
+.gift-card__qr img,
+.gift-card__wallet {
+  margin-left: auto;
+  margin-right: auto;
+  width: 132px;
+}
+
+.gift-card__button-wrapper {
+  margin-top: 24px;
+}
+
+@media screen and (min-width: 741px) {
+  .gift-card__logo {
+    margin-bottom: 56px;
+  }
+
+  .gift-card__card {
+    padding: 40px;
+  }
+
+  .gift-card__image-wrapper {
+    margin-bottom: -95px;
+  }
+
+  .gift-card__main {
+    padding-top: calc(40px + 95px); /* 95px is the offset of the image */
+  }
+
+  .gift-card__image-wrapper {
+    max-width: 360px;
+  }
+
+  .gift-card__code-container {
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+  }
+
+  .gift-card__aside {
+    grid-auto-flow: column;
+    gap: 32px;
+    align-items: center;
+  }
+
+  [dir="ltr"] .gift-card__aside .heading {
+    text-align: left;
+  }
+
+  [dir="rtl"] .gift-card__aside .heading {
+    text-align: right;
+  }
+
+  .gift-card__qr img {
+    width: 68px;
+  }
+
+  .gift-card__wallet {
+    width: 145px;
+  }
+
+  .gift-card__button-wrapper {
+    margin-top: 40px;
+  }
+}

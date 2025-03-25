@@ -1,0 +1,26 @@
+/**
+ * --------------------------------------------------------------------
+ * SQUARE SEPARATOR
+ * --------------------------------------------------------------------
+ */
+
+.square-separator {
+  position: relative;
+  display: inline-block;
+  height: 4px;
+  width: 4px;
+  margin: 0 8px;
+  flex-shrink: 0; /* in case it is a flex children */
+  background: currentColor;
+  vertical-align: middle;
+}
+
+.square-separator--block {
+  top: 1px;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.square-separator--subdued {
+  opacity: 0.5;
+}

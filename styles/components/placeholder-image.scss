@@ -1,0 +1,36 @@
+/**
+ * -------------------------------------------------------------
+ * PLACEHOLDER
+ * -------------------------------------------------------------
+ */
+
+.placeholder-image {
+  position: relative;
+  padding-bottom: 75%;
+  background-color: rgb(var(--secondary-background));
+}
+
+.placeholder-background {
+  background-color: rgb(var(--secondary-background));
+}
+
+[dir="ltr"] .placeholder-image svg {
+  left: 0;
+}
+
+[dir="rtl"] .placeholder-image svg {
+  right: 0;
+}
+
+.placeholder-image svg {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (min-width: 1000px) {
+  .placeholder-image {
+    padding-bottom: 45%;
+  }
+}

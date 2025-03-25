@@ -1,0 +1,28 @@
+/**
+ * -------------------------------------------------------------
+ * BUBBLE COUNT (used in various places to show a count)
+ * -------------------------------------------------------------
+ */
+
+.bubble-count {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(var(--background));
+  background: rgb(var(--heading-color));
+  font-weight: var(--text-font-bold-weight);
+  font-family: var(--text-font-family);
+  font-style: var(--text-font-style);
+  font-size: 9px;
+  height: 21px;
+  min-width: 21px;
+  line-height: 1;
+  border-radius: 21px;
+  letter-spacing: 0;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.bubble-count--top {
+  vertical-align: top;
+}

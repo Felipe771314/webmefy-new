@@ -1,0 +1,77 @@
+/**
+ * -------------------------------------------------------------
+ * PAGE
+ * -------------------------------------------------------------
+ */
+
+.page-header {
+  position: relative;
+  text-align: center;
+}
+
+.page-header--secondary {
+  background: rgb(var(--secondary-background));
+}
+
+.page-header--clear::after,
+.page-header::before {
+  content: "";
+  display: table;
+  clear: left;
+}
+
+.page-header__text-wrapper {
+  max-width: 850px;
+  margin: 38px auto;
+}
+
+.page-header--small .page-header__text-wrapper {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.page-header--alone .page-header__text-wrapper {
+  margin-bottom: 72px;
+}
+
+.page-content,
+.shopify-policy__body {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: min(var(--vertical-breather), 80px);
+}
+
+.page-content--medium,
+.shopify-policy__body {
+  max-width: 670px;
+}
+
+.page-content--small {
+  max-width: 460px;
+}
+
+.page-content--fluid {
+  max-width: none;
+}
+
+@media screen and (min-width: 741px) {
+  .page-header__text-wrapper {
+    margin-top: 68px;
+    margin-bottom: 68px;
+  }
+
+  .page-header--small .page-header__text-wrapper {
+    margin-top: 48px;
+    margin-bottom: 40px;
+  }
+
+  .page-header--alone .page-header__text-wrapper {
+    margin-bottom: 120px;
+  }
+
+  /* When the page header is immediately preceded by a floating breadcrumb, we increase the size */
+  .breadcrumb--floating + .page-header__text-wrapper {
+    margin-top: 80px;
+  }
+}

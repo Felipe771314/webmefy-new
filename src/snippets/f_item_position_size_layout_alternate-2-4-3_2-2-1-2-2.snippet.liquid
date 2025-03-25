@@ -1,0 +1,77 @@
+{%- liquid
+  assign item_per_pattern = 9
+  assign item_position_modulo = item_position | modulo: item_per_pattern
+  assign item_position_modulo_mobile = item_position_mobile | modulo: item_per_pattern
+
+  assign item_col_size = 3
+  assign item_col_size_mobile = 6
+
+  case item_position_modulo
+    when 1, 2
+      assign item_col_size = 6
+    when 7, 8, 0
+      assign item_col_size = 4
+  endcase
+
+  case item_position_modulo_mobile
+    when 5
+      assign item_col_size_mobile = 12
+  endcase
+
+  if item_size != blank
+    if item_size == 'fullwidth'
+      case item_position_modulo
+        when 1, 3
+          assign item_position = item_position | minus: 1
+          assign item_col_size = 12
+      endcase
+
+      case item_position_modulo_mobile
+        when 1, 3
+          assign item_position_mobile = item_position_mobile | minus: 1
+          assign item_col_size_mobile = 12
+      endcase
+    elsif item_size == 'full-line'
+      case item_position_modulo
+        when 1
+          assign item_position = item_position | plus: 1
+          assign item_col_size = 12
+      endcase
+
+      case item_position_modulo_mobile
+        when 1
+          assign item_position_mobile = item_position_mobile | plus: 1
+          assign item_col_size_mobile = 12
+      endcase
+    else
+      assign item_size_arr = item_size | split: 'x'
+      assign item_size_col = item_size_arr.first | times: 1
+
+      if item_size_col == 2
+        case item_position_modulo
+          when 1
+            assign item_position = item_position | plus: 1
+            assign item_col_size = 12
+          when 3
+            assign item_position = item_position | plus: 1
+            assign item_col_size = 6
+          when 8
+            assign item_position = item_position | plus: 1
+            assign item_col_size = 8
+        endcase
+
+        case item_position_modulo_mobile
+          when 1, 3, 8
+            assign item_position_mobile = item_position_mobile | plus: 1
+            assign item_col_size_mobile = 12
+        endcase
+      endif
+    endif
+  endif
+
+  assign item_position = item_position | plus: 1
+  assign item_position_mobile = item_position_mobile | plus: 1
+
+  assign output = 'item_position:' | append: item_position | append: '|item_position_mobile:' | append: item_position_mobile | append: '|item_col_size:' | append: item_col_size | append: '|item_col_size_mobile:' | append: item_col_size_mobile
+  echo output
+-%}

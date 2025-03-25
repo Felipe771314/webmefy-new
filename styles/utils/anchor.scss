@@ -1,0 +1,28 @@
+/**
+ * -------------------------------------------------------------
+ * ANCHOR
+ * Doc: https://gomakethings.com/how-to-prevent-anchor-links-from-scrolling-behind-a-sticky-header-with-one-line-of-css/
+ * -------------------------------------------------------------
+ */
+
+.anchor {
+  scroll-margin-top: calc(
+    var(--header-height, 0px) * var(--enable-sticky-header) +
+      var(--announcement-bar-height, 0px) *
+      var(--enable-sticky-announcement-bar) + var(--anchor-offset, 20px)
+  );
+}
+
+.anchor.vertical-breather:not(.vertical-breather--margin) {
+  --anchor-offset: 0px; /* There is already lot of space brought by vertical breather so no need for extra one */
+}
+
+.anchor.vertical-breather--margin {
+  --anchor-offset: var(
+    --vertical-breather
+  ); /* This is used to compensate the margin */
+}
+
+.anchor.vertical-breather--tight.vertical-breather--margin {
+  --anchor-offset: var(--vertical-breather-tight);
+}

@@ -1,0 +1,113 @@
+.logo-list {
+  display: block;
+  position: relative;
+}
+
+.logo-list__list {
+  --logos-per-row: 2;
+  --logos-gap: 8px;
+
+  display: grid;
+  grid-template-columns: repeat(
+    min(var(--logos-per-row), var(--section-logo-count)),
+    minmax(140px, 200px)
+  );
+  grid-gap: var(--logos-gap);
+  gap: var(--logos-gap);
+  justify-content: center;
+}
+
+.logo-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgb(var(--section-logo-background));
+  border-radius: var(--block-border-radius-reduced);
+}
+
+.logo-list__image--placeholder {
+  height: 100px;
+}
+
+@media screen and (max-width: 999px) {
+  /* Carousel variation */
+  .logo-list--carousel .logo-list__list {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 140px;
+  }
+
+  .logo-list--grid {
+    padding-left: var(--container-gutter);
+    padding-right: var(
+      --container-gutter
+    ); /* We add extra internal spacing on pocket */
+  }
+}
+
+@media screen and (min-width: 741px) {
+  .logo-list__list {
+    --logos-per-row: 3;
+    --logos-gap: 16px;
+  }
+
+  /* Scroller variation */
+  .logo-list--carousel .logo-list__list {
+    grid-auto-columns: 185px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .logo-list__list {
+    --logos-per-row: 6;
+    --logos-gap: 24px;
+  }
+
+  /* On desktop, the scroller mode is only visible if we have the arrows, independently of the selected settings */
+
+  .logo-list__prev-next {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    pointer-events: none;
+    top: calc(50% - 28px); /* 28px is half the height of the button */
+  }
+
+  .logo-list--carousel .logo-list__prev-next + .logo-list__list {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(
+      100% / var(--logos-per-row) -
+        (var(--logos-gap) / var(--logos-per-row) * (var(--logos-per-row) - 1))
+    );
+    justify-content: flex-start;
+    overflow: hidden; /* We will scroll in JS */
+    margin-left: calc(56px + 32px);
+    margin-right: calc(
+      56px + 32px
+    ); /* 56px is the width of arrows and 32px the extra space we add between arrows and logos */
+  }
+
+  .logo-list__arrow {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.5);
+    transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out,
+      transform 0.15s ease-in-out;
+  }
+
+  .logo-list__arrow:not([disabled]) {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .logo-list--grid {
+    margin-left: calc(var(--grid-column-width) + var(--grid-gap));
+    margin-right: calc(var(--grid-column-width) + var(--grid-gap));
+  }
+}

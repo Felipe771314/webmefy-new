@@ -1,0 +1,287 @@
+/**
+ * -------------------------------------------------------------
+ * BUTTON
+ * -------------------------------------------------------------
+ */
+
+.button,
+.shopify-challenge__button,
+#shopify-product-reviews .spr-summary-actions-newreview,
+#shopify-product-reviews .spr-button {
+  position: relative;
+  display: inline-block;
+  -webkit-appearance: none;
+  appearance: none;
+  line-height: var(--button-height);
+  padding: 0 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--button-border-radius);
+  background: rgb(var(--button-background));
+  color: rgb(var(--button-text-color));
+
+  &.socloz {
+    cursor: pointer;
+  }
+}
+
+.button:not(.button--text),
+.shopify-challenge__button,
+#shopify-product-reviews .spr-summary-actions-newreview,
+#shopify-product-reviews .spr-button {
+  font-size: calc(var(--base-font-size) - 3px);
+  font-family: var(--text-font-family);
+  font-weight: var(--text-font-bold-weight);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.button--small,
+#shopify-product-reviews .spr-summary-actions-newreview {
+  padding: 0 20px;
+  line-height: var(--button-small-height);
+}
+
+.button--flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button--primary,
+.shopify-challenge__button,
+#shopify-product-reviews .spr-summary-actions-newreview,
+#shopify-product-reviews .spr-button {
+  --button-background: var(--primary-button-background);
+  --button-text-color: var(--primary-button-text-color);
+}
+
+.button--secondary {
+  --button-background: var(--secondary-button-background);
+  --button-text-color: var(--secondary-button-text-color);
+}
+
+.button--ternary {
+  --button-background: var(--secondary-background);
+  --button-text-color: var(--root-text-color);
+}
+
+.button--outline {
+  --button-background: var(--background);
+  --button-text-color: var(--root-text-color);
+  border: 1px solid rgb(var(--border-color));
+}
+
+.button--transparent {
+  --button-background: transparent;
+  --button-text-color: var(--primary-button-background);
+  border: 1px solid rgb(var(--primary-button-background));
+}
+
+.button--full,
+.button--fullwidth {
+  width: 100%;
+}
+
+@media screen and (max-width: 740px) {
+  .button--fullwidth-phone {
+    width: 100%;
+  }
+}
+
+/**
+ * IMPLEMENTATION NOTE: As of today, when the dynamic checkout button is added on non-product page (for instance
+ * drawer or collection page), Shopify forces their style. We therefore need to use !important rules to make sure
+ * the theme styling is applied. I did not want to apply that globally to the .button, so I am applying this
+ * scoped for this button only, even if this incurs duplicate code
+ */
+
+.shopify-payment-button {
+  min-height: var(--button-height); /* This prevents a page jump */
+}
+
+.shopify-payment-button__button--branded {
+  border-radius: var(--button-border-radius) !important;
+  overflow: hidden !important;
+  min-height: var(--button-height) !important;
+}
+
+.shopify-payment-button__button--unbranded {
+  --button-background: var(--primary-button-background);
+  --button-text-color: var(--primary-button-text-color);
+
+  position: relative !important;
+  display: inline-block !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  line-height: var(--button-height) !important;
+  padding: 0 30px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  border-radius: var(--button-border-radius) !important;
+  font-size: calc(var(--base-font-size) - 3px) !important;
+  font-family: var(--text-font-family) !important;
+  font-weight: var(--text-font-bold-weight) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  background-color: rgb(var(--button-background)) !important;
+  color: rgb(var(--button-text-color)) !important;
+}
+
+.shopify-payment-button__more-options[aria-hidden="true"] {
+  display: none;
+}
+
+@media screen and (min-width: 741px) {
+  .button:not(.button--text),
+  .shopify-challenge__button,
+  #shopify-product-reviews .spr-summary-actions-newreview,
+  #shopify-product-reviews .spr-button {
+    padding-left: 35px;
+    padding-right: 35px;
+    font-size: calc(var(--base-font-size) - 2px);
+    letter-spacing: 2px;
+  }
+
+  .button--small:not(.button--text),
+  #shopify-product-reviews .spr-summary-actions-newreview {
+    padding-left: 28px;
+    padding-right: 28px;
+    font-size: calc(var(--base-font-size) - 3px);
+  }
+
+  /* Please refer to a comment a few lines before for the reason of those !important */
+  .shopify-payment-button__button--unbranded {
+    padding-left: 35px !important;
+    padding-right: 35px !important;
+    font-size: calc(var(--base-font-size) - 2px) !important;
+    letter-spacing: 2px !important;
+  }
+}
+
+/**
+ * IMPLEMENTATION NOTE: the design team wanted a specific transition on hover that implies a slightly tilted background
+ * with a reduced opacity. Doing that with a pseudo element (with an efficient scale transform) caused to be problematic,
+ * because the text would appear below the actual pseudo-element, causing the color to be off. One solution would have
+ * been to add an extra <span> wrapping the text itself so that we could set a z-index for the text to be on top. Unfortunately,
+ * there are lot of buttons (Shopify Reviews, dynamic checkout button...) for which controlling the markup is not possible.
+ * As a consequence, I had to go with a more creating approach that uses multiple linear-gradient and animate the background-position.
+ * Animating background-position is known to not be very efficient, but as this is only for desktop and on elements (buttons) whose
+ * size is extremely small, this did not cause any visible slugger animation.
+ */
+@media screen and (pointer: fine) {
+  .button,
+  .shopify-challenge__button,
+  #shopify-product-reviews .spr-summary-actions-newreview,
+  #shopify-product-reviews .spr-button,
+  .shopify-payment-button__button {
+    background-image: linear-gradient(
+        180deg,
+        rgb(var(--button-background)),
+        rgb(var(--button-background)) 10%,
+        rgba(0, 0, 0, 0.07) 10%,
+        rgba(0, 0, 0, 0.07) 100%
+      ),
+      linear-gradient(
+        rgb(var(--button-background)),
+        rgb(var(--button-background))
+      );
+    background-size: 100% 200%, 100% 100%;
+    background-position: 100% -100%, 100% 100%;
+    background-repeat: no-repeat;
+    transition: background-position 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translateZ(
+      0
+    ); /* Make sure to promote the button on its own layer */
+  }
+
+  .button:hover,
+  .shopify-challenge__button:hover,
+  #shopify-product-reviews .spr-summary-actions-newreview:hover,
+  #shopify-product-reviews .spr-button:hover,
+  .shopify-payment-button__button:hover {
+    background-position: 100% 25%, 100% 100%;
+  }
+
+  /* Only on super modern browsers, allow to automatically switch to a white color based on contrast */
+  @supports (color: color-contrast(wheat vs black, white)) and
+    (color: rgba(wheat, 0.07)) {
+    .button,
+    .shopify-challenge__button,
+    #shopify-product-reviews .spr-summary-actions-newreview,
+    #shopify-product-reviews .spr-button,
+    .shopify-payment-button__button {
+      --button-overlay-color: rgba(
+        color-contrast(rgb(var(--button-background)) vs white, black),
+        0.07
+      );
+      background-image: linear-gradient(
+          180deg,
+          rgb(var(--button-background)),
+          rgb(var(--button-background)) 10%,
+          var(--button-overlay-color) 10%,
+          var(--button-overlay-color) 100%
+        ),
+        linear-gradient(
+          rgb(var(--button-background)),
+          rgb(var(--button-background))
+        );
+    }
+  }
+}
+
+/**
+ * -------------------------------------------------------------
+ * LOADER BUTTON
+ * -------------------------------------------------------------
+ */
+
+.loader-button__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-button__loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+}
+
+/**
+ * -------------------------------------------------------------
+ * BUTTON GROUP
+ * -------------------------------------------------------------
+ */
+
+.button-group {
+  font-size: 0; /* Collapse margin */
+
+  .button-wrapper:nth-child(2) {
+    .button,
+    .link--button {
+      --primary-button-text-color: var(--primary-button-2-text-color);
+      --primary-button-background: var(--primary-button-2-background);
+    }
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .button-group {
+    .button,
+    .link--button {
+      margin: 12px;
+      padding: 0 18px; /* We halve the padding to increase probability to button to fit on same row on mobile */
+    }
+  }
+}
+
+@media screen and (min-width: 741px) {
+  /* On tablet as we have more space we want to ensure the button has the same width */
+  .button-group__wrapper {
+    display: inline-grid;
+    gap: 24px;
+    grid-template-columns: 1fr 1fr;
+  }
+}

@@ -1,0 +1,60 @@
+/**
+ * -------------------------------------------------------------
+ * SCROLL SPY
+ * -------------------------------------------------------------
+ */
+
+.scroll-spy {
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  box-shadow: 1px 0 rgba(var(--text-color), 0.25) inset;
+  top: calc(
+    24px + var(--header-height, 0px) * var(--enable-sticky-header) +
+      var(--announcement-bar-height, 0px) *
+      var(--enable-sticky-announcement-bar)
+  );
+}
+
+.scroll-spy__list {
+  padding-left: 6px;
+}
+
+.scroll-spy__item {
+  opacity: 0.7;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.scroll-spy__item.is-visible {
+  opacity: 1;
+}
+
+.scroll-spy__anchor {
+  display: block;
+  padding: 10px 24px;
+}
+
+[dir="ltr"] .scroll-spy svg {
+  left: 0;
+}
+
+[dir="rtl"] .scroll-spy svg {
+  right: 0;
+}
+
+.scroll-spy svg {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.scroll-spy path {
+  transition: all 0.3s ease;
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 2px;
+  stroke-dasharray: 0 0 0 1000;
+  stroke-linecap: square;
+}

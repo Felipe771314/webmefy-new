@@ -1,0 +1,28 @@
+.file-link {
+  &__item {
+    a {
+      display: flex;
+    }
+    &.linklist__item {
+      list-style: none;
+    }
+  }
+  &__link {
+    display: flex;
+    padding: 0 0 0 30px;
+    position: relative;
+    img.file-link__icon {
+      margin: 0;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-40%);
+    }
+  }
+  &__icon {
+    width: 20px;
+  }
+  &__title {
+    display: block;
+  }
+}

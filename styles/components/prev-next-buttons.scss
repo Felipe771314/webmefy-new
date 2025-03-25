@@ -1,0 +1,162 @@
+/**
+ * --------------------------------------------------------------------
+ * PREV NEXT BUTTONS (used in different places to navigate in scrollable elements)
+ * --------------------------------------------------------------------
+ */
+
+/* Animation states that we apply to those buttons */
+@keyframes prevNextButtonKeyframe {
+  0% {
+    transform: translateX(0%);
+  }
+
+  50% {
+    transform: translateX(calc(50% + 10px));
+  }
+
+  51% {
+    transform: translateX(calc(-50% - 10px));
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.prev-next-buttons {
+  display: inline-grid;
+  pointer-events: none;
+}
+
+.prev-next-buttons--row {
+  grid-auto-flow: column;
+}
+
+.prev-next-button {
+  display: flex;
+  height: 40px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+  background: rgb(var(--prev-next-button-background, var(--root-background)));
+  color: rgb(var(--prev-next-button-color, var(--root-text-color)));
+  border: 1px solid
+    rgba(var(--prev-next-button-color, var(--root-text-color)), 0.15);
+  border-radius: var(--button-border-radius);
+  transition: color 0.2s ease-in-out;
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+.prev-next-button[disabled] {
+  color: rgba(var(--prev-next-button-color), 0.3);
+}
+
+.prev-next-button svg {
+  width: 100%;
+}
+
+[dir="ltr"]
+  .prev-next-buttons:not(.prev-next-buttons--row)
+  .prev-next-button:first-child {
+  border-bottom-right-radius: 0;
+}
+
+[dir="rtl"]
+  .prev-next-buttons:not(.prev-next-buttons--row)
+  .prev-next-button:first-child {
+  border-bottom-left-radius: 0;
+}
+
+[dir="ltr"]
+  .prev-next-buttons:not(.prev-next-buttons--row)
+  .prev-next-button:first-child {
+  border-bottom-left-radius: 0;
+}
+
+[dir="rtl"]
+  .prev-next-buttons:not(.prev-next-buttons--row)
+  .prev-next-button:first-child {
+  border-bottom-right-radius: 0;
+}
+
+[dir="ltr"]
+  .prev-next-buttons:not(.prev-next-buttons--row)
+  .prev-next-button:last-child {
+  border-top-right-radius: 0;
+}
+
+[dir="rtl"]
+  .prev-next-buttons:not(.prev-next-buttons--row)
+  .prev-next-button:last-child {
+  border-top-left-radius: 0;
+}
+
+[dir="ltr"]
+  .prev-next-buttons:not(.prev-next-buttons--row)
+  .prev-next-button:last-child {
+  border-top-left-radius: 0;
+}
+
+[dir="rtl"]
+  .prev-next-buttons:not(.prev-next-buttons--row)
+  .prev-next-button:last-child {
+  border-top-right-radius: 0;
+}
+
+[dir="ltr"] .prev-next-buttons--row .prev-next-button:first-child {
+  border-bottom-right-radius: 0;
+}
+
+[dir="rtl"] .prev-next-buttons--row .prev-next-button:first-child {
+  border-bottom-left-radius: 0;
+}
+
+[dir="ltr"] .prev-next-buttons--row .prev-next-button:first-child {
+  border-top-right-radius: 0;
+}
+
+[dir="rtl"] .prev-next-buttons--row .prev-next-button:first-child {
+  border-top-left-radius: 0;
+}
+
+[dir="ltr"] .prev-next-buttons--row .prev-next-button:last-child {
+  border-bottom-left-radius: 0;
+}
+
+[dir="rtl"] .prev-next-buttons--row .prev-next-button:last-child {
+  border-bottom-right-radius: 0;
+}
+
+[dir="ltr"] .prev-next-buttons--row .prev-next-button:last-child {
+  border-top-left-radius: 0;
+}
+
+[dir="rtl"] .prev-next-buttons--row .prev-next-button:last-child {
+  border-top-right-radius: 0;
+}
+
+@media screen and (min-width: 741px) {
+  .prev-next-button:not(.prev-next-button--small) {
+    width: 56px;
+    height: 56px;
+  }
+
+  .prev-next-buttons:not(.prev-next-buttons--row) .prev-next-button:last-child {
+    border-top: none;
+  }
+
+  .prev-next-buttons--row .prev-next-button:last-child {
+    border-left: none;
+  }
+}
+
+@media screen and (pointer: fine) {
+  .prev-next-button--prev:hover svg {
+    animation: prevNextButtonKeyframe 0.3s ease-in-out reverse forwards;
+  }
+
+  .prev-next-button--next:hover svg {
+    animation: prevNextButtonKeyframe 0.3s ease-in-out forwards;
+  }
+}

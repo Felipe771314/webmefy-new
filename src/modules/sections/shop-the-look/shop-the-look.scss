@@ -1,0 +1,126 @@
+.shop-the-look,
+.shop-the-look__item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.shop-the-look__item[hidden] {
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.shop-the-look__item[hidden] .popover,
+.shop-the-look__item[hidden] .drawer {
+  display: none; /* Making sure popover and drawer are hidden for hidden look helps alleviating issues with Safari */
+}
+
+/* Nav */
+
+.shop-the-look__nav {
+  position: absolute;
+  display: block;
+  bottom: 24px;
+  background: rgb(var(--background));
+  color: rgb(var(--text-color));
+  border: 1px solid rgb(var(--border-color));
+  border-radius: min(var(--button-border-radius), 10px);
+  overflow: hidden;
+  z-index: 1;
+  transform: translateZ(
+    0
+  ); /* Solves an extremely odd rendering issue on Safari */
+}
+
+.shop-the-look__prev-next-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.shop-the-look__arrow {
+  border: none;
+  border-radius: 0;
+}
+
+[dir="ltr"] .shop-the-look__arrow:first-child {
+  border-right: 1px solid rgb(var(--border-color));
+}
+
+[dir="rtl"] .shop-the-look__arrow:first-child {
+  border-left: 1px solid rgb(var(--border-color));
+}
+
+@media screen and (min-width: 741px) {
+  .shop-the-look__nav {
+    bottom: 40px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .shop-the-look__label {
+    text-align: center;
+    line-height: 56px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 1px solid rgb(var(--border-color));
+  }
+
+  [dir="ltr"] .shop-the-look__arrow:last-child {
+    border-left: 1px solid rgb(var(--border-color));
+  }
+
+  [dir="rtl"] .shop-the-look__arrow:last-child {
+    border-right: 1px solid rgb(var(--border-color));
+  }
+
+  .shop-the-look__counter {
+    flex-grow: 1;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height: 1.4;
+    overflow: hidden;
+  }
+
+  .shop-the-look__counter-page {
+    position: relative;
+  }
+
+  .shop-the-look__counter-page-base {
+    opacity: 0; /* Just to allocate the space */
+  }
+
+  [dir="ltr"] .shop-the-look__counter-page-transition {
+    left: 0;
+  }
+
+  [dir="rtl"] .shop-the-look__counter-page-transition {
+    right: 0;
+  }
+
+  .shop-the-look__counter-page-transition {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    height: 100%;
+    line-height: normal;
+  }
+
+  .shop-the-look__counter-page-transition[hidden] {
+    transform: translateY(100%);
+    visibility: hidden;
+  }
+}
+
+.shop-the-look-item__product-bottom-wrapper {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+}

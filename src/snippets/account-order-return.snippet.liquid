@@ -1,0 +1,20 @@
+<div class="account account--order-return account--info-block">
+  <div
+    class="container container--default order-return"
+  >
+    <div class="page-header page-header--small">
+      <div class="page-header__text-wrapper text-container">
+        <h1 class="heading h4">
+          {{ 'request_returns.account.returns' | t }}
+        </h1>
+      </div>
+    </div>
+
+    {%- case settings.returns_app -%}
+      {%- when 'theoz_cdn' -%}
+        {% render 'order-returns-cdn' %}
+      {%- when 'theoz' -%}
+        {% render 'order-returns' %}
+    {%- endcase -%}
+  </div>
+</div>

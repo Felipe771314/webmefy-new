@@ -1,0 +1,135 @@
+{% assign search_bar = section.settings.search_type %}
+
+{%- capture search_type -%}
+  {%- if section.settings.header_select == 'template-3' or section.settings.header_select == 'template-5'-%}
+
+  {%- elsif search_bar == 'icon' and section.settings.desktop_icons_layout == 'text_and_icon' -%}
+    header__search--title-icon
+  {%- elsif search_bar == 'icon' -%}
+    header__search--icon
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture header_mobile_searchbar_position -%}
+  {%- if section.settings.header_mobile_searchbar_position == 'left' -%}
+    hidden-phone hidden-pocket hidden-lap
+  {%- endif -%}
+{%- endcapture -%}
+
+{% if section.settings.header_select != 'template-6' %}
+  <a
+    href="{{ routes.search_url }}"
+    is="toggle-link"
+    class="header__search tap-area {{ search_type }} {{ header_mobile_searchbar_position }}"
+    aria-label="{{ 'search.general.title' | t | escape }}"
+    aria-controls="search-drawer"
+    aria-expanded="false"
+  >
+    <span class="hidden-phone hidden-pocket hidden-lap">
+      {{- 'search.general.search_placeholder' | t -}}
+    </span>
+    {%- render 'icon' with 'header-search' -%}
+  </a>
+{% endif %}
+
+{% if section.settings.header_select == 'template-6' and section.settings.header_mobile_searchbar_position == 'right' %}
+  <a
+    href="{{ routes.search_url }}"
+    is="toggle-link"
+    class="header__search tap-area hidden-desk "
+    aria-label="{{ 'search.general.title' | t | escape }}"
+    aria-controls="search-drawer"
+    aria-expanded="false"
+  >
+    {%- render 'icon' with 'header-search' -%}
+  </a>
+{% endif %}
+
+{%- comment -%}
+  Todo : identifier ce truc...
+  IMPLEMENTATION NOTE: this icon is hidden by the "popup" section if it is disabled
+  <button
+    is="toggle-button"
+    class="header__icon-wrapper tap-area hidden-phone"
+    aria-controls="newsletter-popup"
+    aria-expanded="false"
+  >
+    <span class="visually-hidden">{{ 'header.general.newsletter' | t }}</span>
+    {%- render 'icon' with 'header-email' -%}
+  </button>
+{%- endcomment -%}
+
+{% for icon in icons %}
+  {% liquid
+    assign class_anchor = 'header__icon-wrapper tap-area'
+    if icon.settings.keep_in_header == false
+      assign class_anchor = 'header__icon-wrapper tap-area hidden-phone hidden-pocket hidden-lap'
+    endif
+
+    assign class_label = 'hidden-phone hidden-pocket hidden-lap'
+    if section_settings.desktop_icons_layout != 'text_and_icon'
+      assign class_label = 'hidden-desk hidden-phone hidden-pocket hidden-lap'
+    endif
+  %}
+
+  {% render 'icon-header', icon: icon, class_anchor: class_anchor, class_label: class_label %}
+{% endfor %}
+
+{%- if customer_accounts_enabled -%}
+  <a
+    href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+    class="header__icon-wrapper header__icon--customer tap-area hidden-phone hidden-pocket hidden-lap"
+    aria-label="{% if customer %}{{ 'header.general.account' | t | escape }}{% else %}{{ 'header.general.login' | t | escape }}{% endif %}"
+    {%- if section_settings.desktop_icons_layout == 'icon' -%}
+      title="{{ 'header.general.account' | t}}"
+    {% endif %}
+  >
+    {%- render 'icon' with 'header-customer' -%}
+    {% if section_settings.desktop_icons_layout == 'text_and_icon' %}
+      <span>{{ 'header.general.account' | t }}</span>
+    {% endif %}
+  </a>
+{%- endif -%}
+
+<a
+  href="{{ routes.cart_url }}"
+  {% unless settings.cart_type == 'page'
+    or request.page_type == 'cart'
+    or section.settings.header_cart_type == 'page'
+  %}
+    is="toggle-link" aria-controls="mini-cart" aria-expanded="false"
+  {% endunless %}
+  class="header__icon-wrapper tap-area header__icon--cart"
+  aria-label="{{ 'header.general.cart' | t | escape }}"
+  data-no-instant
+>
+  {%- assign header_cart_icon_name = 'header-' | append: settings.cart_icon | replace: '_', '-' -%}
+  {%- render 'icon' with header_cart_icon_name -%}
+
+  <cart-count
+    {% if cart.item_count == 0 %}
+      style="display:none"
+    {% endif %}
+    class="header__cart-count header__cart-count--floating bubble-count"
+  >
+    {% if settings.activate_price_placeholder %}
+    {% else %}
+      {{- cart.item_count -}}
+    {% endif %}
+  </cart-count>
+
+  {% if section_settings.desktop_icons_layout == 'text_and_icon' or section_settings.cart_icon_price_display %}
+    <cart-total
+      {% if section_settings.desktop_icons_layout != 'text_and_icon' %}
+        hide-if-null
+      {% endif %}
+      class="span hidden-phone hidden-tablet {% if section_settings.cart_icon_price_display == false%}hidden-phone hidden-pocket hidden-lap{% endif %}"
+    >
+      {% if settings.activate_price_placeholder %}
+        <place-holder width="40" height="10" />
+      {% else %}
+        {%- if cart.total_price != 0 %}{% render 'f_format_money' with cart.total_price %}{% endif -%}
+      {% endif %}
+    </cart-total>
+  {% endif %}
+</a>

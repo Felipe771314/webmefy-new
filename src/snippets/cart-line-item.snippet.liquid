@@ -1,0 +1,321 @@
+{% liquid
+  assign line_item_id = line_item.id
+  if item_id != blank
+    assign line_item_id = item_id
+  endif
+%}
+<tr class="line-item" style="order:{{ position}}">
+  <td class="line-item__product">
+    {% if settings.cart_product_discounts_position contains 'above_product' %}
+      <cart-level-discounts
+        component="line-item"
+        class="hidden-tablet-and-up"
+        {% if settings.cart_hide_product_savings %}
+          hide-savings
+        {% endif %}
+        {% if settings.cart_hide_discount_without_title %}
+          hide-without-title
+        {% endif %}
+        position="{{ settings.cart_product_discounts_position | split: '_' | first }}"
+        item-id="{{ line_item_id }}"
+      >
+        <template discount-badge>
+          {% render 'icon' with 'discount-badge' %}
+        </template>
+        {%- if line_item.line_level_discount_allocations != blank -%}
+          <ul class="line-item__discount-list list--unstyled" role="list">
+            {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+              <li class="line-item__discount-badge discount-badge">
+                {%- render 'icon' with 'discount-badge' -%}
+                {{ discount_allocation.discount_application.title }} (-
+                {% render 'f_format_money' with discount_application.total_allocated_amount %}
+                )
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </cart-level-discounts>
+      <cart-level-discounts
+        class="hidden-phone"
+        component="line-item"
+        unit-price
+        item-id="{{ line_item_id }}"
+      >
+        <template discount-badge>
+          {% render 'icon' with 'discount-badge' %}
+        </template>
+        {%- if line_item.line_level_discount_allocations != blank -%}
+          <ul class="line-item__discount-list list--unstyled" role="list">
+            {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+              <li class="line-item__discount-badge discount-badge">
+                {%- render 'icon' with 'discount-badge' -%}
+                {{ discount_allocation.discount_application.title }} (-
+                {% render 'f_format_money' with discount_allocation.amount %}
+                )
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </cart-level-discounts>
+    {% endif %}
+    <div class="line-item__content-wrapper">
+      {% if packshot_first_image == true %}
+        {% for image in line_item.product.images %}
+          {% assign packshot_title = settings.packshot_image_text %}
+          {% if image.alt contains packshot_title %}
+            {% capture image_element %}
+                {{-
+                image
+                | image_url: width: image.width
+                | image_tag:
+                loading: 'lazy',
+                sizes: '(max-width: 740px) 80px, 92px',
+                widths: '80,92,160,184,240,276',
+                class: 'line-item__image'
+                -}}
+            {% endcapture %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if image_element != blank or line_item.image != blank %}
+        <a href="{{ line_item.url }}" class="line-item__image-wrapper" tabindex="-1" aria-hidden="true">
+          {% if image_element != blank %}
+            {{ image_element }}
+          {% elsif line_item.image %}
+            {{-
+              line_item.image
+              | image_url: width: line_item.image.width
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(max-width: 740px) 80px, 92px',
+                widths: '80,92,160,184,240,276',
+                class: 'line-item__image'
+            -}}
+          {% endif %}
+        </a>
+      {% endif %}
+
+      {%- capture unit_price -%}
+                {% render 'cart-unit-line-price',
+                    item_id: line_item_id,
+                    line_item : line_item
+                %}
+            {%- endcapture -%}
+
+      {%- capture line_price -%}
+                {% render 'cart-line-price',
+                    item_id: line_item_id,
+                    line_item : line_item,
+                    price_type: 'line'
+                %}
+            {%- endcapture -%}
+
+      {%- capture price -%}
+            <span class="price">
+                {% render 'cart-line-price',
+                    item_id: line_item_id,
+                    line_item : line_item,
+                    price_type: 'unit'
+                %}
+            </span>
+                {%- endcapture -%}
+
+      <div class="line-item__info">
+        <div class="product-item-meta">
+          {%- if settings.show_vendor -%}
+            {%- assign vendor_handle = line_item.vendor | handle -%}
+            {%- assign collection_for_vendor = collections[vendor_handle] -%}
+
+            {%- unless collection_for_vendor.empty? -%}
+              <a
+                class="product-item-meta__vendor heading heading--xxsmall"
+                href="{{ collection_for_vendor.url }}"
+              >
+                {{- line_item.vendor -}}
+              </a>
+            {%- else -%}
+              <a
+                class="product-item-meta__vendor heading heading--xxsmall"
+                href="{{ line_item.vendor | url_for_vendor }}"
+              >
+                {{- line_item.vendor -}}
+              </a>
+            {%- endunless -%}
+          {%- endif -%}
+
+          <a
+            href="{{ line_item.url }}"
+            class="product-item-meta__title text--small hidden-tablet-and-up"
+          >
+            {{- line_item.product.title -}}
+          </a>
+          <a href="{{ line_item.url }}" class="product-item-meta__title hidden-phone">
+            {{- line_item.product.title -}}
+          </a>
+
+          {%- capture line_item_properties -%}
+                {%- unless line_item.product.has_only_default_variant -%}
+                    <span class="product-item-meta__property text--subdued text--xsmall">{{ line_item.variant.title }}</span>
+                {%- endunless -%}
+
+                {%- if line_item.selling_plan_allocation -%}
+                    <span class="product-item-meta__property text--subdued text--xsmall">{{ line_item.selling_plan_allocation.selling_plan.name }}</span>
+                {%- endif -%}
+
+                {%- unless line_item.properties == blank -%}
+                 <ul class="product-item-meta__property list--unstyled text--subdued text--xsmall" role="list">
+                  {%- for property in line_item.properties -%}
+                      {%- assign first_character_in_key = property.first | truncate: 1, '' -%}
+
+                      {%- if property.last == blank or first_character_in_key == '_' -%}
+                          {%- continue -%}
+                      {%- endif -%}
+
+                      <li class="line-item__property">{{ property.first }}: {{ property.last }}</li>
+                  {%- endfor -%}
+                </ul>
+                {%- endunless -%}
+          {%- endcapture -%}
+
+          {%- if line_item_properties != blank -%}
+            <div class="product-item-meta__property-list">
+              {{- line_item_properties -}}
+            </div>
+          {%- endif -%}
+
+          <div class="product-item-meta__price-list-container">
+            <div class="price-list text--small hidden-tablet-and-up">
+              {{- line_price -}}
+              {{- unit_price -}}
+            </div>
+
+            <div class="price-list hidden-phone">
+              {{- price -}}
+              {{- unit_price -}}
+            </div>
+          </div>
+        </div>
+
+        {% if settings.cart_product_discounts_position contains 'below' %}
+          <cart-level-discounts
+            component="line-item"
+            class="hidden-tablet-and-up"
+            {% if settings.cart_hide_product_savings %}
+              hide-savings
+            {% endif %}
+            {% if settings.cart_hide_discount_without_title %}
+              hide-without-title
+            {% endif %}
+            position="{{ settings.cart_product_discounts_position | split: '_' | first }}"
+            item-id="{{ line_item_id }}"
+          >
+            <template discount-badge>
+              {% render 'icon' with 'discount-badge' %}
+            </template>
+            {%- if line_item.line_level_discount_allocations != blank -%}
+              <ul class="line-item__discount-list list--unstyled" role="list">
+                {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+                  <li class="line-item__discount-badge discount-badge">
+                    {%- render 'icon' with 'discount-badge' -%}
+                    {{ discount_allocation.discount_application.title }} (-
+                    {% render 'f_format_money' with discount_application.total_allocated_amount %}
+                    )
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </cart-level-discounts>
+          <cart-level-discounts
+            class="hidden-phone"
+            component="line-item"
+            {% if settings.cart_hide_product_savings %}
+              hide-savings
+            {% endif %}
+            {% if settings.cart_hide_discount_without_title %}
+              hide-without-title
+            {% endif %}
+            unit-price
+            item-id="{{ line_item_id }}"
+          >
+            <template discount-badge>
+              {% render 'icon' with 'discount-badge' %}
+            </template>
+            {%- if line_item.line_level_discount_allocations != blank -%}
+              <ul class="line-item__discount-list list--unstyled" role="list">
+                {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+                  <li class="line-item__discount-badge discount-badge">
+                    {%- render 'icon' with 'discount-badge' -%}
+                    {{ discount_allocation.discount_application.title }} (-
+                    {% render 'f_format_money' with discount_allocation.amount %}
+                    )
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </cart-level-discounts>
+        {% endif %}
+
+        <line-item-quantity
+          class="line-item__quantity hidden-tablet-and-up"
+          item-id="{{ line_item_id }}"
+          label-minus="{{ 'cart.general.decrease_quantity' | t | escape }}"
+          label-plus="{{ 'cart.general.increase_quantity' | t | escape }}"
+          label-change="{{ 'cart.general.change_quantity' | t | escape }}"
+          label-remove="{{ 'cart.general.remove' | t }}"
+          label-no-more-stock="{{ 'cart.general.no_more_stock' | t | escape }}"
+        >
+          <template class="icon-plus">
+            {%- render 'icon' with 'plus' -%}
+          </template>
+          <template class="icon-minus">
+            {%- render 'icon' with 'minus' -%}
+          </template>
+          <place-holder width="100" height="30" />
+        </line-item-quantity>
+      </div>
+    </div>
+  </td>
+
+  <td class="line-item__quantity line-item__quantity--block text--center hidden-phone">
+    {%- if settings.show_vendor -%}
+      {%- comment -%}
+        IMPLEMENTATION NOTE: in the design, the price is aligned in regards of the product title (not the brand). It was a
+        bit hard to do as we cannot set a fixed margin, so I am actually adding an empty vendor to simulate the same height
+      {%- endcomment -%}
+      <span class="product-item-meta__vendor heading heading--xxsmall" style="visibility: hidden">x</span>
+    {%- endif -%}
+
+    <line-item-quantity
+      style="display: block; margin-top: -4px"
+      item-id="{{ line_item_id }}"
+      label-minus="{{ 'cart.general.decrease_quantity' | t | escape }}"
+      label-plus="{{ 'cart.general.increase_quantity' | t | escape }}"
+      label-change="{{ 'cart.general.change_quantity' | t | escape }}"
+      label-remove="{{ 'cart.general.remove' | t }}"
+      label-no-more-stock="{{ 'cart.general.no_more_stock' | t | escape }}"
+    >
+      <template class="icon-plus">
+        {%- render 'icon' with 'plus' -%}
+      </template>
+      <template class="icon-minus">
+        {%- render 'icon' with 'minus' -%}
+      </template>
+      <place-holder width="100" height="30" />
+    </line-item-quantity>
+  </td>
+
+  <td class="line-item__price-list-container text--right">
+    {%- if settings.show_vendor -%}
+      {%- comment -%}
+        IMPLEMENTATION NOTE: in the design, the price is aligned in regards of the product title (not the brand). It was a
+        bit hard to do as we cannot set a fixed margin, so I am actually adding an empty vendor to simulate the same height
+      {%- endcomment -%}
+      <span class="product-item-meta__vendor heading heading--xxsmall" style="visibility: hidden">x</span>
+    {%- endif -%}
+
+    <div class="price-list price-list--stack">
+      {{- line_price -}}
+    </div>
+  </td>
+</tr>

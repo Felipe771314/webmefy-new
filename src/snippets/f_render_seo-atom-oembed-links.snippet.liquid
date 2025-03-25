@@ -1,0 +1,29 @@
+{% comment %}
+  Processes and modifies content_for_header containing  atom and oembed links.
+  This snippet searches for tags with specific attributes and processes the content_for_header accordingly.
+
+  Accepts:
+  - content: {String} The content_for_header.
+
+  Usage:
+  {% render 'process-content',
+    content: content_for_header
+  %}
+{% endcomment %}
+
+{%- liquid
+  if content contains '<link rel="alternate" type="application/atom+xml"' or content contains '<link rel="alternate" type="application/json+oembed"'
+    assign new_content = ''
+    assign content_splited = content | replace: '<link rel="alternate" type="application/atom+xml"', '[TOZ]split' | replace: '<link rel="alternate" type="application/json+oembed"', '[TOZ]split' | split: '[TOZ]split'
+    for content_fragment in content_splited
+      if forloop.first
+        assign new_content = new_content | append: content_fragment
+        continue
+      endif
+      assign fragment_rest = content_fragment | replace_first: '>', '[TOZ]>' | split: '[TOZ]>' | last
+      assign new_content = new_content | append: fragment_rest
+    endfor
+    assign content = new_content
+  endif
+-%}
+{{ content }}

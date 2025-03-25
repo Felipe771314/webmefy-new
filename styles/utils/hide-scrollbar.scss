@@ -1,0 +1,15 @@
+/**
+ * -------------------------------------------------------------
+ * HIDE SCROLLBAR
+ * -------------------------------------------------------------
+ */
+
+.hide-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome and Safari */
+}

@@ -1,0 +1,58 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_title": false,
+        "page_width": "large"
+      }
+    },
+    "671dddec-a82c-4178-82bc-9973a06086bd": {
+      "type": "map-place-list",
+      "settings": {
+        "google_api_token": "AIzaSyC7Ow9PCumdKm-dtv3_kBozaVux77jMO4c",
+        "map_style": "RETRO",
+        "custom_map_id": "",
+        "cluster_color": "#1c1b1b",
+        "cluster_text_color": "#ffffff",
+        "cluster_size": 45,
+        "list_phone_display": false,
+        "list_email_display": false,
+        "list_link_display": false,
+        "list_opening_hours_display": false,
+        "list_image_display": true,
+        "modal_phone_display": false,
+        "modal_email_display": false,
+        "modal_link_display": false,
+        "modal_navigation_display": false,
+        "modal_image_display": true,
+        "search_button_style": "primary",
+        "see_list_button_style": "secondary",
+        "see_on_map_button_style": "transparent",
+        "navigate_to_button_style": "transparent",
+        "subheading": "",
+        "subheading_tag": "h2",
+        "subheading_size": "",
+        "subheading_transform": "",
+        "subheading_weight": "default",
+        "title": "",
+        "heading_tag": "h3",
+        "heading_size": "h2",
+        "heading_transform": "",
+        "heading_weight": "default",
+        "textblock_alignment": "",
+        "section_width": "boxed",
+        "container_size": "",
+        "section_vertical_margin": "",
+        "section_vertical_padding": "vertical-breather--tight",
+        "background": "rgba(0,0,0,0)",
+        "background_gradiant": "",
+        "text_color": "rgba(0,0,0,0)",
+        "title_color": "",
+        "subheading_color": ""
+      }
+    }
+  },
+  "order": ["main", "671dddec-a82c-4178-82bc-9973a06086bd"]
+}

@@ -1,0 +1,112 @@
+.countdown-timer {
+  --default-counter-background: 0, 0, 0;
+  --default-counter-text-color: 255, 255, 255;
+
+  &__timer {
+    &--one-line {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      .countdown-timer__label,
+      .countdown-timer__number {
+        padding: 0 5px;
+      }
+    }
+
+    &--no-gap {
+      gap: initial;
+    }
+  }
+  &__count {
+    display: flex;
+    gap: 10px;
+
+    &--single-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+
+      .countdown-timer__label,
+      .countdown-timer__number {
+        padding: 0 5px;
+      }
+
+      .countdown-timer__number-wrapper {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    &--no-border {
+      grid-gap: initial;
+      padding: 0 5px;
+
+      .countdown-timer__label,
+      .countdown-timer__number {
+        padding: 0;
+        border: 0 none;
+        border-radius: 0;
+        height: initial;
+      }
+
+      .countdown-timer__number {
+        margin: 0 5px;
+        background: var(--section-background);
+      }
+
+      .countdown-timer__label {
+        font-size: 14px;
+
+        &--separator {
+          margin-left: 5px;
+        }
+
+        &:last-child {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  &__number {
+    text-decoration: none;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: rgb(var(--counter-text-color, var(--default-counter-text-color)));
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 3px 3px 2px 2px;
+    background: rgb(var(--countdown-item-background-color));
+    border: 1px solid
+      rgb(
+        var(
+          --countdown-item-background-color,
+          var(--countdown-item-background-color)
+        )
+      );
+  }
+  &__label {
+    font-size: 0.6rem;
+    text-decoration: none;
+  }
+
+  &__end-message {
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .countdown-timer {
+    &__timer {
+      &--one-line {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+  }
+}

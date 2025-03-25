@@ -1,0 +1,170 @@
+/**
+ * -------------------------------------------------------------
+ * CONTENT BOX
+ *
+ * In Focal, a lot of content (especially on home page sections) are aligned
+ * according a 10 columns grid (20 on tablet and higher). This special content
+ * box has different alignments and three variation styles. As it is used
+ * throughout the theme, we create an abstraction here.
+ * -------------------------------------------------------------
+ */
+
+.content-box {
+  position: relative;
+  z-index: 1;
+}
+
+/* Text alignment variations */
+
+.content-box--text-center {
+  text-align: center;
+}
+
+[dir="ltr"] .content-box--text-right {
+  text-align: right;
+}
+
+[dir="rtl"] .content-box--text-right {
+  text-align: left;
+}
+
+@media screen and (max-width: 740px) {
+  /*
+		 Small and medium variation on mobile have some extra spacing and are not directly based on the grid. We also
+		 apply extra margin if the content box is contained within a flushed mobile container
+	 */
+  .content-box--small,
+  .content-box--medium,
+  .container--flush .content-box--large {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+
+  /* Positional variation */
+
+  [dir="ltr"] .content-box--left {
+    margin-right: auto;
+  }
+
+  [dir="rtl"] .content-box--left {
+    margin-left: auto;
+  }
+
+  [dir="ltr"] .content-box--right {
+    margin-left: auto;
+  }
+
+  [dir="rtl"] .content-box--right {
+    margin-right: auto;
+  }
+
+  [dir="rtl"],
+  [dir="ltr"] {
+    .content-box--mobile-center {
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+
+  [dir="ltr"] .content-box--mobile-left {
+    margin-right: auto;
+    margin-left: 0;
+  }
+
+  [dir="rtl"] .content-box--mobile-left {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  [dir="ltr"] .content-box--mobile-left {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  [dir="rtl"] .content-box--mobile-left {
+    margin-right: auto;
+    margin-left: 0;
+  }
+
+  [dir="rtl"],
+  [dir="ltr"] {
+    .content-box--mobile-text-center {
+      text-align: center;
+    }
+  }
+
+  [dir="ltr"] .content-box--mobile-text-left {
+    text-align: left;
+  }
+
+  [dir="rtl"] .content-box--mobile-text-left {
+    text-align: right;
+  }
+
+  [dir="ltr"] .content-box--mobile-text-right {
+    text-align: right;
+  }
+
+  [dir="rtl"] .content-box--mobile-text-right {
+    text-align: left;
+  }
+}
+
+@media screen and (min-width: 741px) {
+  /* On tablet, all sizes are shifted by one column left and right, and span a different number of columns */
+  .content-box {
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(var(--grid-column-width) * 16 + var(--grid-gap) * 15);
+  }
+
+  .content-box--medium {
+    width: calc(var(--grid-column-width) * 14 + var(--grid-gap) * 13);
+  }
+
+  .content-box--small {
+    width: calc(var(--grid-column-width) * 10 + var(--grid-gap) * 9);
+  }
+
+  .content-box--fill {
+    width: 100% !important;
+  }
+
+  /* Positional variations */
+
+  [dir="ltr"] .content-box--left {
+    margin-left: calc(var(--grid-column-width) + var(--grid-gap));
+  }
+
+  [dir="rtl"] .content-box--left {
+    margin-right: calc(var(--grid-column-width) + var(--grid-gap));
+  }
+
+  [dir="ltr"] .content-box--right {
+    margin-right: calc(var(--grid-column-width) + var(--grid-gap));
+  }
+
+  [dir="rtl"] .content-box--right {
+    margin-left: calc(var(--grid-column-width) + var(--grid-gap));
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .content-box {
+    width: calc(var(--grid-column-width) * 14 + var(--grid-gap) * 13);
+  }
+
+  .content-box--medium {
+    width: calc(var(--grid-column-width) * 10 + var(--grid-gap) * 9);
+  }
+
+  .content-box--small {
+    width: calc(var(--grid-column-width) * 8 + var(--grid-gap) * 7);
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .content-box--small {
+    width: calc(var(--grid-column-width) * 7 + var(--grid-gap) * 6);
+  }
+}

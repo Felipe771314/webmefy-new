@@ -1,0 +1,79 @@
+{% unless media %}
+  {% break %}
+{% endunless %}
+
+{% liquid
+  assign type = type | default: media.media_type | default: media.type
+  assign lazy = lazy | default: true, allow_false: true
+  assign sizes = sizes | strip | strip_newlines
+  assign widths = widths | default: '400,500,600,700,800,900,1000,1100,1200,1366,1440,1600,1800,1920,2000,2200,2400,2600,2800,3000'
+  assign width = width | default: media.width
+  assign autoplay = autoplay | default: true, allow_false: true
+  assign muted = muted | default: true, allow_false: true
+  assign loop = loop | default: true, allow_false: true
+  assign controls = controls | default: false, allow_false: true
+  assign disablePictureInPicture = disablePictureInPicture | default: true, allow_false: true
+%}
+{% assign loading_attribute_value = 'eager' %}
+{% if lazy %}
+  {% assign loading_attribute_value = 'lazy' %}
+{% endif %}
+
+{% case type %}
+    {% comment %}null is for burstimage "free image from shopify in preview only"{% endcomment %}
+  {% when 'image', null %}
+    {{
+      media
+      | image_url: width: width
+      | image_tag: loading: loading_attribute_value, sizes: sizes, widths: widths, class: class, data-media-id: media.id
+    }}
+  {% when 'external_video' %}
+    {{
+      media
+      | external_video_url:
+        enablejsapi: true,
+        loop: loop,
+        mute: autoplay,
+        autoplay: true,
+        playlist: media.external_id,
+        disablePictureInPicture: disablePictureInPicture
+      | external_video_tag: class: class
+    }}
+  {% when 'youtube', 'vimeo' %}
+    <external-video autoplay provider="{{ media.type | escape }}" class="video-wrapper video-wrapper--cover">
+      <template>
+        {%- if media.type == 'youtube' -%}
+          <iframe
+            data-ot-ignore
+            title="Video"
+            id="player-{{ section.id }}"
+            src="https://www.youtube{% if settings.video_no_cookie %}-nocookie{% endif %}.com/embed/{{ media.id }}?playsinline=1&autoplay=1&mute=1&loop=1&playlist={{ media.id }}&enablejsapi=1&controls=0&rel=0&modestbranding=1&origin=https://{{ request.host }}"
+            allow="autoplay; fullscreen"
+          ></iframe>
+        {%- elsif media.type == 'vimeo' -%}
+          <iframe
+            data-ot-ignore
+            title="Video"
+            id="player-{{ section.id }}"
+            src="https://player.vimeo.com/video/{{ media.id }}?background=1&loop=1&transparent=0&responsive=1&portrait=0&title=0&byline=0{% if settings.video_no_cookie %}&dnt=1{% endif %}"
+            allow="autoplay; fullscreen"
+          ></iframe>
+        {%- endif -%}
+      </template>
+    </external-video>
+  {% when 'video' %}
+    {{
+      media
+      | video_tag:
+        controls: controls,
+        autoplay: autoplay,
+        muted: muted,
+        loop: loop,
+        class: class,
+        disablePictureInPicture: disablePictureInPicture
+    }}
+  {% when 'model' %}
+    {{ media | model_viewer_tag }}
+  {% else %}
+    {{ media | media_tag }}
+{% endcase %}

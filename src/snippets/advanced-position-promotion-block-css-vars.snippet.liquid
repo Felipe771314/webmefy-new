@@ -1,0 +1,70 @@
+{% assign block_settings = block_settings | default: afp-block-css-vars.settings %}
+{% assign default_id = 'block-' | append: section.id | append: '-' | append: afp-block-css-vars %}
+{% assign id = id | default: default_id %}
+
+{% capture desktop_vars %}
+  {% if block_settings.afp_detached_block == true or block_settings.afp_primary_block == true %}
+    --promotion-block-afp-top: {{ block_settings.afp_top | default: 'auto' }};
+    --promotion-block-afp-left: {{ block_settings.afp_left | default: 'auto' }};
+    --promotion-block-afp-bottom: {{ block_settings.afp_bottom | default: 'auto' }};
+    --promotion-block-afp-right: {{ block_settings.afp_right | default: 'auto' }};
+    --promotion-block-afp-block-width: {{ block_settings.afp_block_width | default: '100%' }};
+    --promotion-block-afp-z-index: {{ block_settings.afp_z_index | default: 'auto' }};
+  {% endif %}
+  {% if block_settings.afp_detached_block == true %}
+    --promotion-block-afp-detached-block-position: absolute;
+  {% endif %}
+  {% if block_settings.afp_primary_block == true %}
+    --promotion-block-afp-block-margin-top: {{ block_settings.afp_block_margin_top | default: 'auto' }};
+    --promotion-block-afp-block-margin-bottom: {{ block_settings.afp_block_margin_bottom | default: 'auto' }};
+  {% endif %}
+{% endcapture %}
+{% capture mobile_vars %}
+  {% if block_settings.afp_reset_mobile == true %}
+    {% if block_settings.afp_detached_block == true or block_settings.afp_primary_block == true %}
+      --promotion-block-afp-top: 0;
+      --promotion-block-afp-left: 0;
+      --promotion-block-afp-bottom: auto;
+      --promotion-block-afp-right: auto;
+      --promotion-block-afp-block-width: 100%;
+      --promotion-block-afp-z-index: 'auto';
+    {% endif %}
+    {% if block_settings.afp_detached_block == true %}
+      --promotion-block-afp-detached-block-position: relative;
+    {% endif %}
+    {% if block_settings.afp_primary_block == true %}
+      --promotion-block-afp-block-margin-top: 0;
+      --promotion-block-afp-block-margin-bottom: 0;
+    {% endif %}
+  {% else %}
+    {% if block_settings.afp_detached_block == true or block_settings.afp_primary_block == true %}
+      --promotion-block-afp-top: {{ block_settings.afp_mob_top | default: 'auto' }};
+      --promotion-block-afp-left: {{ block_settings.afp_mob_left | default: 'auto' }};
+      --promotion-block-afp-bottom: {{ block_settings.afp_mob_bottom | default: 'auto' }};
+      --promotion-block-afp-right: {{ block_settings.afp_mob_right | default: 'auto' }};
+      --promotion-block-afp-block-width: {{ block_settings.afp_mob_block_width | default: '100%' }};
+      --promotion-block-afp-z-index: {{ block_settings.afp_mob_z_index | default: 'auto' }};
+      {% if block_settings.afp_primary_block == true %}
+        --promotion-block-afp-block-margin-top: {{ block_settings.afp_mob_block_margin_top | default: 'auto' }};
+        --promotion-block-afp-block-margin-bottom: {{ block_settings.afp_mob_block_margin_bottom | default: 'auto' }};
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endcapture %}
+
+{% if desktop_vars != blank or mobile_vars != blank %}
+  <style>
+    {% if desktop_vars != blank %}
+      #{{ id }} {
+        {{ desktop_vars }}
+      }
+    {% endif %}
+    {% if mobile_vars != blank %}
+      @media screen and (max-width: 740px) {
+          #{{ id }} {
+            {{ mobile_vars }}
+          }
+      }
+    {% endif %}
+  </style>
+{% endif %}

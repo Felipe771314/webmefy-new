@@ -1,0 +1,40 @@
+{% assign list_id = list_id | default: 'cart:recommendations' %}
+{% if product_handles.size > 0 %}
+  <div class="mini-cart__recommendations">
+    <div class="mini-cart__recommendations-inner">
+      {%- if settings.recommendations_title != blank -%}
+        <p class="mini-cart__recommendations-heading heading heading--small hidden-pocket">
+          {{ settings.recommendations_title | escape }}
+        </p>
+        <p class="mini-cart__recommendations-heading heading heading--xsmall text--subdued hidden-lap-and-up">
+          {{ settings.recommendations_title | escape }}
+        </p>
+      {%- endif -%}
+
+      <div class="scroller">
+        <div class="scroller__inner">
+          <div class="mini-cart__recommendations-list">
+            {%- for product_handle in product_handles -%}
+              {% assign product = all_products[product_handle] %}
+              {% if product.type == 'static' %}
+                {% continue %}
+              {% endif %}
+              {%- render 'product-item',
+                product: product,
+                reduced_content: true,
+                reduced_font_size: true,
+                hide_secondary_image: true,
+                sizes_attribute: '(max-width: 740px) 65px, 92px',
+                position: forloop.index,
+                list: list_id,
+                url_params: url_params,
+                enable_media_in_slider: settings.enable_media_in_slider_reduced,
+                packshot_first_image: packshot_first_image
+              -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

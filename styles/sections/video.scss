@@ -1,0 +1,79 @@
+/* For the boxed variation, the size setting controls the width */
+
+.video-section--boxed {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.video-section--boxed.video-section--small {
+  max-width: 800px;
+}
+
+.video-section--boxed.video-section--medium {
+  max-width: 1000px;
+}
+
+.video-section--boxed.video-section--large {
+  max-width: 1200px;
+}
+
+/* For the full-width, the size setting controls the height */
+
+.video-section--full .video-wrapper {
+  --video-width: 100vw;
+  height: var(--video-height);
+}
+
+.video-section--full.video-section--small {
+  --video-height: 250px;
+}
+
+.video-section--full.video-section--medium {
+  --video-height: 350px;
+}
+
+.video-section--full.video-section--large {
+  --video-height: 450px;
+}
+
+@media screen and (min-width: 741px) and (max-width: 999px) {
+  .video-section--full.video-section--small {
+    --video-height: 300px;
+  }
+
+  .video-section--full.video-section--medium {
+    --video-height: 375px;
+  }
+
+  .video-section--full.video-section--large {
+    --video-height: 425px;
+  }
+}
+
+@media screen and (min-width: 1000px) and (max-width: 1199px) {
+  .video-section--full.video-section--small {
+    --video-height: 400px;
+  }
+
+  .video-section--full.video-section--medium {
+    --video-height: 500px;
+  }
+
+  .video-section--full.video-section--large {
+    --video-height: 570px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .video-section--full.video-section--small {
+    --video-height: 600px;
+  }
+
+  .video-section--full.video-section--medium {
+    --video-height: 700px;
+  }
+
+  .video-section--full.video-section--large {
+    --video-height: 800px;
+  }
+}

@@ -1,0 +1,14 @@
+/**
+ * -------------------------------------------------------------
+ * SHOPIFY SECTION
+ * -------------------------------------------------------------
+ */
+
+.shopify-section {
+  color: rgb(var(--text-color)); /* Allow easy override of per-section color */
+  scroll-margin-top: calc(
+    var(--header-height, 0px) * var(--enable-sticky-header) +
+      var(--announcement-bar-height, 0px) *
+      var(--enable-sticky-announcement-bar)
+  );
+}

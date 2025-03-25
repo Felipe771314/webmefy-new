@@ -1,0 +1,70 @@
+.customer-account-panel {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  padding: 0;
+
+  @media screen and (min-width: 741px) {
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 20px;
+    padding: 0 var(--container-gutter);
+  }
+}
+
+.account-sidebar {
+  flex: 0 0 25%;
+
+  &__container {
+    padding: 30px;
+  }
+
+  &__navigation {
+  }
+
+  &__title-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    text-align: left;
+    margin: 0;
+    margin-left: 10px;
+  }
+
+  &__customer-name,
+  .link-bar__link-item {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  &__customer-name {
+    text-align: left;
+    display: block;
+    font-weight: 300;
+    padding-top: 5px;
+  }
+
+  .link-bar {
+    box-shadow: none;
+  }
+
+  .link-bar__link-item {
+    text-align: left;
+    border-top: 0.0625rem solid #5f5f5f;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .logout {
+    //font-size: 13px;
+  }
+}
+
+.account {
+  &.account--info-block {
+    flex: 0 0 75%;
+  }
+}

@@ -1,0 +1,28 @@
+{%- liquid
+  assign s1 = '} .'
+  assign r1 = '}.'
+  assign s2 = '} '
+  assign r2 = '}'
+  assign s3 = ' }'
+  assign r3 = '}'
+  assign s4 = ';}'
+  assign r4 = '}'
+-%}
+
+{{
+  f_minify-style
+  | strip
+  | strip_newlines
+  | replace: '  ', ''
+  | replace: ': ', ':'
+  | replace: ', ', ','
+  | replace: '; ', ';'
+  | replace: ' {', '{'
+  | replace: '{ ', '{'
+  | replace: '( ', '('
+  | replace: ' )', ')'
+  | replace: s1, r1
+  | replace: s2, r2
+  | replace: s3, r3
+  | replace: s4, r4
+}}

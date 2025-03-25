@@ -1,0 +1,35 @@
+{% render 'vite-tag' with '@modules/snippets/aki-discounts' %}
+
+{%- liquid
+  if customer.id == blank and request.page_type == 'collection' and collection.metafields.aki_discounts.force_login == true
+    assign need_redirect = '/collections/' | append: collection.handle
+  endif
+  assign primaries = shop.published_locales | where: 'primary', true
+  assign preview_mode = false
+  assign secret = 'df2RFqsf'
+  if content_for_header contains 'previewBarInjector.init();'
+    assign preview_mode = true
+  elsif content_for_header contains 'Shopify.designMode'
+    assign preview_mode = true
+  endif
+%}
+
+<aki-discounts
+  url="{{ settings.aki_discounts_url | escape }}"
+  {% if need_redirect != blank %}
+    redirect-to="{{  need_redirect }}"
+  {% endif %}
+  {% if preview_mode %}
+    preview-mode
+    secret="{{ "now" | date: "%Y-%m-%d" | append: "|" |  append: secret |  md5  }}"
+  {% endif %}
+  {%- if settings.enable_aki_functions -%}
+    aki-functions
+  {% endif %}
+  message="  {{ 'aki_discount.vp.force_connection' | t: page: collection.title }}"
+  fetch-timeout="{{ settings.aki_discounts_api_timeout | times: 1000 }}"
+></aki-discounts>
+
+{% if preview_mode %}
+  <aki-preview-notification></aki-preview-notification>
+{% endif %}

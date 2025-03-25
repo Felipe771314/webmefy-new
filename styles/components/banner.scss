@@ -1,0 +1,78 @@
+/**
+ * -------------------------------------------------------------
+ * BANNER
+ * -------------------------------------------------------------
+ */
+
+[dir="ltr"] .banner {
+  text-align: left;
+}
+
+[dir="rtl"] .banner {
+  text-align: right;
+}
+
+.banner {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 12px 16px;
+}
+
+.banner--centered {
+  justify-content: center;
+}
+
+.banner--margin {
+  margin-top: 24px;
+}
+
+[dir="ltr"] .banner__ribbon {
+  margin-right: 10px;
+}
+
+[dir="rtl"] .banner__ribbon {
+  margin-left: 10px;
+}
+
+.banner__content {
+  margin: 0;
+}
+
+.banner--success {
+  --text-color: rgb(var(--success-color));
+
+  background: rgb(var(--success-background));
+  color: rgb(var(--success-color));
+}
+
+.banner--error {
+  --text-color: rgb(var(--error-color));
+  margin-top: 1rem;
+  background: rgb(var(--error-background));
+  color: rgb(var(--error-color));
+}
+
+.banner--warning {
+  --text-color: rgb(var(--warning-color));
+  background: rgb(var(--warning-background));
+  color: rgb(var(--warning-color));
+}
+
+[dir="ltr"] .banner__content ul {
+  padding-left: 10px;
+}
+
+[dir="rtl"] .banner__content ul {
+  padding-right: 10px;
+}
+
+.banner__content ul {
+  list-style-position: inside;
+}
+
+@media screen and (min-width: 741px) {
+  .banner {
+    padding: 13px 18px;
+  }
+}

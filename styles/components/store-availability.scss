@@ -1,0 +1,86 @@
+.store-availability-container:not(:first-child) {
+  margin-top: 8px;
+}
+
+.store-availability-information,
+.store-availability-list__stock {
+  display: flex;
+  align-items: center;
+}
+
+.store-availability-information {
+  align-items: baseline;
+}
+
+.store-availability-information .icon--store-availability-out-of-stock {
+  position: relative;
+  top: 1px;
+}
+
+[dir="ltr"] .store-availability-information-container {
+  margin-left: 8px;
+}
+
+[dir="rtl"] .store-availability-information-container {
+  margin-right: 8px;
+}
+
+.store-availability-information__title,
+.store-availability-information__link {
+  display: block;
+}
+
+.store-availability-information__title {
+  margin-bottom: -2px;
+}
+
+.store-availability-information__link {
+  margin-top: 10px;
+}
+
+/* MODAL */
+
+.store-availabilities-modal__product-title {
+  max-width: 85%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.store-availabilities-modal__variant-title {
+  margin-top: 6px;
+}
+
+.store-availabilities-list {
+  margin-top: 10px;
+}
+
+.store-availability-list__item {
+  padding-top: 24px;
+}
+
+.store-availability-list__item + .store-availability-list__item {
+  border-top: 1px solid rgb(var(--border-color));
+  margin-top: 22px;
+}
+
+.store-availability-list__location {
+  margin-bottom: 2px;
+}
+
+[dir="ltr"] .store-availability-list__stock svg {
+  margin-right: 8px;
+}
+
+[dir="rtl"] .store-availability-list__stock svg {
+  margin-left: 8px;
+}
+
+.store-availability-list__contact {
+  margin-top: 8px;
+}
+
+.store-availability-list__contact p {
+  margin-bottom: 0; /* Remove the margin of the formatted address by Shopify */
+}

@@ -1,0 +1,42 @@
+/**
+ * -------------------------------------------------------------
+ * ANIMATED PLUS
+ * -------------------------------------------------------------
+ */
+
+.animated-plus {
+  position: relative;
+  width: 10px;
+  height: 10px;
+}
+
+.animated-plus::before,
+.animated-plus::after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  background-color: currentColor;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.animated-plus::before {
+  width: 10px;
+  height: 2px;
+  opacity: 1;
+}
+
+.animated-plus::after {
+  width: 2px;
+  height: 10px;
+}
+
+[aria-expanded="true"] > .animated-plus::before {
+  opacity: 0;
+}
+
+[aria-expanded="true"] > .animated-plus::before,
+[aria-expanded="true"] > .animated-plus::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}

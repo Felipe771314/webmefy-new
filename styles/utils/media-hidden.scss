@@ -1,0 +1,75 @@
+.hidden {
+  display: none !important;
+}
+
+@media screen and (max-width: 740px) {
+  .hidden-phone {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 741px) and (max-width: 999px) {
+  .hidden-tablet {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 741px) {
+  .hidden-tablet-and-up {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 999px) {
+  .hidden-pocket {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1000px) and (max-width: 1199px) {
+  .hidden-lap {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .hidden-lap-and-below {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .hidden-lap-and-up {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .hidden-desk {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .hidden-wide {
+    display: none !important;
+  }
+}
+
+@media screen and (pointer: fine) {
+  .hidden-no-touch {
+    display: none !important;
+  }
+}
+
+@media not screen and (pointer: fine) {
+  .hidden-touch {
+    display: none !important;
+  }
+}
+
+@media print {
+  .hidden-print {
+    display: none !important;
+  }
+}

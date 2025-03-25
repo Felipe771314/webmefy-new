@@ -1,0 +1,30 @@
+<nav id="fastlinks-menu" role="navigation">
+  <ul class="header__linklist list--unstyled" role="list">
+    {%- assign menu_1_position = color_menu_1_position | minus: 0 -%}
+
+    {%- for link in menu.links -%}
+      {%- liquid
+        assign link_title_downcase = link.title | strip | downcase
+        assign color1 = false
+        if menu_1_position > 0 and forloop.index == menu_1_position
+          assign color1 = true
+        endif
+        if menu_1_position < 0
+          assign neg_index = forloop.index | minus: menu.links.size | minus: 1
+          if neg_index == menu_1_position
+            assign color1 = true
+          endif
+        endif
+      -%}
+
+      <li class="header__linklist-item" data-item-title="{{ link.title | escape }}">
+        <a
+          class="header__linklist-link link--animated {%  if color1 %} colored-menu-1{% endif %}"
+          href="{{ link.url }}"
+        >
+          {{- link.title -}}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

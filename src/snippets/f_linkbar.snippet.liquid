@@ -1,0 +1,79 @@
+<link-bar class="link-bar link-bar--subcollection-list">
+  {% if section.settings.show_subcollection_img %}
+    {%- for link in subcollection_links -%}
+      {% assign subcollection_links_size = subcollection_links.size %}
+    {%- endfor -%}
+  {% endif %}
+
+  <div class="container">
+    <div class="link-bar__wrapper">
+      {% assign subcollection_title = subcollection_title_data[0] %}
+      {% assign subcollection_title_url = subcollection_title_data[1] %}
+      {% assign subcollection_title_active = subcollection_title_data[2] %}
+      {% unless section.settings.subcollections_hide_root_title or section.settings.section_collection.title == null %}
+        <span class="link-bar__title heading heading--small text--subdued">
+          <a
+            href="{{ subcollection_title_url }}"
+            class="link-bar__link link--animated {% if subcollection_title_active %}text--underlined{% endif %}"
+          >
+            {% if section.settings.subcollections_title != blank %}
+              {{ section.settings.subcollections_title }}
+            {% else %}
+              {{ subcollection_title }}
+            {% endif %}
+          </a>
+        </span>
+      {% endunless %}
+
+      <div class="link-bar__scroller hide-scrollbar">
+        <ul
+          class="link-bar__linklist list--unstyled {% if section.settings.show_subcollection_img %} subcollection-image__wrapper {% endif %} "
+          role="list"
+          {% if section.settings.show_subcollection_img %}
+            {% unless mobile_hide_subcollection_img == true %}
+              style="grid-template-columns: repeat({{ subcollection_links_size }}, 1fr);"
+            {% endunless %}
+          {% endif %}
+        >
+          {%- for link in subcollection_links -%}
+            {% assign link_data = link | split: '||' %}
+            {% assign link_title = link_data[0] %}
+            {% assign link_url = link_data[1] %}
+            {% assign link_img = link_data[2] %}
+            {% assign link_active = link_data[3] %}
+
+            <li class="link-bar__link-item {% if link_active %}link-bar__link-item--selected{% endif %}">
+              {% if section.settings.show_subcollection_img %}
+                <a
+                  href="{{ link_url }}"
+                  class="link-bar__link subcollection-image {% if section.settings.subcollection_img_zoom == false %}image-zoom {% endif %}{% if link_active %}text--underlined{% endif %}"
+                >
+                  {% unless section.settings.subcollections_hide_title %}
+                    <div class="subcollection-image__text-container">
+                      {{- link_title -}}
+                    </div>
+                  {% endunless %}
+                  <div class="subcollection-image__image-container {% if section.settings.mobile_hide_subcollection_img == true %} hidden-phone {% endif %}">
+                    {% if link_img != ' ' %}
+                      {{ link_img }}
+
+                    {% else %}
+                      {{ 'collection-1' | placeholder_svg_tag }}
+                    {% endif %}
+                  </div>
+                </a>
+              {% else %}
+                <a
+                  href="{{ link_url }}"
+                  class="link-bar__link {% if link_style != blank %}{{ link_style }} {% else %}link--animated {% if link_active %}text--underlined{% endif %}{% endif %}"
+                >
+                  {{- link_title -}}
+                </a>
+              {% endif %}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+</link-bar>

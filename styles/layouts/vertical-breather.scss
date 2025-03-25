@@ -1,0 +1,39 @@
+/**
+ * --------------------------------------------------------------------
+ * VERTICAL BREATHER
+ * --------------------------------------------------------------------
+ */
+
+.vertical-breather {
+  padding-top: var(--vertical-breather);
+  padding-bottom: var(--vertical-breather);
+}
+
+.vertical-breather--tight {
+  padding-top: var(--vertical-breather-tight);
+  padding-bottom: var(--vertical-breather-tight);
+}
+
+.vertical-breather--margin {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: var(--vertical-breather);
+  margin-bottom: var(--vertical-breather);
+}
+
+.vertical-breather--margin.vertical-breather--tight {
+  margin-top: var(--vertical-breather-tight);
+  margin-bottom: var(--vertical-breather-tight);
+}
+
+@media screen and (min-width: 741px) {
+  .vertical-breather--extra-tight {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .vertical-breather--margin.vertical-breather--extra-tight {
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
+}

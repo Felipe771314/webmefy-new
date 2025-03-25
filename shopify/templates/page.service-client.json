@@ -1,0 +1,106 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_title": true,
+        "page_width": "medium"
+      }
+    },
+    "61676230-47bb-4cfa-8679-0f5730b2dd39": {
+      "type": "rich-text",
+      "settings": {}
+    },
+    "801d7922-47b4-4a32-b2e8-66d1050bf366": {
+      "type": "rich-text",
+      "settings": {}
+    },
+    "d7ab524f-131d-4440-bca4-2356e706e3b8": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--18018392277278__d7ab524f-131d-4440-bca4-2356e706e3b8-1677226317112ed6ec-0": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/service-client-2.jpg",
+            "tab_label": "Item",
+            "subheading": "",
+            "subheading_tag": "h2",
+            "subheading_size": "",
+            "title": "",
+            "heading_tag": "h3",
+            "heading_size": "h2",
+            "content": "<p>Nous comprenons que le service clientèle est un aspect important de votre expérience d'achat en ligne, c'est pourquoi nous nous engageons à fournir un service personnalisé et de qualité à chacun de nos clients. Que vous ayez des questions concernant notre sélection de chaussures, notre politique de retour ou toute autre demande, notre équipe de service clientèle est à votre disposition pour vous aider à trouver les réponses dont vous avez besoin.</p><p>Nous sommes disponibles par e-mail ou par téléphone pour répondre à toutes vos questions. Si vous avez besoin d'assistance avant ou après votre achat, n'hésitez pas à nous contacter. Nous sommes là pour vous aider.</p>",
+            "button_text": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--18018392277278__d7ab524f-131d-4440-bca4-2356e706e3b8-1677226317112ed6ec-0"
+      ],
+      "settings": {
+        "reveal_on_scroll": true,
+        "background_type": "full_width",
+        "background_overlap": "image",
+        "image_position": "left",
+        "block_space": "section--flush",
+        "text_alignment": "left",
+        "cycle_speed": 8,
+        "accent_background": "{{ shop.brand.colors.primary[0].background }}",
+        "text_color": "rgba(0,0,0,0)",
+        "button_background": "rgba(0,0,0,0)",
+        "button_text_color": "rgba(0,0,0,0)"
+      }
+    },
+    "0a2fdb05-a93c-4937-8e7a-bad588778bcb": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--18018392277278__0a2fdb05-a93c-4937-8e7a-bad588778bcb-1677226317112ed6ec-0": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/service-client.jpg",
+            "tab_label": "Item",
+            "subheading": "",
+            "subheading_tag": "h2",
+            "subheading_size": "",
+            "title": "",
+            "heading_tag": "h3",
+            "heading_size": "h2",
+            "content": "<p>De plus, nous proposons des retours gratuits pour toute commande effectuée sur notre boutique en ligne. Si vous n'êtes pas entièrement satisfait de votre achat, vous pouvez nous renvoyer vos chaussures dans leur état d'origine et nous vous rembourserons intégralement. Notre objectif est de vous offrir une expérience d'achat en ligne agréable et sans tracas.</p><p>Enfin, nous offrons la livraison standard gratuite en France métropolitaine pour toute commande supérieure à 50 €. Nous travaillons avec des transporteurs fiables pour vous livrer vos chaussures rapidement et en toute sécurité.</p>",
+            "button_text": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--18018392277278__0a2fdb05-a93c-4937-8e7a-bad588778bcb-1677226317112ed6ec-0"
+      ],
+      "settings": {
+        "reveal_on_scroll": true,
+        "background_type": "full_width",
+        "background_overlap": "image",
+        "image_position": "right",
+        "block_space": "section--flush",
+        "text_alignment": "left",
+        "cycle_speed": 8,
+        "accent_background": "{{ shop.brand.colors.secondary[0].background }}",
+        "text_color": "rgba(0,0,0,0)",
+        "button_background": "rgba(0,0,0,0)",
+        "button_text_color": "rgba(0,0,0,0)"
+      }
+    },
+    "1d0fe2fb-d029-4dbb-8974-c600ad807435": {
+      "type": "rich-text",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "61676230-47bb-4cfa-8679-0f5730b2dd39",
+    "801d7922-47b4-4a32-b2e8-66d1050bf366",
+    "d7ab524f-131d-4440-bca4-2356e706e3b8",
+    "0a2fdb05-a93c-4937-8e7a-bad588778bcb",
+    "1d0fe2fb-d029-4dbb-8974-c600ad807435"
+  ]
+}

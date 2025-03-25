@@ -1,0 +1,49 @@
+[dir="ltr"] .cookie-bar {
+  right: var(--container-gutter);
+}
+[dir="rtl"] .cookie-bar {
+  left: var(--container-gutter);
+}
+.cookie-bar {
+  display: block;
+  position: fixed;
+  width: calc(100% - var(--container-gutter) * 2);
+  bottom: var(--container-gutter);
+  padding: 20px;
+  max-width: 400px;
+  border: 1px solid rgb(var(--root-border-color));
+  background: rgb(var(--root-background));
+  z-index: 2;
+  transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.cookie-bar[hidden] {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.cookie-bar__actions {
+  margin-top: 18px;
+}
+
+[dir="ltr"] .cookie-bar__actions .button:last-child {
+  margin-left: 4px;
+}
+
+[dir="rtl"] .cookie-bar__actions .button:last-child {
+  margin-right: 4px;
+}
+
+@media screen and (max-width: 740px) {
+  @supports (padding: max(0px)) {
+    .cookie-bar {
+      bottom: max(24px, env(safe-area-inset-bottom, 0px) + 24px);
+    }
+  }
+}
+
+@media screen and (min-width: 741px) {
+  .cookie-bar {
+    padding: 30px;
+  }
+}

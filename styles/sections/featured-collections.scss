@@ -1,0 +1,15 @@
+.shopify-section--featured-collections {
+  .oz-section__inner {
+    &.container--flush,
+    &:not(.container) {
+      .featured-collections {
+        @media screen and (max-width: 999px) {
+          .scroller {
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}

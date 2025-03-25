@@ -1,0 +1,76 @@
+<div class="account account--informations account--info-block">
+  <div class="container">
+    <div class="page-header">
+      <div class="page-header__text-wrapper text-container">
+        <h1 class="heading h4">
+          {{ 'customer.information.title' | t }}
+        </h1>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="account__block">
+        {% for tag in customer.tags %}
+          {% if tag contains 'prefix:' %}
+            <p class="AccountInformation__Row">
+              <span class="AccountInformation__Col">{{ 'customer.information.fields.prefix' | t }}:</span>
+              <span class="AccountInformation__Col">{{ tag | split: ':' | last | capitalize }}</span>
+            </p>
+          {% endif %}
+        {% endfor %}
+        {% if customer.last_name %}
+          <p class="AccountInformation__Row">
+            <span class="AccountInformation__Col">{{ 'customer.information.fields.first_name' | t }}:</span>
+            <span class="AccountInformation__Col">{{ customer.first_name }}</span>
+          </p>
+        {% endif %}
+        {% if customer.first_name %}
+          <p class="AccountInformation__Row">
+            <span class="AccountInformation__Col">{{ 'customer.information.fields.last_name' | t }}:</span>
+            <span class="AccountInformation__Col">{{ customer.last_name }}</span>
+          </p>
+        {% endif %}
+        {% if customer.email %}
+          <p class="AccountInformation__Row">
+            <span class="AccountInformation__Col">{{ 'customer.information.fields.email' | t }}:</span>
+            <span class="AccountInformation__Col">{{ customer.email }}</span>
+          </p>
+        {% endif %}
+        {% for tag in customer.tags %}
+          {% if tag contains 'phone:' %}
+            <p class="AccountInformation__Row">
+              <span class="AccountInformation__Col">{{ 'customer.information.fields.phone' | t }}:</span>
+              <span class="AccountInformation__Col">{{ tag | split: ':' | last | capitalize }}</span>
+            </p>
+          {% endif %}
+        {% endfor %}
+
+        {%- if customer.addresses_count > 0 -%}
+          <p class="AccountInformation__Row">
+            <span class="AccountInformation__Col">{{ 'customer.information.fields.address' | t }}:</span>
+            <span class="AccountInformation__Col">
+              {{- customer.default_address | format_address | replace: '<p>', '' | replace: '</p>', '' -}}
+            </span>
+          </p>
+        {%- endif -%}
+      </div>
+      <div class="page-header page-header--small">
+        <div class="page-header__text-wrapper text-container">
+          <h3 class="heading h4">
+            {{ 'customer.reset_password.title' | t }}
+          </h3>
+        </div>
+      </div>
+      <div class="account__block">
+        <p>{{ 'customer.reset_password.subtitle' | t }}</p>
+        <p>{{ 'customer.reset_password.description' | t }}</p>
+
+        <a
+          class="button button--small button--medium button--primary"
+          href="{{ routes.account_login_url }}#recover"
+        >
+          {{- 'customer.reset_password.btn' | t -}}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

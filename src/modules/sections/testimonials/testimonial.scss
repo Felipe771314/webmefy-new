@@ -1,0 +1,92 @@
+.testimonial-list {
+  display: block;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.testimonial__author,
+.testimonial-list__nav {
+  padding: 0 24px; /* The blockquote has a natural spacing that we have to add on other elements */
+}
+
+.testimonial-list__wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.testimonial {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  order: 0;
+  will-change: transform;
+}
+
+.testimonial[hidden] {
+  visibility: hidden;
+  order: 1;
+}
+
+.testimonial:not(:only-child) {
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.testimonial__content {
+  margin: 0;
+}
+
+.testimonial__author {
+  margin-top: 32px;
+}
+
+.testimonial-list__nav {
+  margin-top: 40px;
+}
+
+@media screen and (min-width: 741px) {
+  [dir="ltr"] .testimonial__author,
+  [dir="ltr"] .testimonial-list__nav {
+    padding: 0 0 0 49px;
+  }
+  [dir="rtl"] .testimonial__author,
+  [dir="rtl"] .testimonial-list__nav {
+    padding: 0 49px 0 0;
+  }
+  .testimonial__author,
+  .testimonial-list__nav {
+    /* The blockquote has a natural spacing that we have to add on other elements */
+    margin-top: 32px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .testimonial-list {
+    max-width: 690px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .testimonial-list {
+    max-width: 875px;
+  }
+
+  [dir="ltr"] .testimonial__author,
+  [dir="ltr"] .testimonial-list__nav {
+    padding: 0 0 0 69px;
+  }
+
+  [dir="rtl"] .testimonial__author,
+  [dir="rtl"] .testimonial-list__nav {
+    padding: 0 69px 0 0;
+  }
+
+  .testimonial__author,
+  .testimonial-list__nav {
+    /* The blockquote has a natural spacing that we have to add on other elements */
+    margin-top: 40px;
+  }
+}

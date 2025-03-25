@@ -1,0 +1,36 @@
+.product-text-block {
+  .richtext-content {
+    margin: 0;
+  }
+}
+.text-block-popover {
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+
+  &__info-trigger {
+    color: rgb(var(--text-color));
+    &.bubble-count {
+      background-color: rgb(var(--secondary-background));
+    }
+  }
+
+  &__hover-content {
+    min-width: 130px;
+    border-color: rgb(var(--text-color));
+
+    .popover__content {
+      @media screen and (min-width: 741px) {
+        padding: 8px;
+      }
+
+      .popover__title {
+        white-space: nowrap;
+        text-align: left;
+        justify-content: left;
+      }
+    }
+  }
+}

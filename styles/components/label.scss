@@ -1,0 +1,145 @@
+/**
+ * --------------------------------------------------------------------
+ * LABEL
+ * --------------------------------------------------------------------
+ */
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 5px;
+  vertical-align: top;
+  font-family: var(--text-font-family);
+  font-style: var(--text-font-style);
+  font-weight: var(--text-font-bold-weight);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: min(var(--block-border-radius), 2px);
+}
+
+.label--highlight {
+  background: rgb(var(--product-on-sale-accent));
+  color: rgb(255, 255, 255);
+  white-space: nowrap;
+}
+
+.label--subdued {
+  background: rgb(var(--product-sold-out-accent));
+  color: rgb(255, 255, 255);
+}
+
+.label--custom {
+  background: rgb(var(--product-custom-label-background));
+  color: rgb(var(--product-custom-label-text-color));
+}
+
+.label--custom2 {
+  background: rgb(var(--product-custom-label-2-background));
+  color: rgb(var(--product-custom-label-2-text-color));
+}
+
+.label--primary {
+  background: rgb(var(--product-label-primary-background));
+  color: rgb(var(--product-label-primary-text-color));
+}
+
+.label--secondary {
+  background: rgb(var(--product-label-secondary-background));
+  color: rgb(var(--product-label-secondary-text-color));
+}
+
+.label--ternary {
+  background: rgb(var(--product-label-ternary-background));
+  color: rgb(var(--product-label-ternary-text-color));
+}
+
+.label--primary-variant {
+  background: rgb(var(--product-label-primary-variant-background));
+  color: rgb(var(--product-label-primary-variant-text-color));
+}
+
+.label--secondary-variant {
+  background: rgb(var(--product-label-secondary-variant-background));
+  color: rgb(var(--product-label-secondary-variant-text-color));
+}
+
+.label--ternary-variant {
+  background: rgb(var(--product-label-ternary-variant-background));
+  color: rgb(var(--product-label-ternary-variant-text-color));
+}
+
+.label-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.label-list__custom {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 5px;
+
+  &--inline {
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .label {
+    pointer-events: none;
+
+    &.is-link {
+      pointer-events: initial;
+    }
+  }
+}
+
+.label-list:not(.label-list--horizontal) .label:not(:last-child) {
+  margin-bottom: 4px;
+}
+
+.label-list--horizontal {
+  flex-direction: row;
+}
+
+[dir="ltr"] .label-list--horizontal .label:not(:last-child) {
+  margin-right: 4px;
+}
+
+[dir="rtl"] .label-list--horizontal .label:not(:last-child) {
+  margin-left: 4px;
+}
+
+/* MENU LABEL */
+.label-menu {
+  margin-right: auto;
+  position: relative;
+  top: -4px;
+}
+
+.label-menu--primary {
+  color: var(--menu-label-primary-text-color);
+}
+.label-menu--secondary {
+  color: var(--menu-label-secondary-text-color);
+}
+.label-menu--ternary {
+  color: var(--menu-label-ternary-text-color);
+}
+
+@media screen and (min-width: 741px) {
+  .label {
+    font-size: 12px;
+  }
+}
+
+.label-image--before img {
+  margin-right: 5px;
+}
+
+.label-image--after img {
+  margin-left: 5px;
+}

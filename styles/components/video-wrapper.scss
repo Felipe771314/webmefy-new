@@ -1,0 +1,224 @@
+/**
+ * --------------------------------------------------------------------
+ * VIDEO WRAPPER
+ * --------------------------------------------------------------------
+ */
+
+.video-wrapper {
+  display: block;
+  position: relative;
+}
+
+.video-wrapper::after {
+  content: "";
+  display: block;
+  padding-bottom: 56.25%; /* 16:9 */
+  pointer-events: none;
+}
+
+[dir="ltr"] .video-wrapper iframe {
+  left: 0;
+}
+
+[dir="rtl"] .video-wrapper iframe {
+  right: 0;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The cover variation is used when we use an iframe such as YouTube and Vimeo, and want the video to covers the whole div */
+
+.video-wrapper--cover {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.video-wrapper--cover::after {
+  display: none;
+}
+
+.video-wrapper--cover iframe {
+  position: absolute;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  width: var(--video-width, 100%);
+  height: var(--video-height, 100%);
+  transform: translate(-50%, -50%);
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .video-wrapper--cover iframe {
+    --video-height: 56.25vw;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .video-wrapper--cover iframe {
+    --video-width: 177.78vh;
+    height: calc(var(--video-height) + 200px);
+  }
+}
+
+/* Inert variation is useful for background video */
+.video-wrapper--inert iframe {
+  pointer-events: none;
+}
+
+/* For native one we use a different thing */
+.video-wrapper--native {
+  aspect-ratio: var(--aspect-ratio, auto);
+}
+
+.video-wrapper--native video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-wrapper--native::after {
+  display: none;
+}
+
+@supports not (aspect-ratio: 1) {
+  .video-wrapper--native video {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .video-wrapper--native::after {
+    display: block;
+    padding-bottom: calc(100% / var(--aspect-ratio, var(--media-aspect-ratio)));
+  }
+}
+
+/* A cover image can be optionally added before the iframe / video tag */
+
+.video-wrapper__poster {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+
+  &--text-position {
+    &-top {
+      align-items: flex-start;
+    }
+
+    &-middle {
+      align-items: center;
+    }
+
+    &-bottom {
+      align-items: flex-end;
+    }
+  }
+
+  &--text-alignment {
+    &-left {
+      justify-content: flex-start;
+    }
+
+    &-center {
+      justify-content: center;
+    }
+
+    &-right {
+      justify-content: flex-end;
+    }
+  }
+}
+
+.video-wrapper[autoplay] .video-wrapper__poster {
+  cursor: default;
+}
+
+// Fix play button position
+
+.video-wrapper__poster .video-wrapper__poster-content {
+  position: absolute;
+}
+// End fix
+
+.video-wrapper__poster,
+.video-wrapper iframe {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+}
+
+.video-wrapper__poster-content {
+  position: absolute;
+
+  &.content-box {
+    margin: 20px;
+  }
+}
+
+.video-wrapper__poster-image {
+  object-fit: cover;
+  object-position: center;
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes playButtonRipple {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--play-button-background)),
+      0 0 0 0 rgb(var(--play-button-background));
+  }
+
+  100% {
+    box-shadow: 0 0 0 9px rgba(var(--play-button-background), 0),
+      0 0 0 18px rgba(var(--play-button-background), 0);
+  }
+}
+
+.video-wrapper__play-button {
+  border-radius: 100%;
+}
+
+.video-wrapper__play-button--ripple {
+  animation: playButtonRipple 1400ms ease-in-out infinite;
+}
+
+.video-wrapper__play-button:not(:only-child) {
+  margin-bottom: 32px;
+}
+
+@media screen and (min-width: 1000px) {
+  @keyframes playButtonRipple {
+    0% {
+      box-shadow: 0 0 0 0 rgb(var(--play-button-background)),
+        0 0 0 0 rgb(var(--play-button-background));
+    }
+
+    100% {
+      box-shadow: 0 0 0 17px rgba(var(--play-button-background), 0),
+        0 0 0 32px rgba(var(--play-button-background), 0);
+    }
+  }
+
+  .video-wrapper__play-button:not(:only-child) {
+    margin-bottom: 40px;
+  }
+
+  .video-wrapper__play-button--large svg {
+    width: 104px;
+    height: 104px;
+  }
+}

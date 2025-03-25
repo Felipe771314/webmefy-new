@@ -1,0 +1,18 @@
+/**
+ * --------------------------------------------------------------------
+ * ACCESSIBILITY
+ * --------------------------------------------------------------------
+ */
+
+.skip-to-content:focus {
+  clip: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+  color: rgb(var(--text-color));
+  background-color: rgb(var(--background));
+  padding: 10px;
+  opacity: 1;
+  z-index: 10000;
+  transition: none;
+}

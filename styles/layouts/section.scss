@@ -1,0 +1,206 @@
+/**
+ * -------------------------------------------------------------
+ * SECTION
+ * -------------------------------------------------------------
+ */
+
+.section {
+  display: block;
+  margin: var(--vertical-breather) 0;
+
+  @media screen and (max-width: 740px) {
+    &.custom-vertical-margin--mobile {
+      margin-top: var(--section-custom-margin-top);
+      margin-bottom: var(--section-custom-margin-bottom);
+    }
+
+    &__inner.custom-vertical-padding--mobile {
+      padding-top: var(--section-custom-padding-top);
+      padding-bottom: var(--section-custom-padding-bottom);
+    }
+  }
+
+  @media screen and (min-width: 741px) {
+    &.custom-vertical-margin {
+      margin-top: var(--section-custom-margin-top);
+      margin-bottom: var(--section-custom-margin-bottom);
+    }
+
+    &__inner.custom-vertical-padding {
+      padding-top: var(--section-custom-padding-top);
+      padding-bottom: var(--section-custom-padding-bottom);
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    &--header-position-aside {
+      .section__inner {
+        display: flex;
+
+        .section__header {
+          flex: 0 0 var(--section-header-width, 25%);
+          margin-bottom: 0;
+          align-self: var(--section-header-vertical-align, center);
+        }
+
+        > :last-child {
+          flex: 1 1 auto;
+        }
+      }
+    }
+
+    &--header-position-aside-left {
+      .section__inner {
+        .section__header {
+          margin-right: var(--section-header-margin, 0);
+        }
+      }
+    }
+
+    &--header-position-aside-right {
+      .section__inner {
+        flex-direction: row-reverse;
+
+        .section__header {
+          margin-left: var(--section-header-margin, 0);
+        }
+      }
+    }
+  }
+}
+
+.section--tight {
+  margin-top: var(--vertical-breather-tight);
+  margin-bottom: var(--vertical-breather-tight);
+}
+
+.section:empty {
+  display: none;
+}
+
+/* This class is actually not really useful as you could just remove the "section" class to remove the padding. However
+   for clarity, I preferred to assign the class "section" to every section, and then add an extra class conditionally to
+   flush, as it makes it clear in the code that it is a section */
+.section--flush {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.section__color-wrapper {
+  display: flow-root; /* Modern clearfix */
+  background: rgb(var(--section-background, var(--background)));
+}
+
+.section__color-gradiant-wrapper {
+  display: flow-root; /* Modern clearfix */
+  background: var(--section-background-gradiant);
+}
+
+.section__bg-image-wrapper {
+  display: flow-root; /* Modern clearfix */
+  background-image: var(--section-background-image);
+  background-repeat: var(--section-background-repeat, no-repeat);
+  background-size: var(--section-background-size, auto);
+}
+
+.section__color-wrapper--boxed {
+  border-radius: var(--block-border-radius);
+}
+
+.section__header {
+  max-width: 1000px;
+  margin-bottom: min(32px, var(--vertical-breather));
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.section__header:only-child {
+  margin-bottom: 0;
+}
+
+.section__header--tight {
+  max-width: 800px;
+}
+
+[dir="ltr"] .section__header--left {
+  text-align: left;
+}
+
+[dir="rtl"] .section__header--left {
+  text-align: right;
+}
+
+.section__header--left {
+  margin-left: 0;
+}
+
+[dir="ltr"] .section__header--right {
+  text-align: right;
+}
+
+[dir="rtl"] .section__header--right {
+  text-align: left;
+}
+
+.section__header--right {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 741px) {
+  [dir="ltr"] .section__header--mobile-left {
+    text-align: left;
+  }
+
+  [dir="rtl"] .section__header--mobile-left {
+    text-align: right;
+  }
+
+  .section__header--mobile-left {
+    margin-left: 0;
+  }
+
+  [dir="ltr"] .section__header--mobile-right {
+    text-align: right;
+  }
+
+  [dir="rtl"] .section__header--mobile-right {
+    text-align: left;
+  }
+
+  .section__header--mobile-right {
+    margin-right: 0;
+  }
+
+  [dir="rtl"] .section__header--mobile-center {
+    text-align: center;
+  }
+  [dir="ltr"] .section__header--mobile-center {
+    text-align: center;
+  }
+}
+
+.section__footer {
+  margin-top: 32px;
+  text-align: center;
+}
+
+@media screen and (min-width: 741px) {
+  .section__header {
+    margin-bottom: min(40px, var(--vertical-breather));
+  }
+
+  .section__footer {
+    margin-top: min(40px, var(--vertical-breather));
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .section__header {
+    margin-bottom: min(48px, var(--vertical-breather));
+  }
+
+  .section__footer {
+    margin-top: min(48px, var(--vertical-breather));
+  }
+}

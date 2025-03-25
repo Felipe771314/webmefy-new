@@ -1,0 +1,49 @@
+/**
+ * --------------------------------------------------------------------
+ * QUANTITY SELECTOR
+ * --------------------------------------------------------------------
+ */
+
+.quantity-selector {
+  --quantity-selector-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid rgb(var(--border-color));
+  border-radius: var(--button-border-radius);
+  vertical-align: middle;
+}
+
+.quantity-selector--fixed {
+  min-width: 80px;
+  text-align: center;
+  justify-content: center;
+  background-color: rgb(var(--border-color));
+}
+
+.quantity-selector__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--quantity-selector-height);
+  width: var(--quantity-selector-height);
+}
+
+.quantity-selector__input {
+  padding: 0 10px;
+  height: var(--quantity-selector-height);
+  line-height: var(--quantity-selector-height);
+  text-align: center;
+  background: transparent;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.quantity-selector--small {
+  --quantity-selector-height: 28px;
+}
+
+.quantity-selector--small .quantity-selector__input {
+  padding: 0 2px;
+}

@@ -1,0 +1,36 @@
+/**
+ * -------------------------------------------------------------
+ * PROGRESS BAR
+ * -------------------------------------------------------------
+ */
+
+.progress-bar {
+  display: block;
+  position: relative;
+  height: 2px;
+  background: rgba(var(--text-color), 0.15);
+}
+
+[dir="ltr"] .progress-bar::before {
+  left: 0;
+}
+
+[dir="rtl"] .progress-bar::before {
+  right: 0;
+}
+
+.progress-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: calc(100% / var(--divider));
+  height: 100%;
+  transform: translateX(
+    calc(
+      var(--transform-logical-flip) * var(--transform, 0%) *
+        (var(--divider) - 1)
+    )
+  );
+  transform-origin: var(--transform-origin-start);
+  background: rgb(var(--text-color));
+}

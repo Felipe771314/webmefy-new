@@ -1,0 +1,60 @@
+/**
+ * --------------------------------------------------------------------
+ * MOBILE TOOLBAR
+ *
+ * Those are used on collection page and account pages to create links
+ * to sub-section
+ * --------------------------------------------------------------------
+ */
+
+.mobile-toolbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(
+    var(--enable-sticky-header) * var(--header-height, 0px) +
+      var(--announcement-bar-height, 0px) *
+      var(--enable-sticky-announcement-bar)
+  );
+  display: flex;
+  align-items: center;
+  visibility: visible;
+  z-index: 3;
+  transition: margin-top 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.mobile-toolbar.is-collapsed {
+  margin-top: -48px;
+  visibility: hidden;
+}
+
+.mobile-toolbar--fixed {
+  position: relative;
+  top: 0;
+}
+
+.mobile-toolbar__item {
+  display: flex;
+  flex: 1 0 0;
+  justify-content: center;
+  align-items: center;
+  padding: 11px;
+  border-top: 1px solid rgb(var(--border-color));
+  border-bottom: 1px solid rgb(var(--border-color));
+  background: rgb(var(--background));
+}
+
+[dir="ltr"] .mobile-toolbar__item + .mobile-toolbar__item {
+  border-left: 1px solid rgb(var(--border-color));
+}
+
+[dir="rtl"] .mobile-toolbar__item + .mobile-toolbar__item {
+  border-right: 1px solid rgb(var(--border-color));
+}
+
+[dir="ltr"] .mobile-toolbar__item .icon--chevron {
+  margin-left: 10px;
+}
+
+[dir="rtl"] .mobile-toolbar__item .icon--chevron {
+  margin-right: 10px;
+}

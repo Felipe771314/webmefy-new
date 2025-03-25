@@ -1,0 +1,281 @@
+/**
+ * -------------------------------------------------------------
+ * FACETING (used on collection and search page)
+ * -------------------------------------------------------------
+ */
+.product-facet__container {
+  &.has-sticky-filter-bar {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &:not(.has-sticky-filter-bar) {
+    .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+.product-facet {
+  display: block;
+  margin-top: 24px;
+  margin-bottom: 48px;
+}
+
+.product-facet__filters-header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgb(var(--border-color));
+}
+
+.product-facet__filters:not(.drawer) {
+  display: block;
+  padding-bottom: 24px; /* Allows to add a bit of spacing if too much links */
+}
+
+.product-facet__active-list {
+  margin-top: -6px;
+  margin-bottom: 18px;
+}
+
+.product-facet__filter-item + .product-facet__filter-item {
+  border-top: 1px solid rgb(var(--border-color));
+}
+
+[dir="ltr"] .product-facet__filter-item .collapsible__content {
+  padding-left: 8px;
+}
+
+[dir="rtl"] .product-facet__filter-item .collapsible__content {
+  padding-right: 8px;
+}
+
+.product-facet__filter-item:not(:last-child) .collapsible__content {
+  margin-bottom: 25px;
+}
+
+.product-facet__submit {
+  margin-top: 40px;
+}
+
+[dir="ltr"] .product-facet__active-count {
+  margin-left: 8px;
+}
+
+[dir="rtl"] .product-facet__active-count {
+  margin-right: 8px;
+}
+
+[dir="ltr"] .product-facet__sort-by-title {
+  padding-right: 7px;
+}
+
+[dir="rtl"] .product-facet__sort-by-title {
+  padding-left: 7px;
+}
+
+.product-facet__product-list {
+  margin-top: calc(var(--container-gutter) / 2);
+}
+
+/* Meta bar */
+
+.product-facet__meta-bar {
+  display: block;
+  margin-bottom: 16px;
+
+  &-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-active-filters {
+    margin-left: 20px;
+  }
+
+  @media screen and (min-width: 1000px) {
+    &.is-sticky {
+      position: sticky;
+      z-index: 3;
+      top: calc(
+        var(--header-height, 0px) * var(--enable-sticky-header) +
+          var(--announcement-bar-height, 0px) *
+          var(--enable-sticky-announcement-bar)
+      );
+      padding: 20px 0;
+
+      &.is-pinned {
+        color: rgb(var(--pinned-text-color));
+        background-color: rgb(var(--pinned-background));
+        border-bottom: 1px solid rgb(var(--border-color));
+      }
+    }
+  }
+}
+
+.product-facet__meta-bar-item {
+  display: flex;
+  align-items: center;
+}
+
+[dir="ltr"] .product-facet__meta-bar-item .icon--filters {
+  margin-right: 13px;
+}
+
+[dir="rtl"] .product-facet__meta-bar-item .icon--filters {
+  margin-left: 13px;
+}
+
+/* Toolbar */
+
+[dir="ltr"] .mobile-toolbar__item .icon--filters {
+  margin-right: 13px;
+}
+
+[dir="rtl"] .mobile-toolbar__item .icon--filters {
+  margin-left: 13px;
+}
+
+@media screen and (max-width: 740px) {
+  .product-facet__active-list {
+    margin-left: -18px;
+    margin-right: -18px;
+  }
+}
+
+@media screen and (max-width: 999px) {
+  .product-facet__filters:not(.drawer) {
+    display: none; /* By default the filters is hidden until dynamically transformed to a modal */
+  }
+
+  .mobile-toolbar__item--filters.has-filters
+    .mobile-toolbar__item-label::after {
+    position: absolute;
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    border-radius: 6px;
+  }
+}
+
+@media screen and (min-width: 741px) {
+  .product-facet {
+    margin-top: 40px;
+    margin-bottom: 80px;
+  }
+
+  .product-facet__active-list {
+    margin-top: 18px;
+    margin-bottom: 0;
+  }
+
+  .drawer .product-facet__active-list {
+    margin-top: 26px; /* Margin is bigger when it is inside the drawer to keep visual rhythm consistency */
+  }
+
+  .product-facet__meta-bar {
+    margin-bottom: 24px;
+  }
+
+  [dir="ltr"] .product-facet__meta-bar-item--filter {
+    margin-right: 44px;
+  }
+
+  [dir="rtl"] .product-facet__meta-bar-item--filter {
+    margin-left: 44px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .product-facet {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  [dir="ltr"] .product-facet__aside {
+    margin-right: 40px;
+  }
+
+  [dir="rtl"] .product-facet__aside {
+    margin-left: 40px;
+  }
+
+  .product-facet__aside {
+    flex: none;
+    width: 230px;
+  }
+
+  .product-facet__aside-inner {
+    position: -webkit-sticky;
+    position: sticky;
+    display: block;
+    top: calc(
+      var(--header-height, 0px) * var(--enable-sticky-header) +
+        var(--announcement-bar-height, 0px) *
+        var(--enable-sticky-announcement-bar) + 24px
+    );
+  }
+
+  .product-facet__main {
+    flex: 1 0 0;
+  }
+
+  .product-facet__filters:not(.drawer) .drawer__content {
+    overflow: visible;
+    padding: 0;
+  }
+
+  .product-facet__meta-bar {
+    justify-content: flex-start;
+  }
+
+  [dir="ltr"] .product-facet__meta-bar-item:last-child {
+    margin-left: auto;
+  }
+
+  [dir="rtl"] .product-facet__meta-bar-item:last-child {
+    margin-right: auto;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .product-facet__aside {
+    width: 265px;
+  }
+}
+/** NOTE: Collection related styles are very scarce, as most of them are abstracted in the "product-facet" that is used on search page as well */
+
+/* Promotion block override for the collection page */
+
+.product-facet__main .promotion-block-list {
+  --promotion-block-gutter: 24px;
+}
+
+.product-facet__main .promotion-block-list--top {
+  margin-bottom: 20px;
+}
+
+.product-facet__main .promotion-block-list--bottom {
+  margin-top: 36px;
+}
+
+@media screen and (max-width: 740px) {
+  /* On mobile only we want the promotion block and filters closer to the edge so that they align with products */
+  .product-facet__main .promotion-block-list {
+    --promotion-block-gutter: 12px;
+    margin-left: calc(
+      -1 * (var(--container-gutter) - var(--promotion-block-gutter) / 2)
+    );
+    margin-right: calc(
+      -1 * (var(--container-gutter) - var(--promotion-block-gutter) / 2)
+    );
+  }
+}
+
+@media screen and (min-width: 741px) {
+  .product-facet__main .promotion-block-list--bottom {
+    margin-top: 60px;
+  }
+}

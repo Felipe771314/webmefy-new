@@ -1,0 +1,62 @@
+/**
+ * -------------------------------------------------------------
+ * EMPTY STATE
+ * -------------------------------------------------------------
+ */
+
+.empty-state {
+  position: relative;
+  text-align: center;
+  margin: 100px 0;
+}
+
+.empty-state--bottom-only {
+  margin-top: 24px;
+}
+
+[dir="ltr"] .empty-state__background-text {
+  left: 0;
+}
+
+[dir="rtl"] .empty-state__background-text {
+  right: 0;
+}
+
+.empty-state__background-text {
+  position: absolute;
+  width: 100%;
+  margin-top: -20px;
+  text-align: center;
+  font-size: 120px;
+  opacity: 0.05;
+  font-weight: bold;
+  line-height: 0;
+}
+
+@media screen and (min-width: 741px) {
+  .empty-state {
+    margin-top: 150px;
+    margin-bottom: 150px;
+  }
+
+  .empty-state--bottom-only {
+    margin-top: 50px;
+  }
+
+  .empty-state__background-text {
+    position: absolute;
+    margin-top: -35px;
+    font-size: 200px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .empty-state {
+    margin-top: 225px;
+    margin-bottom: 225px;
+  }
+
+  .empty-state--bottom-only {
+    margin-top: 50px;
+  }
+}

@@ -1,0 +1,22 @@
+/**
+ * -------------------------------------------------------------
+ * PAYMENT METHODS
+ * -------------------------------------------------------------
+ */
+
+.payment-methods-list {
+  display: grid;
+  grid-gap: 8px;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, 38px);
+}
+
+.payment-methods-list--center {
+  justify-content: center;
+}
+
+@media screen and (min-width: 741px) {
+  .payment-methods-list--auto {
+    grid-auto-flow: column;
+  }
+}

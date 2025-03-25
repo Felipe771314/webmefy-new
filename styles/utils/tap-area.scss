@@ -1,0 +1,53 @@
+/**
+ * -------------------------------------------------------------
+ * TAP AREA (this allows to increase the tap area on mobile)
+ * -------------------------------------------------------------
+ */
+
+.tap-area {
+  position: relative;
+}
+
+[dir="ltr"] .tap-area::before {
+  right: -6px;
+}
+
+[dir="rtl"] .tap-area::before {
+  left: -6px;
+}
+
+[dir="ltr"] .tap-area::before {
+  left: -6px;
+}
+
+[dir="rtl"] .tap-area::before {
+  right: -6px;
+}
+
+.tap-area::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+}
+
+[dir="ltr"] .tap-area--large::before {
+  right: -10px;
+}
+
+[dir="rtl"] .tap-area--large::before {
+  left: -10px;
+}
+
+[dir="ltr"] .tap-area--large::before {
+  left: -10px;
+}
+
+[dir="rtl"] .tap-area--large::before {
+  right: -10px;
+}
+
+.tap-area--large::before {
+  top: -10px;
+  bottom: -10px;
+}

@@ -1,0 +1,45 @@
+{
+  "sections": {
+    "collection-banner": {
+      "type": "collection-banner",
+      "settings": {
+        "show_collection_image": true,
+        "show_collection_title": true,
+        "show_collection_description": true,
+        "truncate_collection_description": "all",
+        "collection_description_max_length": 250,
+        "section_height": "small",
+        "text_width": "medium",
+        "image_text_color": "#ffffff",
+        "image_overlay_color": "#000000",
+        "image_overlay_opacity": 30,
+        "breadcrumb_show_home_link": false,
+        "show_subcollections": true,
+        "subcollections_hide_title": true,
+        "subcollections_title": ""
+      }
+    },
+    "10d5f50a-82fe-4a01-94b8-1c7fb1bd346f": {
+      "type": "main-advanced-collection",
+      "settings": {
+        "container_size": "default",
+        "products_per_page": 50,
+        "pagination_type": "infinite_scroll",
+        "grid_layout": "fixed-4-4/2",
+        "mobile_products_per_row": "auto",
+        "show_sort_by": true,
+        "override_sort_by_options": "manual\nbest-selling\nprice-ascending\nprice-descending",
+        "show_filters": true,
+        "show_filter_group_name": false,
+        "show_available_variants_only": false,
+        "show_color_swatch": true,
+        "filter_groups_behavior": "none",
+        "filter_position": "drawer",
+        "filter_bar_is_sticky": true,
+        "sticky_filter_bar_background": "rgba(0,0,0,0)",
+        "sticky_filter_bar_text_color": "rgba(0,0,0,0)"
+      }
+    }
+  },
+  "order": ["collection-banner", "10d5f50a-82fe-4a01-94b8-1c7fb1bd346f"]
+}

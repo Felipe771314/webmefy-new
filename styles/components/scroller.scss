@@ -1,0 +1,30 @@
+/**
+ * --------------------------------------------------------------------
+ * SCROLLER (only for mobile and desktop)
+ * --------------------------------------------------------------------
+ */
+
+@media screen and (max-width: 999px) {
+  .scroller {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    margin-left: calc(-1 * var(--container-gutter));
+    margin-right: calc(
+      -1 * var(--container-gutter)
+    ); /* On mobile we remove the container gutter to make sure the scroll is edge to edge */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+  }
+
+  .scroller::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome and Safari */
+  }
+
+  .scroller__inner {
+    min-width: min-content;
+    padding-left: var(--container-gutter);
+    padding-right: var(--container-gutter);
+    margin-left: auto;
+    margin-right: auto; /* margin rules allow to center the content if there are not enough elements to scroll */
+  }
+}

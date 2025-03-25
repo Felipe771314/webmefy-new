@@ -1,0 +1,48 @@
+/**
+ * -------------------------------------------------------------
+ * TAG
+ * -------------------------------------------------------------
+ */
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: -6px;
+}
+
+[dir="ltr"] .tag {
+  padding: 7px 14px 8px 13px;
+}
+
+[dir="rtl"] .tag {
+  padding: 7px 13px 8px 14px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  margin: 6px;
+  background: rgba(var(--text-color), 0.05);
+}
+
+[dir="ltr"] .tag__icon {
+  margin: 1px 9px 0 0;
+}
+
+[dir="rtl"] .tag__icon {
+  margin: 1px 0 0 9px;
+}
+
+.tag__icon {
+  position: relative; /* For pixel perfect precision ! */
+  cursor: pointer;
+}
+
+[dir="ltr"] .tag-link {
+  padding-left: 6px;
+}
+
+[dir="rtl"] .tag-link {
+  padding-right: 6px;
+}

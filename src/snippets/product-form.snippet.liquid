@@ -1,0 +1,496 @@
+{%- assign product_form_id = 'product-form-' | append: section.id | append: '-' | append: product.id -%}
+{% assign custom_related_product_swatches_enabled = settings.enable_custom_related_products_swatches %}
+{% assign location = location | default: template.suffix %}
+{%- assign variant_picker_block = section.blocks | where: 'type', 'variant_picker' | first -%}
+
+<div class="product-form">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          APP BLOCK TYPE
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when '@app' -%}
+        {%- render block -%}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          VARIANT PICKER BLOCK TYPE
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+
+      {%- when 'display_free_shipping' -%}
+        <product-free-shipping
+          first-text="{{ block.settings.first_text }}"
+          text-free-shipping="{{ block.settings.text_free_shipping }}"
+          min-price="{{ block.settings.min_price }}"
+          id="block-{{ section.id }}-{{ block.id }}"
+        ></product-free-shipping>
+
+      {%- when 'variant_picker' -%}
+        {% if block.settings.use_dropdown_on_mobile and block.settings.selector_mode != 'dropdown' %}
+          {% assign product_variants_wrapper_class = 'hidden-phone' %}
+        {% endif %}
+
+        <div class="product-form__variants-wrapper {{ product_variants_wrapper_class }}">
+          {% if custom_related_product_swatches_enabled %}
+            {%-
+              render 'oz-related-products-swatches',
+              current_product: product,
+              location: location,
+              keep_opt_vals_btwn_swatches: block.settings.keep_opt_vals_btwn_swatches,
+            -%}
+          {% endif %}
+          {%- render 'product-variants',
+            product: product,
+            hide_single_variant: block.settings.hide_single_variant,
+            hide_sold_out_variants: block.settings.hide_sold_out_variants,
+            size_chart_page: block.settings.size_chart_page,
+            selector_type: block.settings.selector_mode,
+            color_mode: block.settings.color_mode,
+            product_form_id: product_form_id,
+            show_label_inside_dropdown: block.settings.show_label_inside_dropdown,
+            block_id: block.id,
+            hide_label_dropdown: block.settings.hide_variants_labels_dropdown,
+            hide_selected_variants_value_block: block.settings.hide_selected_variants_value_block,
+            hide_variants_label_block: block.settings.hide_variants_label_block,
+            keep_opt_vals_btwn_swatches: block.settings.keep_opt_vals_btwn_swatches,
+            no_default_value_selected: block.settings.no_default_value_selected,
+            no_default_value_selected_only: block.settings.no_default_value_selected_only,
+            hide_single_variant_exclude: block.settings.hide_single_variant_exclude
+          -%}
+        </div>
+        {% if block.settings.use_dropdown_on_mobile and block.settings.selector_mode != 'dropdown' %}
+          <div class="product-form__variants-wrapper product-form__variants-wrapper--mobile-dropdown hidden-tablet-and-up{% if block.settings.dropdown_side_by_side_on_mobile %} product-form__variants-wrapper--mobile-dropdown-side-by-side{% endif %}">
+            {% if custom_related_product_swatches_enabled %}
+              {% render 'oz-related-products-swatches',
+                current_product: product,
+                location: location,
+                selector_type: 'dropdown',
+                show_label_inside_dropdown: block.settings.show_label_inside_dropdown,
+                hide_label_dropdown: block.settings.hide_oz_swatches_labels_dropdown
+              %}
+            {% endif %}
+            {% assign block_id_dropdown_mobile = block.id | append: '-dropdown-mobile' %}
+            {%- render 'product-variants',
+              product: product,
+              hide_single_variant: block.settings.hide_single_variant,
+              hide_sold_out_variants: block.settings.hide_sold_out_variants,
+              size_chart_page: block.settings.size_chart_page,
+              force_selector_type: 'dropdown',
+              color_mode: block.settings.color_mode,
+              product_form_id: product_form_id,
+              show_label_inside_dropdown: block.settings.show_label_inside_dropdown,
+              option_id_prefix: 'mobile',
+              block_id: block_id_dropdown_mobile,
+              hide_label_dropdown: block.settings.hide_variants_labels_dropdown,
+              keep_opt_vals_btwn_swatches: block.settings.keep_opt_vals_btwn_swatches,
+              no_default_value_selected: block.settings.no_default_value_selected,
+              no_default_value_selected_only: block.settings.no_default_value_selected_only,
+              hide_single_variant_exclude: block.settings.hide_single_variant_exclude
+            -%}
+          </div>
+        {% endif %}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          LINE ITEM PROPERTY
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'line_item_property' -%}
+        {%- if block.settings.label != blank -%}
+          {%- case block.settings.type -%}
+            {%- when 'text' -%}
+              {%- if block.settings.allow_long_text -%}
+                <div class="product-form__line-item-property" {{ block.shopify_attributes }}>
+                  <label class="input__block-label" for="line-item-{{ section.id }}-{{ block.id }}">
+                    {{- block.settings.label | escape }}:</label
+                  >
+                  <textarea
+                    {% if block.settings.required %}
+                      required
+                    {% endif %}
+                    id="line-item-{{ section.id }}-{{ block.id }}"
+                    form="{{ product_form_id }}"
+                    class="input__field input__field--textarea"
+                    name="properties[{{ block.settings.label | escape }}]"
+                  ></textarea>
+                </div>
+              {% else %}
+                <div class="product-form__line-item-property" {{ block.shopify_attributes }}>
+                  <label class="input__block-label" for="line-item-{{ section.id }}-{{ block.id }}">
+                    {{- block.settings.label | escape }}:</label
+                  >
+                  <input
+                    {% if block.settings.required %}
+                      required
+                    {% endif %}
+                    id="line-item-{{ section.id }}-{{ block.id }}"
+                    form="{{ product_form_id }}"
+                    type="text"
+                    class="input__field"
+                    name="properties[{{ block.settings.label | escape }}]"
+                  >
+                </div>
+              {%- endif -%}
+            {%- when 'checkbox' -%}
+              <div class="product-form__line-item-property" {{ block.shopify_attributes }}>
+                <div class="checkbox-container">
+                  <input
+                    type="hidden"
+                    form="{{ product_form_id }}"
+                    class="checkbox"
+                    name="properties[{{ block.settings.label | escape }}]"
+                    value="{{ block.settings.unchecked_value | escape }}"
+                  >
+                  <input
+                    type="checkbox"
+                    form="{{ product_form_id }}"
+                    class="checkbox"
+                    name="properties[{{ block.settings.label | escape }}]"
+                    id="line-item-{{ section.id }}-{{ block.id }}"
+                    value="{{ block.settings.checked_value | escape }}"
+                  >
+                  <label for="line-item-{{ section.id }}-{{ block.id }}">{{ block.settings.label | escape }}</label>
+                </div>
+              </div>
+          {%- endcase -%}
+        {%- endif -%}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          TEXT
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'text' -%}
+        {% render 'product-text-block',
+          block_settings: block.settings,
+          block_id: block.id,
+          product: product,
+          custom_classes: 'product-form__text product-text-block'
+        %}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          IMAGE
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'image' -%}
+        {% if block.settings.image != blank %}
+          <div
+            class="product-form__image product-form__image--{{ block.settings.image_alignment }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- capture image_sizes -%}{{ block.settings.image_width }}, {{ block.settings.image_width | times: 2 }}, {{ block.settings.image_width | times: 3 }}{%- endcapture -%}
+            {%- capture sizes_attribute -%}{{ block.settings.image_width }}px{%- endcapture -%}
+            {%- capture style_attribute -%}max-width: {{ block.settings.image_width }}px{%- endcapture -%}
+            {{-
+              block.settings.image
+              | image_url: width: block.settings.image.width
+              | image_tag: loading: 'lazy', sizes: sizes_attribute, widths: image_sizes, style: style_attribute
+            -}}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          BUTTON
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'button' -%}
+        {% if block.settings.link != blank and block.settings.text != blank %}
+          <div class="product-form__button" {{ block.shopify_attributes }}>
+            {%- if block.settings.background == 'rgba(0,0,0,0)' -%}
+              {%- assign button_background = settings.primary_button_background -%}
+            {%- else -%}
+              {%- assign button_background = block.settings.background -%}
+            {%- endif -%}
+
+            {%- if block.settings.text_color == 'rgba(0,0,0,0)' -%}
+              {%- assign button_text_color = settings.primary_button_text_color -%}
+            {%- else -%}
+              {%- assign button_text_color = block.settings.text_color -%}
+            {%- endif -%}
+
+            {%- capture button_background_rgb -%}{{ button_background.red }}, {{ button_background.green }}, {{ button_background.blue }}{%- endcapture -%}
+            {%- capture button_text_color_rgb -%}{{ button_text_color.red }}, {{ button_text_color.green }}, {{ button_text_color.blue }}{%- endcapture -%}
+
+            <a
+              href="{{ block.settings.link }}"
+              class="button button--primary {% if block.settings.stretch %}button--full{% endif %}"
+              style="--primary-button-background: {{ button_background_rgb }}; --primary-button-text-color: {{ button_text_color_rgb }}"
+            >
+              {{- block.settings.text | escape -}}
+            </a>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          CUSTOM LIQUID
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'liquid' -%}
+        {% if block.settings.liquid != blank %}
+          <div class="product-form__custom-liquid" {{ block.shopify_attributes }}>
+            {{- block.settings.liquid -}}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          QUANTITY SELECTOR
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'quantity_selector' -%}
+        {%- if request.page_type != 'password' and product.available -%}
+          <div class="product-form__quantity" {{ block.shopify_attributes }}>
+            <span class="product-form__quantity-label">{{ 'product.form.quantity' | t }}:</span>
+
+            <quantity-selector class="quantity-selector">
+              <button type="button" class="quantity-selector__button">
+                <span class="visually-hidden">{{ 'cart.general.decrease_quantity' | t }}</span>
+                {%- render 'icon' with 'minus-big' -%}
+              </button>
+
+              <input
+                type="text"
+                form="{{ product_form_id }}"
+                is="input-number"
+                class="quantity-selector__input"
+                inputmode="numeric"
+                name="quantity"
+                autocomplete="off"
+                min="1"
+                value="1"
+                size="2"
+                aria-label="{{ 'product.form.quantity' | t | escape }}"
+              >
+
+              <button type="button" class="quantity-selector__button">
+                <span class="visually-hidden">{{ 'cart.general.increase_quantity' | t }}</span>
+                {%- render 'icon' with 'plus-big' -%}
+              </button>
+            </quantity-selector>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          PRODUCT DESCRIPTION
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'description' -%}
+        {%- if description_position == 'right' -%}
+          {{- description -}}
+        {%- endif -%}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          INVENTORY
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'inventory' -%}
+        {% render 'product-inventory',
+          product_form_id: product_form_id,
+          block_settings: block.settings,
+          product: product,
+          no_default_variant_selected: variant_picker_block.settings.no_default_value_selected
+        %}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          ALMA INTEGRATION
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {% when 'alma_badge' %}
+        {% render 'alma-badge',
+          variant: product.selected_or_first_available_variant,
+          merchant_id: block.settings.merchant_id
+        %}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          ALMA INTEGRATION
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {% when 'alma_badge_v3' %}
+        {% render 'alma-badge-v3',
+          variant: product.selected_or_first_available_variant,
+          block_id: block.id,
+          block_settings: block.settings
+        %}
+
+        {%- comment -%}
+           ----------------------------------------------------------------------------------------------------------------
+          FREE SHIPPING
+           ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+
+      {% when 'free_shipping' %}
+        {% render 'f_render_free_shipping_bar' %}
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          BUY BUTTONS
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'buy_buttons' -%}
+        {%- if request.page_type != 'password' -%}
+          <div class="product-form__buy-buttons" {{ block.shopify_attributes }}>
+            {%- form 'product', product, is: 'product-form', id: product_form_id -%}
+              <input type="hidden" disabled name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              {% if variant_picker_block.settings.no_default_value_selected
+                and variant_picker_block.settings.no_default_value_selected_message != blank
+              %}
+                <div class="form__banner banner banner--error hidden">
+                  <span class="banner__ribbon">{% render 'icon' with 'form-error' %}</span>
+                  <div class="banner__content">
+                    {{- variant_picker_block.settings.no_default_value_selected_message -}}
+                  </div>
+                </div>
+              {% endif %}
+              <product-payment-container
+                form-id="{{ product_form_id }}"
+                {% if update_url %}
+                  id="MainPaymentContainer"
+                {% endif %}
+                {% if variant_picker_block.settings.no_default_value_selected %}
+                  no-default-variant-selected
+                {% endif %}
+                class="product-form__payment-container"
+                {% if settings.back_in_stock_enabled %}
+                  {%- case settings.back_in_stock_app -%}
+                    {%- when 'back_in_stock' -%}
+                      back-in-stock-enabled
+                  {%- endcase -%}
+                {% endif %}
+                {{ block.shopify_attributes }}
+              >
+                <button
+                  data-add-to-cart
+                  id="AddToCart"
+                  type="submit"
+                  is="loader-button"
+                  {% unless block.settings.show_payment_button
+                    and template.suffix != 'quick-buy-popover'
+                    and template.suffix != 'quick-buy-drawer'
+                  %}
+                    data-use-primary
+                  {% endunless %}
+                  data-product-add-to-cart-button
+                  data-button-content="{% if product.template_suffix == 'pre-order' %}{{ 'product.form.pre_order' | t | escape }}{% else %}{{ 'product.form.add_to_cart' | t | escape }}{% endif %}"
+                  class="product-form__add-button button {% unless product.selected_or_first_available_variant.available %}button--ternary{% else %}{% if block.settings.show_payment_button and template.suffix != 'quick-buy-popover' and template.suffix != 'quick-buy-drawer' %}button--secondary{% else %}button--primary{% endif %}{% endunless %} button--full"
+                  {% unless product.selected_or_first_available_variant.available %}
+                    disabled
+                  {% endunless %}
+                >
+                  {%- if product.selected_or_first_available_variant.available -%}
+                    {%- if product.template_suffix == 'pre-order' -%}
+                      {{- 'product.form.pre_order' | t -}}
+                    {%- else -%}
+                      {{- 'product.form.add_to_cart' | t -}}
+                    {%- endif -%}
+                  {%- else -%}
+                    {{- 'product.form.sold_out' | t -}}
+                  {%- endif -%}
+                </button>
+
+                {% liquid
+                  assign excluded_tags = settings.so_cloz_exclusions | replace: ', ', ',' | downcase | split: ','
+                  assign excluded = false
+                  for tag in product.tags
+                    assign lower_tag = tag | downcase
+                    if excluded_tags contains lower_tag
+                      assign excluded = true
+                      break
+                    endif
+                  endfor
+                %}
+
+                {% assign socloz_metafield_array = settings.socloz_custom_metafield | split: '.' %}
+                {% assign meta_socloz_value = product.metafields[socloz_metafield_array[0]][socloz_metafield_array[1]].value %}
+
+                {%- if excluded == false and settings.so_cloz_enabled == true and meta_socloz_value != false %}
+                  {% render 'socloz-button', product: product, api_key: settings.so_cloz_api_key %}
+
+                {%- elsif excluded == false
+                  and settings.so_cloz_enabled == false
+                  and settings.so_cloz_only_selected == true
+                  and meta_socloz_value == true
+                %}
+                  {% render 'socloz-button', product: product, api_key: settings.so_cloz_api_key %}
+                {%- endif -%}
+
+                {%- if block.settings.show_payment_button and template.suffix != 'quick-buy-popover' -%}
+                  {{ form | payment_button }}
+
+                  {%- unless product.selected_or_first_available_variant.available -%}
+                    <style>
+                      #shopify-section-{{ section.id }} .shopify-payment-button {
+                        display: none;
+                      }
+                    </style>
+                  {%- endunless -%}
+                {%- endif -%}
+              </product-payment-container>
+            {%- endform -%}
+          </div>
+        {%- endif -%}
+
+        {%- if template.suffix != 'quick-buy-popover' -%}
+          <store-pickup form-id="{{ product_form_id }}" class="product-form__store-availability-container">
+            {%- render 'store-availability', product_variant: product.selected_or_first_available_variant -%}
+          </store-pickup>
+        {%- endif -%}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          ICON LIST
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'icon_list' -%}
+        {% assign content_metafield = block.settings.metafield_namespace | split: '.' %}
+        {% render 'metaobject-tab-content',
+          items: product.metafields[content_metafield[0]][content_metafield[1]].value,
+          block_id: block.id,
+          block_settings: block.settings
+        %}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          ADVANCED ICON LIST
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'advanced_icon_list' -%}
+        {% render 'advanced-icon-list', block_id: block.id, block_settings: block.settings %}
+
+        {%- comment -%}
+          ----------------------------------------------------------------------------------------------------------------
+          REASSURANCES PRODUCT FORM
+          ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+      {%- when 'product_form_reinsurance' -%}
+        {% render 'product-form-reinsurance', block_id: block.id, block_settings: block.settings %}
+    {%- endcase -%}
+  {%- endfor -%}
+
+  {%- comment -%}
+    IMPLEMENTATION NOTE: under rare circumstances, merchant may want to show selectors but hide the add to cart button. This
+    is however problematic as elements changed based on this. So if we detect there is no buy buttons block, we add an empty one
+  {%- endcomment -%}
+
+  {%- assign buy_buttons_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
+
+  {%- if buy_buttons_block == blank -%}
+    {%- form 'product', product, is: 'product-form', id: product_form_id -%}
+      <input type="hidden" disabled name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    {%- endform -%}
+  {%- endif -%}
+</div>
+
+{%- if template.suffix == 'quick-buy-drawer' -%}
+  <div class="product-form__view-details">
+    <a href="{{ product.url }}" class="link text--subdued">{{ 'product.general.view_details' | t }}</a>
+  </div>
+{%- endif -%}

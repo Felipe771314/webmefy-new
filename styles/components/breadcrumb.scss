@@ -1,0 +1,77 @@
+/**
+ * -------------------------------------------------------------
+ * BREADCRUMB
+ * -------------------------------------------------------------
+ */
+
+.breadcrumb {
+  z-index: 1;
+}
+
+[dir="ltr"] .breadcrumb--floating {
+  left: 0;
+}
+
+[dir="rtl"] .breadcrumb--floating {
+  right: 0;
+}
+
+.breadcrumb--floating {
+  position: absolute;
+  top: 0;
+}
+
+.breadcrumb__list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 24px 0;
+  margin: 0;
+}
+
+.breadcrumb__item + .breadcrumb__item::before {
+  content: "/";
+  margin: 0 4px;
+  opacity: 0.7;
+  float: left;
+}
+
+.breadcrumb__link {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.breadcrumb__link:not([aria-current="page"]):not(:hover) {
+  opacity: 0.7;
+}
+
+[dir="rtl"] .breadcrumb__item + .breadcrumb__item::before {
+  float: right;
+}
+
+.breadcrumb--position {
+  @media screen and (max-width: 999px) {
+    &-mobile {
+      &-above_title {
+        .breadcrumb__list {
+          padding: 24px 0 0 0;
+        }
+      }
+
+      &-above_media {
+        .breadcrumb__list {
+          padding: 12px 0;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    &-desktop {
+      &-above_title {
+        .breadcrumb__list {
+          padding: 0 0 24px 0;
+        }
+      }
+    }
+  }
+}

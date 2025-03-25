@@ -1,0 +1,111 @@
+{%- capture snippet_output -%}
+  {%- comment -%}
+    Define if a given color is visible on the theme background. You must pass one parameter to this snippet:
+
+    - value: the actual color label
+    - color : the actual color (hexa) (optional)
+  {%- endcomment -%}
+  {% assign recommended_minimum_brightness_difference = 125 %}
+  {% assign background_color_to_string = settings.background | append: '' %}
+  {% assign color_found = false %}
+  {% comment %}If specific color is given do it first{% endcomment %}
+  {% if color %}
+    {% assign swatch_background_brightness_difference = color | brightness_difference: background_color_to_string %}
+
+    {% if swatch_background_brightness_difference < recommended_minimum_brightness_difference %}
+      {%- assign color_swatch_white = 'color-swatch--white' -%}
+    {% endif %}
+    {% assign color_found = true %}
+  {% else %}
+    {% comment %} Use native swatch object {% endcomment %}
+    {%- liquid
+      if value.swatch and value.swatch.color
+        assign color_swatch_value_to_string = value.swatch.color | append: ''
+
+        assign swatch_background_brightness_difference = color_swatch_value_to_string | brightness_difference: background_color_to_string
+        if swatch_background_brightness_difference < recommended_minimum_brightness_difference
+          assign color_swatch_white = 'color-swatch--white'
+        endif
+      endif
+    -%}
+    {% comment %} fallback to legacy {% endcomment %}
+    {%- unless color_swatch_white -%}
+      {%- assign color_hex = '' -%}
+      {%- assign color_swatch_white = '' -%}
+      {%- assign color_value_downcase = value | downcase -%}
+
+      {% comment %} Check the color in a settings.color_swatch_config first {% endcomment %}
+
+      {%- assign color_swatch_config = settings.color_swatch_config | newline_to_br | split: '<br />' -%}
+
+      {%- for color_swatch_item in color_swatch_config -%}
+        {%- assign color_swatch_parts = color_swatch_item | split: ':' -%}
+        {%- assign color_swatch_name = color_swatch_parts.first | downcase | strip -%}
+
+        {%- if color_value_downcase == color_swatch_name -%}
+          {%- assign color_swatch_value = color_swatch_parts.last | strip -%}
+          {%- if color_swatch_value contains '#' -%}
+            {%- assign color_hex = color_swatch_value -%}
+          {%- endif -%}
+          {% break %}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {% comment %}
+        If we find nothing then fallback to color metaobjects (either native or custom)
+      {% endcomment %}
+
+      {%- if color_hex == blank -%}
+        {% assign color_metaobject_type = settings.color_metaobject_type | strip | default: 'shopify--color-pattern' %}
+        {% assign metaobject_color_values = shop.metaobjects[color_metaobject_type].values %}
+        {% paginate metaobject_color_values by 250 %}
+          {% for color_obj in metaobject_color_values %}
+            {%- assign color_name_downcase = color_obj.label | downcase -%}
+
+            {%- if color_value_downcase == color_name_downcase -%}
+              {%- if color_obj.color -%}
+                {%- assign color_hex = color_obj.color -%}
+              {%- endif -%}
+              {%- break -%}
+            {%- endif -%}
+          {% endfor %}
+        {% endpaginate %}
+      {%- endif -%}
+
+      {%- if color_hex -%}
+        {% assign color_found = true %}
+        {% assign color_swatch_value_to_string = color_hex | append: '' %}
+
+        {% assign swatch_background_brightness_difference = color_swatch_value_to_string
+          | brightness_difference: background_color_to_string
+        %}
+
+        {% if swatch_background_brightness_difference < recommended_minimum_brightness_difference %}
+          {%- assign color_swatch_white = 'color-swatch--white' -%}
+        {% endif %}
+      {%- endif -%}
+
+      {% unless color_swatch_white == 'color-swatch--white' %}
+        {%- assign color_swatch_white_labels = settings.color_swatch_white_labels | newline_to_br | split: '<br />' -%}
+
+        {%- for color_swatch_white_label in color_swatch_white_labels -%}
+          {%- assign color_swatch_white_label_downcase = color_swatch_white_label | downcase | strip -%}
+
+          {%- if color_value_downcase == color_swatch_white_label_downcase -%}
+            {% assign color_found = true %}
+            {%- assign color_swatch_white = 'color-swatch--white' -%}
+            {% break %}
+          {%- endif -%}
+        {%- endfor -%}
+      {% endunless %}
+    {%- endunless -%}
+  {% endif %}
+
+  {% comment %}No color found force color swatch white{% endcomment %}
+  {% if color_found == false and color_swatch_white == blank %}
+    {%- assign color_swatch_white = 'color-swatch--white' -%}
+  {% endif %}
+
+  {{- color_swatch_white -}}
+{%- endcapture -%}
+{{- snippet_output | strip -}}

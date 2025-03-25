@@ -1,0 +1,27 @@
+.shopify-section--instafeed {
+  .oz-section__inner.section__inner {
+    position: relative;
+  }
+
+  .instagram-link.hidden-phone {
+    position: absolute;
+    top: 0;
+    right: var(--container-gutter);
+  }
+
+  .instagram-link.instagram-link--bottom {
+    margin-top: 24px;
+  }
+
+  @media screen and (min-width: 741px) {
+    .heading.custom-font-size {
+      font-size: var(--heading-custom-font-size);
+    }
+  }
+
+  @media screen and (max-width: 740px) {
+    .heading.custom-font-size--mobile {
+      font-size: var(--heading-custom-font-size-mobile);
+    }
+  }
+}

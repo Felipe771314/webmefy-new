@@ -1,0 +1,20 @@
+{% assign promocode = settings.nl_promocode_value | strip %}
+{% if promocode != blank %}
+  <div class="nl-promocode">
+    <h4 class="nl-promocode__title">{{ 'general.nl_promocode.title_html' | t }}</h4>
+    <p class="nl-promocode__text">{{ 'general.nl_promocode.text_html' | t }}</p>
+    <div class="nl-promocode__code-container">
+      <span class="nl-promocode__code">{{ promocode }}</span>
+      <copy-clipboard
+        class="nl-promocode__btn"
+        data-clipboard-text="{{ promocode }}"
+        {% if popup_container != blank %}
+          container="{{ popup_container }}"
+        {% endif %}
+        data-tooltip="{{ 'general.nl_promocode.copied_to_clipboard' | t }}"
+      >
+        {% render 'icon' with 'clipboard' %}
+      </copy-clipboard>
+    </div>
+  </div>
+{% endif %}

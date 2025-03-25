@@ -1,0 +1,151 @@
+/**
+ * --------------------------------------------------------------------
+ * CART NOTIFICATION
+ * --------------------------------------------------------------------
+ */
+
+.simple-notification {
+  --heading-color: 255, 255, 255;
+  --text-color: 255, 255, 255;
+  --simple-notification-background: rgb(var(--success-color));
+
+  display: block;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  transform: translateY(var(--simple-notification-offset, 0px));
+  color: rgb(var(--text-color));
+  transition: visibility 0.25s ease-in-out, transform 0.25s ease-in-out;
+  visibility: visible;
+  overflow: hidden;
+}
+
+.simple-notification--error {
+  --simple-notification-background: rgb(var(--error-color));
+}
+
+.simple-notification--drawer {
+  --simple-notification-offset: 0;
+  top: var(--header-height-without-bottom-nav);
+  z-index: 1;
+}
+
+.simple-notification--fixed {
+  position: fixed;
+  top: 0;
+}
+
+.simple-notification[hidden] {
+  visibility: hidden;
+}
+
+.simple-notification__overflow {
+  background: var(--simple-notification-background);
+  transform: translateY(0);
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.simple-notification[hidden] .simple-notification__overflow {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.simple-notification__wrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.simple-notification .icon--simple-notification {
+  position: relative;
+  top: 2px;
+}
+
+[dir="ltr"] .simple-notification__text-wrapper {
+  margin-left: 12px;
+}
+
+[dir="rtl"] .simple-notification__text-wrapper {
+  margin-right: 12px;
+}
+
+.simple-notification__text-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+[dir="ltr"] .simple-notification__heading {
+  margin-right: 12px;
+}
+
+[dir="rtl"] .simple-notification__heading {
+  margin-left: 12px;
+}
+
+.simple-notification__heading {
+  font-size: 14px;
+}
+
+[dir="ltr"] .simple-notification__close {
+  right: 0;
+}
+
+[dir="rtl"] .simple-notification__close {
+  left: 0;
+}
+
+.simple-notification__close {
+  position: absolute;
+  margin-top: -1px;
+}
+
+.simple-notification--drawer .simple-notification__text-wrapper {
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 740px) {
+  .simple-notification__text-wrapper {
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 999px) {
+  .simple-notification {
+    transform: none !important; /* You cannot have any offset on pocket */
+  }
+}
+
+@media screen and (min-width: 741px) {
+  .simple-notification__wrapper {
+    padding-top: 19px;
+    padding-bottom: 19px;
+  }
+
+  .simple-notification .icon--simple-notification {
+    top: 4px;
+  }
+
+  [dir="ltr"] .simple-notification__heading {
+    margin-right: 16px;
+  }
+
+  [dir="rtl"] .simple-notification__heading {
+    margin-left: 16px;
+  }
+
+  .simple-notification__heading {
+    font-size: 16px;
+  }
+
+  .simple-notification__close svg {
+    width: 15px;
+    height: 15px;
+  }
+}

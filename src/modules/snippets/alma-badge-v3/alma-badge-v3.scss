@@ -1,0 +1,20 @@
+#alma-badge-v3 {
+  &[hide-border] {
+    .alma-payment-plans-container {
+      padding: 0;
+    }
+  }
+
+  &[hide-if-not-eligible] > *:not(.alma-payment-plans-container) {
+    display: none;
+  }
+  &[hide-if-not-eligible]:not(:has(.alma-payment-plans-container)) {
+    display: none;
+  }
+
+  // fix max width
+  .alma-payment-plans-container {
+    width: 100%;
+    max-width: 368px;
+  }
+}

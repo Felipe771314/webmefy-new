@@ -1,0 +1,31 @@
+/**
+ * --------------------------------------------------------------------
+ * DOT NAVIGATION
+ * --------------------------------------------------------------------
+ */
+
+.dots-nav {
+  display: flex;
+  margin: -6px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.dots-nav--centered {
+  justify-content: center;
+}
+
+.dots-nav__item {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  margin: 6px;
+  background: rgb(var(--dots-nav-color, var(--text-color)));
+  border-radius: min(var(--button-border-radius), 6px);
+  opacity: 0.3;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.dots-nav__item[aria-current="true"] {
+  opacity: 1;
+}

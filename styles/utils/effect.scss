@@ -1,0 +1,16 @@
+/**
+ * -------------------------------------------------------------
+ * EFFECT
+ * -------------------------------------------------------------
+ */
+
+@media screen and (pointer: fine) {
+  .features--image-zoom .image-zoom img {
+    transition: transform 0.5s ease;
+    transform: translateZ(0); /* Allow to promote on its own layer */
+  }
+
+  .features--image-zoom .image-zoom:hover img {
+    transform: scale(1.03);
+  }
+}

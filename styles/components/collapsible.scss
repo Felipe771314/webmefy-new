@@ -1,0 +1,59 @@
+/**
+ * -------------------------------------------------------------
+ * COLLAPSIBLE
+ * -------------------------------------------------------------
+ */
+
+.collapsible {
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.no-js .collapsible,
+.collapsible[open] {
+  height: auto;
+  overflow: visible;
+  visibility: visible;
+}
+
+.collapsible-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 0;
+}
+
+[dir="ltr"] .collapsible-toggle__selected-value {
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+[dir="rtl"] .collapsible-toggle__selected-value {
+  margin-right: auto;
+  margin-left: 12px;
+}
+
+.collapsible-toggle__selected-value {
+  font-weight: normal;
+  max-width: 45%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.collapsible-toggle svg {
+  transition: transform 0.2s ease-in-out;
+}
+
+.collapsible-toggle[aria-expanded="true"] svg {
+  transform: rotateZ(180deg);
+}
+
+@media screen and (min-width: 741px) {
+  .collapsible-toggle {
+    padding: 21px 0;
+  }
+}

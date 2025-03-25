@@ -1,0 +1,194 @@
+.shop-the-look-item {
+  position: relative;
+}
+
+.shop-the-look-item {
+  background: rgb(var(--secondary-background)); /* Use as a filler */
+}
+
+.shop-the-look-item[hidden] {
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.shop-the-look-item[hidden] .popover,
+.shop-the-look-item[hidden] .drawer {
+  display: none; /* Making sure popover and drawer are hidden for hidden look helps alleviating issues with Safari */
+}
+
+.shop-the-look-item__image {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+
+.shop-the-look-item__product-wrapper {
+  position: absolute; /* Position is set dynamically in Liquid */
+}
+
+/* Dot elements */
+
+@keyframes shopTheLookDotKeyframe {
+  0% {
+    opacity: 1;
+    transform: scale(0.4);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+.shop-the-look-item__icon {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    animation: shopTheLookDotKeyframe 2s ease-in-out infinite;
+  }
+}
+
+.shop-the-look-item--dot {
+  background: rgb(var(--section-dot-inner-background));
+  box-shadow: 0 0 0 8px rgb(var(--section-dot-background)) inset,
+    0 1px 5px rgba(0, 0, 0, 0.15);
+
+  &::after {
+    border: 2px solid rgba(var(--section-dot-background), 0.6);
+  }
+}
+
+.shop-the-look-item--plus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(var(--section-dot-inner-background));
+
+  &::after {
+    border: 2px solid rgba(var(--section-dot-inner-background), 0.6);
+  }
+
+  .animated-plus {
+    color: rgb(var(--section-dot-background));
+  }
+}
+
+/* Product part */
+
+/* This allows to shift by the size of the dot */
+[dir="ltr"] .shop-the-look-item__product-wrapper {
+  margin-left: -12px;
+}
+[dir="rtl"] .shop-the-look-item__product-wrapper {
+  margin-right: -12px;
+}
+.shop-the-look-item__product-wrapper {
+  margin-top: -12px;
+}
+
+[dir="ltr"] .shop-the-look-item__product {
+  padding: 15px 32px 15px 15px;
+}
+
+[dir="rtl"] .shop-the-look-item__product {
+  padding: 15px 15px 15px 32px;
+}
+
+.shop-the-look-item__product {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  left: calc(100% + 28px);
+  top: 50%;
+  max-width: 46vw;
+  background: rgb(var(--background));
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.8) translateY(-50%);
+  transition: visibility 0.4s cubic-bezier(0.75, 0, 0.175, 1),
+    opacity 0.4s cubic-bezier(0.75, 0, 0.175, 1),
+    transform 0.4s cubic-bezier(0.75, 0, 0.175, 1);
+  will-change: transform;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  transform-origin: top var(--transform-origin-start);
+  z-index: 1;
+  border-radius: min(var(--block-border-radius), 4px);
+}
+
+.shop-the-look-item__product[open] {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1) translateY(-50%);
+}
+
+.shop-the-look-item__product::before {
+  position: absolute;
+  content: "";
+  right: 100%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent rgb(var(--background)) transparent transparent;
+  border-width: 8px;
+}
+
+.shop-the-look-item__product--reverse {
+  left: auto;
+  right: calc(100% + 28px);
+  transform-origin: top var(--transform-origin-end);
+}
+
+.shop-the-look-item__product--reverse::before {
+  right: auto;
+  left: 100%;
+  border-color: transparent transparent transparent rgb(var(--background));
+}
+
+.shop-the-look-item__product-bottom-wrapper {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: flex-start;
+  grid-gap: 12px;
+  gap: 12px;
+}
+
+[dir="ltr"] .shop-the-look-item__product-image {
+  margin-right: 24px;
+}
+
+[dir="rtl"] .shop-the-look-item__product-image {
+  margin-left: 24px;
+}
+
+.shop-the-look-item__product-image {
+  flex: none;
+  width: 72px;
+}
+
+.shop-the-look-item__product-vendor {
+  display: block;
+  max-width: max-content;
+  margin-bottom: 1px;
+}
+
+.shop-the-look-item__product-title {
+  display: block;
+  margin-bottom: 2px;
+}

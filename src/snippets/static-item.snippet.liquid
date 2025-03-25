@@ -1,0 +1,69 @@
+{% comment %}replace some special characters that can break the css selector{% endcomment %}
+{% assign static_item_id = static_item_id
+  | replace: ':', '_'
+  | replace: '||', '_'
+  | replace: '##', '_'
+  | replace: '#', '_'
+  | replace: '@@', '_'
+  | replace: '@', '_'
+%}
+
+{%- capture link -%}
+  {%- if static_item.url -%}
+    {{ static_item.url }}
+  {%- elsif static_item.product_link -%}
+    {{ static_item.product_link.value.url }}
+  {%- elsif static_item.collection_link -%}
+    {{ static_item.collection_link.value.url }}
+  {%- elsif static_item.page_link -%}
+    {{ static_item.page_link.value.url }}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture extra_content -%}
+  {%- capture css_variables -%}
+    {%- if static_item_placement.size != blank -%}
+      {%- if static_item_placement.size == 'fullwidth' -%}
+        --static-item-column: var(--section-products-per-row);
+      {%- else -%}
+        {%- assign item_size =  static_item_placement.size | split: 'x' -%}
+        --static-item-column: {{ item_size.first }};
+        --static-item-row: {{ item_size.last }};
+      {%- endif -%}
+    {%- endif -%}
+  {%- endcapture -%}
+  {%- if css_variables != blank -%}
+    <style>
+			#{{ static_item_id }}{
+          {{ css_variables }}
+        }
+      {% assign item_size =  static_item_placement.size | split: 'x' %}
+      {%- if item_size.first >= '2' -%}
+			@media screen and (max-width: 740px){
+				#{{ static_item_id }}{
+              --static-item-column: var(--section-products-per-row);
+            }
+			}
+      {%- endif -%}
+    </style>
+  {%- endif -%}
+{%- endcapture -%}
+
+{% assign block_class = 'promotion-block--static-item' %}
+{% if class != blank %}
+  {% assign block_class = block_class | append: ' ' | append: class %}
+{% endif %}
+
+{% assign default_aspect_ratio = 'auto' %}
+{%- if static_item.keep_media_aspect_ratio -%}
+  {% assign default_aspect_ratio = '' %}
+{%- endif -%}
+
+{% render 'promotion-block',
+  block_settings: static_item,
+  link: link,
+  id: static_item_id,
+  extra_content: extra_content,
+  class: block_class,
+  default_aspect_ratio: default_aspect_ratio
+%}

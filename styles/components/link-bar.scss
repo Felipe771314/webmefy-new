@@ -1,0 +1,200 @@
+/**
+ * -------------------------------------------------------------
+ * LINK BAR (show a list of links usually for tags ; used in collection and blog pages)
+ * -------------------------------------------------------------
+ */
+
+.link-bar {
+  position: relative;
+  display: block;
+  box-shadow: 0 1px rgb(var(--border-color)), 0 -1px rgb(var(--border-color));
+  text-align: center;
+}
+
+.link-bar__wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.link-bar__scroller {
+  scroll-snap-type: x proximity;
+}
+
+.link-bar__title {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  flex-shrink: 0;
+  z-index: 1;
+  background: rgb(var(--background));
+
+  .link-bar__link {
+    display: inline-block;
+  }
+}
+
+.link-bar__title::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  top: 0;
+  width: 28px;
+  background-image: linear-gradient(
+    to var(--transform-origin-end),
+    rgb(var(--background)) 35%,
+    rgba(var(--background), 0)
+  );
+}
+
+[dir="ltr"] .link-bar__title + .link-bar__scroller {
+  padding-left: 28px;
+}
+
+[dir="rtl"] .link-bar__title + .link-bar__scroller {
+  padding-right: 28px;
+}
+
+.link-bar__linklist {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  grid-gap: 28px;
+  gap: 28px;
+  min-width: max-content;
+}
+
+.link-bar__link-item,
+.link-bar__title {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.link-bar__link-item--selected {
+  scroll-snap-align: center;
+}
+
+@media screen and (max-width: 999px) {
+  [dir="ltr"] .link-bar__wrapper::after {
+    left: 100%;
+  }
+  [dir="rtl"] .link-bar__wrapper::after {
+    right: 100%;
+  }
+  .link-bar__wrapper::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: var(--container-gutter);
+    top: 0;
+    background-image: linear-gradient(
+      to var(--transform-origin-start),
+      rgb(var(--background)),
+      rgba(var(--background), 0)
+    );
+  }
+
+  [dir="ltr"] .link-bar__scroller {
+    margin-right: calc(-1 * var(--container-gutter));
+  }
+
+  [dir="rtl"] .link-bar__scroller {
+    margin-left: calc(-1 * var(--container-gutter));
+  }
+
+  [dir="ltr"] .link-bar__linklist {
+    padding-right: var(--container-gutter);
+  }
+
+  [dir="rtl"] .link-bar__linklist {
+    padding-left: var(--container-gutter);
+  }
+}
+
+@media screen and (min-width: 741px) {
+  [dir="ltr"] .link-bar__title + .link-bar__scroller {
+    padding-left: 48px;
+  }
+  [dir="rtl"] .link-bar__title + .link-bar__scroller {
+    padding-right: 48px;
+  }
+
+  .link-bar__linklist {
+    gap: 40px;
+  }
+
+  .link-bar__link-item,
+  .link-bar__title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+@media screen and (min-width: 999px) {
+  .shopify-section--collection-promotion-ban {
+    .link-bar__linklist {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      min-width: auto;
+      gap: 0 40px;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .link-bar__link-item,
+  .link-bar__title {
+    padding-top: 27px;
+    padding-bottom: 27px;
+  }
+}
+
+.shopify-section--collection-promotion-ban {
+  .subcollection-image__wrapper {
+    .link-bar__link-item {
+      max-width: 105px;
+    }
+
+    &.link-bar__linklist {
+      align-items: end;
+      gap: 15px;
+
+      @media screen and (min-width: 999px) {
+        gap: 0 15px;
+      }
+    }
+
+    .subcollection-image {
+      display: flex;
+      flex-direction: var(--subcollection-title-position);
+      align-items: center;
+
+      &__text-container {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+
+      &__image-container {
+        overflow: hidden;
+        border-radius: var(--subcollection-image-border-radius);
+        position: relative;
+        width: 105px;
+        height: 105px;
+
+        img {
+          position: absolute;
+          object-fit: cover;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

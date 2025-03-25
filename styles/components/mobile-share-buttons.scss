@@ -1,0 +1,34 @@
+/**
+ * -------------------------------------------------------------
+ * MOBILE SHARE BUTTONS
+ *
+ * Those are used in product pages and blog posts
+ * -------------------------------------------------------------
+ */
+
+.mobile-share-buttons__item {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+@supports (padding: max(0px)) {
+  .mobile-share-buttons {
+    padding-bottom: max(20px, env(safe-area-inset-bottom) + 20px);
+  }
+}
+
+.mobile-share-buttons__item:not(:last-child) {
+  border-bottom: 1px solid rgb(var(--border-color));
+}
+
+[dir="ltr"] .mobile-share-buttons__item svg {
+  margin-right: 16px;
+}
+
+[dir="rtl"] .mobile-share-buttons__item svg {
+  margin-left: 16px;
+}

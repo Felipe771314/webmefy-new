@@ -1,0 +1,72 @@
+/**
+ * -------------------------------------------------------------
+ * CONTAINER
+ * -------------------------------------------------------------
+ */
+
+/* Implementation note: the double selector for policy container allows to increase selector specificity to override
+   Shopify default style */
+.container,
+.shopify-policy__container.shopify-policy__container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-gutter);
+  padding-right: var(--container-gutter);
+  --container-outer-margin: 0px; /* Inside a container only the gutter remains as margin */
+}
+
+.container--full-width,
+.container--fullwidth {
+  --container-max-width: 100%;
+}
+
+.container--medium {
+  --container-max-width: 1400px;
+}
+
+.container--small {
+  --container-max-width: 930px;
+}
+
+.container--force-flush {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.container--flush-left {
+  padding-left: 0;
+
+  .section__header {
+    padding-left: var(--container-gutter);
+  }
+}
+.container--flush-right {
+  padding-right: 0;
+
+  .section__header {
+    padding-right: var(--container-gutter);
+  }
+}
+
+@media screen and (max-width: 999px) {
+  /* Variation that remove the padding on small devices */
+  .container--flush {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/*
+@media screen and (min-width: 1400px) {
+  .container--medium {
+    padding-left: calc(
+      var(--container-gutter) + var(--grid-column-width) + var(--grid-gap)
+    );
+    padding-right: calc(
+      var(--container-gutter) + var(--grid-column-width) + var(--grid-gap)
+    ); // Medium container just adds an extra column on left and top
+  }
+}
+*/

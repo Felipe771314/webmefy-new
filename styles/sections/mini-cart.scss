@@ -1,0 +1,15 @@
+#mini-cart-form {
+  .hidden-phone {
+    display: none !important;
+  }
+
+  .hidden-tablet-and-up,
+  .hidden-desk,
+  .hidden-lap {
+    display: block !important;
+  }
+
+  .product-item-meta__price-list-container {
+    display: none;
+  }
+}

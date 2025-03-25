@@ -1,0 +1,53 @@
+/**
+ * --------------------------------------------------------------------
+ * SPINNER
+ * --------------------------------------------------------------------
+ */
+
+@keyframes spinnerRotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinnerDash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
+  }
+}
+
+@keyframes spinnerColor {
+  0% {
+    stroke: currentColor;
+  }
+  40% {
+    stroke: currentColor;
+  }
+  66% {
+    stroke: currentColor;
+  }
+  80%,
+  90% {
+    stroke: currentColor;
+  }
+}
+
+.spinner svg {
+  margin: auto;
+  animation: spinnerRotate 2s linear infinite;
+  transform-origin: center center;
+}
+
+.spinner circle {
+  animation: spinnerDash 1.5s ease-in-out infinite,
+    spinnerColor 6s ease-in-out infinite;
+}

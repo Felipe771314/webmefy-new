@@ -1,0 +1,20 @@
+{% if settings.activate_aki_coupons %}
+  <aki-coupon
+    class="aki-coupon"
+    {% if settings.force_login_aki_coupons %}
+      force-login
+    {% endif %}
+
+    translation-label="{{  'aki_discount.coupon.label' | t | escape  }}"
+    translation-submit="{{  'aki_discount.coupon.submit' | t | escape  }}"
+    translation-need-connection="{{  'aki_discount.coupon.need_connection_message' | t   }}"
+    translation-connect="{{  'aki_discount.coupon.connect' | t   }}"
+    translation-error="{{  'aki_discount.coupon.error_message' | t  }}"
+    translation-error-messages="{{  'aki_discount.coupon.error_messages' | t  }}"
+    translation-validation="{{  'aki_discount.coupon.validation_message' | t   }}"
+  >
+    <template error-icon> {% render 'icon' with 'form-error' %} </template>
+    <template success-icon> {% render 'icon' with 'form-success' %} </template>
+    <template close-icon> {% render 'icon' with 'close' %} </template>
+  </aki-coupon>
+{% endif %}

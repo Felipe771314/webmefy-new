@@ -1,0 +1,45 @@
+/**
+ * --------------------------------------------------------------------
+ * ICON
+ * --------------------------------------------------------------------
+ */
+
+.icon {
+  display: block;
+  vertical-align: middle;
+  background: none;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.icon--inline {
+  display: inline-block;
+}
+
+/* Simple component allowing to align a text with an icon */
+.icon-text {
+  display: flex;
+  align-items: center;
+}
+
+[dir="ltr"] .icon-text svg,
+[dir="ltr"] .icon-text img {
+  margin-right: 12px;
+}
+
+[dir="rtl"] .icon-text svg,
+[dir="rtl"] .icon-text img {
+  margin-left: 12px;
+}
+
+@supports (scale: 1) {
+  [dir="rtl"] .icon--direction-aware {
+    scale: -1 1; /* Allows to have better support if it is combined with other transforms */
+  }
+}
+
+@supports not (scale: 1) {
+  [dir="rtl"] .icon--direction-aware {
+    transform: scale(-1, 1);
+  }
+}

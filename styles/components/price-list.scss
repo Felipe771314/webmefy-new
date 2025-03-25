@@ -1,0 +1,78 @@
+/**
+ * -------------------------------------------------------------
+ * PRICE
+ * -------------------------------------------------------------
+ */
+
+.price-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.price-list--centered {
+  justify-content: center;
+}
+
+.price-list--stack {
+  display: inline-grid;
+}
+
+[dir="ltr"] .price-list:not(.price-list--stack) > .price:not(:last-child) {
+  margin-right: 10px;
+}
+
+[dir="rtl"] .price-list:not(.price-list--stack) > .price:not(:last-child) {
+  margin-left: 10px;
+}
+
+[dir="ltr"] .price-list > .price--block {
+  margin-left: 0 !important;
+}
+
+[dir="rtl"] .price-list > .price--block {
+  margin-right: 0 !important;
+}
+
+.price-list > .price--block {
+  flex-basis: 100%;
+}
+
+[dir="ltr"] .price-list + .link {
+  margin-left: 16px;
+}
+
+[dir="rtl"] .price-list + .link {
+  margin-right: 16px;
+}
+
+.price--highlight {
+  color: rgb(var(--product-on-sale-accent));
+}
+
+.price--compare {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.cart__total-container-heading {
+  margin-right: auto;
+}
+
+.price--large {
+  font-size: calc(var(--base-font-size) + 3px);
+}
+
+.unit-price-measurement {
+  display: inline-flex; /* This allows to remove the space between each elements */
+}
+
+.price-list__from {
+  padding-right: 10px;
+}
+
+@media screen and (min-width: 1000px) {
+  .price--large:not(.price--compare) {
+    font-size: calc(var(--base-font-size) + 7px);
+  }
+}

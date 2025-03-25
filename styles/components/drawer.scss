@@ -1,0 +1,331 @@
+/**
+ * -------------------------------------------------------------
+ * DRAWER
+ * -------------------------------------------------------------
+ */
+
+[dir="ltr"] .drawer {
+  right: 0;
+}
+
+[dir="rtl"] .drawer {
+  right: 0;
+}
+
+[dir="ltr"] .drawer {
+  text-align: left;
+}
+
+[dir="rtl"] .drawer {
+  text-align: right;
+}
+
+.drawer {
+  /* Make sure the drawer component does not inherit values from the section it is included to */
+  --heading-color: var(--root-heading-color);
+  --text-color: var(--root-text-color);
+  --background: var(--root-background);
+  --primary-button-background: var(--root-primary-button-background);
+  --primary-button-text-color: var(--root-primary-button-text-color);
+  --section-background: initial; /* Allows to remove the inheritance */
+
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  width: 89vw;
+  max-width: 400px;
+  height: 100%;
+  max-height: 100vh;
+  background: rgb(var(--background));
+  color: rgb(var(--text-color));
+  z-index: 10;
+  transform: translateX(calc(var(--transform-logical-flip) * 100%));
+  visibility: hidden;
+  font-size: 1rem;
+  transition: transform 0.6s cubic-bezier(0.75, 0, 0.175, 1),
+    visibility 0.6s cubic-bezier(0.75, 0, 0.175, 1);
+}
+
+[dir="ltr"] .drawer--from-left {
+  right: auto;
+}
+
+[dir="rtl"] .drawer--from-left {
+  left: auto;
+}
+
+[dir="ltr"] .drawer--from-left {
+  left: 0;
+}
+
+[dir="rtl"] .drawer--from-left {
+  right: 0;
+}
+
+.drawer--from-left {
+  transform: translateX(calc(var(--transform-logical-flip) * -100%));
+}
+
+.drawer[open] {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+[dir="ltr"] .drawer--from-left .drawer__overlay {
+  left: 100%;
+}
+
+[dir="rtl"] .drawer--from-left .drawer__overlay {
+  right: 100%;
+}
+
+[dir="ltr"] .drawer--from-left .drawer__overlay {
+  right: auto;
+}
+
+[dir="rtl"] .drawer--from-left .drawer__overlay {
+  left: auto;
+}
+
+.drawer--large {
+  max-width: 500px;
+}
+
+[dir="ltr"] .drawer__overlay {
+  right: 100%;
+}
+
+[dir="rtl"] .drawer__overlay {
+  left: 100%;
+}
+
+.drawer__overlay {
+  content: "";
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background: #000000;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+.drawer[open] > .drawer__overlay {
+  visibility: visible;
+  opacity: 0.3;
+}
+
+.drawer__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: var(--header-height-without-bottom-nav);
+  max-height: 80px;
+  border-bottom: 1px solid rgb(var(--root-border-color));
+  background: rgb(
+    var(--root-background)
+  ); /* Setting an explicit background allow element to go beyond */
+  z-index: 1;
+}
+
+/* This variation remove the border and add a shadow on scroll */
+.drawer__header--shadowed {
+  height: auto;
+  border-bottom: none;
+  padding-bottom: 6px;
+}
+
+[dir="ltr"] .drawer__header--shadowed::after {
+  left: 0;
+}
+
+[dir="rtl"] .drawer__header--shadowed::after {
+  right: 0;
+}
+
+.drawer__header--shadowed::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 24px;
+  background: linear-gradient(var(--background), rgba(var(--background), 0));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.drawer__title {
+  /* We use flex positioning in case the title contains an icon or extra content */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+  max-width: 100%;
+}
+
+.drawer__title--stack {
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+[dir="ltr"] .drawer__title .icon {
+  margin-right: 12px;
+}
+
+[dir="rtl"] .drawer__title .icon {
+  margin-left: 12px;
+}
+
+[dir="ltr"] .drawer__header-action {
+  margin-left: 16px;
+}
+
+[dir="rtl"] .drawer__header-action {
+  margin-right: 16px;
+}
+
+[dir="ltr"] .drawer__close-button {
+  right: var(--container-gutter);
+}
+
+[dir="rtl"] .drawer__close-button {
+  left: var(--container-gutter);
+}
+
+.drawer__close-button {
+  position: absolute;
+  top: var(--container-gutter);
+}
+
+.drawer__header .drawer__close-button {
+  top: calc(
+    50% - 7px
+  ); /* When inside the header its alignment is relative to the header part */
+}
+
+.drawer__close-button--block {
+  position: relative;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+}
+
+.drawer__header,
+.drawer__content,
+.drawer__footer {
+  padding-left: var(--container-gutter);
+  padding-right: var(--container-gutter);
+}
+
+.drawer__content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-bottom: 24px; /* We add a bit of spacing as the drawer footer may add a shadow */
+
+  &--relative {
+    position: relative;
+  }
+}
+
+.drawer__content--padded-start {
+  padding-top: 24px;
+}
+
+.drawer__content--no-padded {
+  padding: 0;
+}
+
+.drawer__content--center {
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-bottom: 0;
+  flex-grow: 0;
+}
+
+.drawer__footer {
+  margin-top: auto;
+  padding-top: 20px;
+  padding-bottom: 20px; /* The footer in drawer has a slightly smaller padding in block direction */
+  z-index: 1;
+  transform: translateZ(
+    0
+  ); /* For some reason position: relative cause an issue on Safari so I use this to promote the element */
+  background: rgb(var(--drawer-footer-background, var(--background)));
+  color: rgb(var(--drawer-footer-text-color, var(--text-color)));
+}
+
+@supports (padding: max(0px)) {
+  .drawer__footer {
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px) + 20px);
+  }
+}
+
+.drawer__footer--bordered {
+  box-shadow: 0 1px rgb(var(--root-border-color)) inset; /* We use box-shadow due to the shadow */
+}
+
+.drawer__footer--no-top-padding {
+  padding-top: 0 !important;
+}
+
+[dir="ltr"] .drawer__footer::before {
+  left: 0;
+}
+
+[dir="rtl"] .drawer__footer::before {
+  right: 0;
+}
+
+.drawer__footer::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  width: 100%;
+  height: 24px;
+  background: linear-gradient(
+    rgba(var(--background), 0),
+    rgb(var(--background))
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media screen and (min-width: 741px) {
+  .drawer__header {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    max-height: 90px;
+  }
+
+  [dir="ltr"] .drawer__header-action {
+    margin-left: 24px;
+  }
+
+  [dir="rtl"] .drawer__header-action {
+    margin-right: 24px;
+  }
+
+  .drawer__content--padded-start {
+    padding-top: 30px;
+  }
+
+  .drawer__footer:not(.drawer__footer--tight) {
+    padding-top: var(--container-gutter);
+    padding-bottom: var(--container-gutter);
+  }
+}
+
+/* drawer position variant : below header */
+.drawer--position-below-header {
+  top: calc(var(--header-top) + var(--header-height));
+  max-height: calc(100dvh - var(--header-top) - var(--header-height));
+}

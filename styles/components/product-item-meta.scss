@@ -1,0 +1,108 @@
+/**
+ * -------------------------------------------------------------
+ * PRODUCT ITEM META
+ *
+ * This component is used on many elements (like grid item,
+ * cart page, mini-cart, order...) and guarantee a consistent
+ * spacing across all elements
+ * -------------------------------------------------------------
+ */
+
+.product-item-meta {
+  display: block;
+}
+
+.product-item-meta__vendor {
+  display: block;
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+
+.product-item-meta__label-list {
+  margin-bottom: 15px;
+
+  &.label-list--alignment {
+    &-left {
+      align-items: flex-start;
+    }
+    &-center {
+      align-items: center;
+    }
+    &-right {
+      align-items: flex-end;
+    }
+  }
+}
+
+.product-item-meta__title {
+  display: block;
+  line-height: 1.6;
+  margin-bottom: 4px;
+
+  .product-item-meta__subtitle {
+    padding-bottom: 4px;
+  }
+
+  @media screen and (max-width: 740px) {
+    &.has-wishlist-mobile {
+      position: relative;
+      padding-right: 30px;
+    }
+  }
+}
+
+.product-item-meta__reviews-badge {
+  display: block;
+  margin-top: 2px;
+}
+
+.product-item-meta__color-count {
+  margin-top: 4px;
+}
+
+.product-item-meta__reviews-badge + .product-item-meta__color-count {
+  margin-top: 4px; /* When preceded by reviews badge we have a smaller gap */
+}
+
+.product-item-meta__reviews-badge .spr-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.product-item-meta__swatch-list {
+  margin-top: 10px;
+  margin-bottom: 2px; /* The extra 2px at the bottom is to avoid the border to be clipped on iOS */
+  justify-content: center;
+  gap: 6px;
+  overflow-wrap: anywhere;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.product-item-meta__property-list {
+  display: grid;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  grid-auto-flow: row;
+}
+
+@media screen and (min-width: 741px) {
+  .product-item-meta__property-list {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  .product-item-meta__color-count {
+    margin-top: 8px;
+  }
+
+  .product-item-meta__title {
+    line-height: 1.5; /* We slightly reduce the line height on larger screen */
+
+    &.has-wishlist-desktop {
+      position: relative;
+      padding-right: 30px;
+    }
+  }
+}

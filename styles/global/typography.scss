@@ -1,0 +1,1212 @@
+/**
+ * -------------------------------------------------------------
+ * GENERAL TYPOGRAPHY
+ * -------------------------------------------------------------
+ */
+
+html {
+  font-family: var(--text-font-family);
+  font-weight: var(--text-font-weight);
+  font-style: var(--text-font-style);
+  font-size: calc(var(--base-font-size) - 1px);
+  line-height: 1.7142857143;
+  color: rgb(var(--text-color));
+  background: rgb(var(--background));
+}
+
+:lang(ar) * {
+  letter-spacing: normal !important; /* Arabic should never have letter spacing as it makes it unreadable on some fonts */
+}
+
+p strong,
+p b {
+  font-weight: var(--text-font-bold-weight);
+}
+
+.heading,
+.blockquote,
+.rte h1,
+.rte h2,
+.rte h3,
+.rte h4,
+.rte h5,
+.rte h6,
+.rte blockquote {
+  display: block;
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  font-style: var(--heading-font-style);
+  color: rgb(var(--heading-color));
+  text-transform: var(--heading-text-transform);
+}
+
+.text--small {
+  font-size: calc(var(--base-font-size) - 2px);
+  line-height: 1.6923076923;
+}
+
+.text--xsmall {
+  font-size: calc(var(--base-font-size) - 3px);
+  line-height: 1.5;
+}
+
+.text--xxsmall {
+  font-size: calc(var(--base-font-size) - 5px);
+  line-height: 1.5;
+}
+
+.text--large {
+  font-size: calc(var(--base-font-size) + 1px);
+}
+
+.text--subdued {
+  color: rgba(var(--text-color), 0.7);
+}
+
+[dir="ltr"] .text--left {
+  text-align: left;
+}
+
+[dir="rtl"] .text--left {
+  text-align: right;
+}
+
+.text--center {
+  text-align: center;
+}
+
+[dir="ltr"] .text--right {
+  text-align: right;
+}
+
+[dir="rtl"] .text--right {
+  text-align: left;
+}
+
+.text--strong {
+  font-weight: var(--text-font-bold-weight);
+}
+
+.text--underlined {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  -webkit-text-decoration-color: currentColor;
+  text-decoration-color: currentColor;
+}
+
+p a:not(.button),
+.rte a:not(.button),
+.link {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  -webkit-text-decoration-color: rgba(var(--text-color), 0.35);
+  text-decoration-color: rgba(var(--text-color), 0.35);
+  transition: color 0.2s ease-in-out,
+    -webkit-text-decoration-color 0.2s ease-in-out;
+  transition: text-decoration-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: text-decoration-color 0.2s ease-in-out, color 0.2s ease-in-out,
+    -webkit-text-decoration-color 0.2s ease-in-out;
+}
+
+.link--button {
+  display: inline-block;
+  font-size: calc(var(--base-font-size) - 2px);
+  font-weight: var(--text-font-bold-weight);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  color: rgb(var(--primary-button-text-color, var(--text-color)));
+  -webkit-text-decoration-color: rgba(
+    var(--primary-button-text-color, var(--text-color)),
+    0.35
+  );
+  text-decoration-color: rgba(
+    var(--primary-button-text-color, var(--text-color)),
+    0.35
+  );
+}
+
+/* When the link class is assigned to the heading--small, we have to force increase the line height to prevent the line to overlap */
+.heading--small.link {
+  line-height: 1.8;
+}
+
+@media screen and (pointer: fine) {
+  p a:not(.button):hover,
+  .rte a:not(.button):hover,
+  .link:hover {
+    color: rgb(var(--text-color));
+    -webkit-text-decoration-color: rgb(var(--text-color));
+    text-decoration-color: rgb(var(--text-color));
+  }
+
+  .link--button:hover {
+    color: rgb(var(--primary-button-text-color, var(--text-color)));
+    -webkit-text-decoration-color: rgb(
+      var(--primary-button-text-color, var(--text-color))
+    );
+    text-decoration-color: rgb(
+      var(--primary-button-text-color, var(--text-color))
+    );
+  }
+}
+
+/* Animated link */
+.link--animated {
+  display: block;
+  position: relative;
+  width: max-content;
+}
+
+.link--animated::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: var(--transform-origin-end);
+  transition: transform 0.3s;
+}
+
+.text--underlined.link--animated {
+  text-decoration: none;
+}
+
+.text--underlined.link--animated::after {
+  transform: scaleX(1);
+}
+
+@media screen and (pointer: fine) {
+  .link--animated[aria-expanded="true"]::after,
+  .link--animated:hover::after {
+    transform: scaleX(1);
+    transform-origin: var(--transform-origin-start);
+  }
+
+  @keyframes textUnderlinedAnimatedKeyframes {
+    0% {
+      transform: scaleX(1);
+      transform-origin: var(--transform-origin-end);
+    }
+
+    50% {
+      transform: scaleX(0);
+      transform-origin: var(--transform-origin-end);
+    }
+
+    51% {
+      transform-origin: var(--transform-origin-start);
+    }
+
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  .text--underlined.link--animated:hover::after {
+    animation: textUnderlinedAnimatedKeyframes 0.6s;
+  }
+}
+
+/* Reduced opacity linked */
+.link--faded {
+  transition: opacity 0.25s ease-in-out;
+}
+
+.link--faded:hover {
+  opacity: 0.7;
+}
+
+/* Hide a text visually without removing it from screen readers (mostly used for accessibility) */
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+/* Headings */
+@media screen and (max-width: 740px) {
+  .text--custom-font-size-mobile {
+    font-size: var(--text-custom-font-size);
+  }
+}
+
+@media screen and (min-width: 741px) {
+  html {
+    font-size: var(--base-font-size);
+    line-height: 1.7333333333;
+  }
+
+  .text--small {
+    font-size: calc(var(--base-font-size) - 1px);
+    line-height: 1.714285713;
+  }
+
+  .text--xsmall {
+    font-size: calc(var(--base-font-size) - 2px);
+    line-height: 1.5384615385;
+  }
+
+  .text--xxsmall {
+    font-size: calc(var(--base-font-size) - 4px);
+    line-height: 1.5384615385;
+  }
+
+  .text--large {
+    font-size: calc(var(--base-font-size) + 5px);
+  }
+
+  .text--custom-font-size {
+    font-size: var(--text-custom-font-size);
+  }
+}
+
+/**
+ * -------------------------------------------------------------
+ * RTE STYLES
+ *
+ * NOTE: In Focal, all text are spaced consistently in RTE fields (those written in text editor of Shopify). However,
+ *       we also re-use internally in the theme for most section the same spacing between elements. In order to space
+ *       those, a "text-container" class is introduced and allow to introduce a consistent spacing.
+ * -------------------------------------------------------------
+ */
+
+.heading:first-child {
+  margin-top: 0;
+}
+
+.heading:last-child {
+  margin-bottom: 0;
+}
+
+/*
+ * IMPLEMENTATION NOTE: while those are called "heading--small", they are actually using the text font and not the heading
+ * font. The reason is that we found out that due to their small size, the body font usually works better visually. Of
+ * course if both heading and body font are the same, this won't change anything.
+ */
+.heading--small,
+.heading--xsmall,
+.heading--xxsmall {
+  font-family: var(--text-font-family);
+  font-style: var(--text-font-style);
+  text-transform: uppercase; /* Small headings are always uppercase */
+  font-weight: var(--text-font-weight);
+  line-height: 1.4663636;
+  letter-spacing: 1px;
+  color: rgb(var(--heading-small-color, var(--heading-color)));
+}
+
+.heading--xxsmall {
+  font-size: var(--heading-xxsmall-font-size);
+}
+
+.heading--xsmall {
+  font-size: var(--heading-xsmall-font-size);
+}
+
+.heading--small {
+  font-size: var(--heading-small-font-size);
+  line-height: 1.5; /* Slightly bigger line height */
+}
+
+@media screen and (min-width: 741px) {
+  .heading.custom-font-size {
+    font-size: var(--heading-custom-font-size);
+  }
+  .heading--small.custom-font-size {
+    font-size: var(--heading-small-custom-font-size);
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .heading.custom-font-size--mobile {
+    font-size: var(--heading-custom-font-size);
+  }
+  .heading--small.custom-font-size--mobile {
+    font-size: var(--heading-small-custom-font-size);
+  }
+}
+
+.heading--large,
+.rte .heading--large {
+  font-size: var(--heading-large-font-size);
+  line-height: 1.11111111;
+  letter-spacing: -0.9px;
+}
+
+.heading--text-shadow {
+  text-shadow: 2px 2px
+    rgba(var(--heading-shadow-color), var(--heading-shadow-color-opacity));
+}
+
+.heading--small {
+  &.font-weight {
+    &--light {
+      font-weight: var(--heading-font-weight-light);
+    }
+    &--normal {
+      font-weight: var(--heading-font-weight-normal);
+    }
+    &--bold {
+      font-weight: var(--heading-font-weight-bold);
+    }
+  }
+}
+
+.heading--primary {
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+
+  &.font-weight {
+    &--light {
+      font-weight: var(--heading-font-weight-light);
+    }
+    &--normal {
+      font-weight: var(--heading-font-weight-normal);
+    }
+    &--bold {
+      font-weight: var(--heading-font-weight-bold);
+    }
+  }
+}
+
+.heading--secondary {
+  font-family: var(--heading-secondary-font-family);
+  font-weight: var(--heading-secondary-font-weight);
+
+  &.font-weight {
+    &--light {
+      font-weight: var(--heading-secondary-font-weight-light);
+    }
+    &--normal {
+      font-weight: var(--heading-secondary-font-weight-normal);
+    }
+    &--bold {
+      font-weight: var(--heading-secondary-font-weight-bold);
+    }
+  }
+}
+
+.heading--body-text {
+  font-family: var(--text-font-family);
+  font-weight: var(--text-font-weight);
+
+  &.font-weight {
+    &--light {
+      font-weight: var(--text-font-weight-light);
+    }
+    &--normal {
+      font-weight: var(--text-font-weight-normal);
+    }
+    &--bold {
+      font-weight: var(--text-font-weight-bold);
+    }
+  }
+}
+
+.text--primary {
+  font-family: var(--heading-font-family);
+  font-weight: var(--text-font-weight);
+}
+
+.text--secondary {
+  font-family: var(--heading-secondary-font-family);
+  font-weight: var(--text-font-weight);
+}
+
+.text--body-text {
+  font-family: var(--text-font-family);
+  font-weight: var(--text-font-weight);
+}
+
+@media screen and (min-width: 1000px) {
+  .heading--text-shadow {
+    text-shadow: 5px 5px
+      rgba(var(--heading-shadow-color), var(--heading-shadow-color-opacity));
+  }
+}
+
+.text-transform--uppercase {
+  text-transform: uppercase;
+}
+
+.text-transform--lowercase {
+  text-transform: lowercase;
+}
+
+.text-transform--capitalize {
+  text-transform: capitalize;
+}
+
+.text-transform--none {
+  text-transform: none;
+}
+
+.font-weight--bold {
+  font-weight: bold;
+}
+
+.font-weight--normal {
+  font-weight: 400;
+}
+
+.h1,
+.rte h1 {
+  font-size: var(--heading-h1-font-size);
+  line-height: 1.11111111;
+  letter-spacing: -0.9px;
+}
+
+.h2,
+.rte h2 {
+  font-size: var(--heading-h2-font-size);
+  line-height: 1.13333333;
+  letter-spacing: -0.6px;
+}
+
+.h3,
+.rte h3 {
+  font-size: var(--heading-h3-font-size);
+  line-height: 1.1538461538;
+  letter-spacing: -0.4px;
+}
+
+.h4,
+.rte h4 {
+  font-size: var(--heading-h4-font-size);
+  line-height: 1.1666666667;
+  letter-spacing: -0.3px;
+}
+
+.h5,
+.rte h5 {
+  font-size: var(--heading-h5-font-size);
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+.h6,
+.rte h6 {
+  font-size: var(--heading-h6-font-size);
+  line-height: 1.25;
+}
+
+.blockquote,
+.rte blockquote {
+  position: relative;
+  padding: 24px 24px 0;
+  font-size: var(--heading-h4-font-size);
+  line-height: 1.1666666667;
+  letter-spacing: -0.3px;
+}
+
+[dir="ltr"] .blockquote::before,
+[dir="ltr"] .rte blockquote::before {
+  left: calc(50% - (71px / 2));
+}
+
+[dir="rtl"] .blockquote::before,
+[dir="rtl"] .rte blockquote::before {
+  right: calc(50% - (71px / 2));
+}
+
+.blockquote::before,
+.rte blockquote::before {
+  content: "";
+  position: absolute;
+  width: 71px;
+  height: 56px;
+  top: -10px;
+  background: rgb(var(--text-color));
+  opacity: 0.15;
+  -webkit-mask-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDEgODAiPiAgICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTAgNDEuNzdWMGg0MS42MDR2NDEuNzdMMjAuMDI2IDgwSC45ODdMMjEuNzIgNDEuNzdIMHptNTkuMzk2IDBWMEgxMDF2NDEuNzdMNzkuNDIyIDgwSDYwLjM4M2wyMC43MzItMzguMjNINTkuMzk2eiIgZmlsbD0iY3VycmVudENvbG9yIiAvPjwvc3ZnPg==);
+  mask-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDEgODAiPiAgICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTAgNDEuNzdWMGg0MS42MDR2NDEuNzdMMjAuMDI2IDgwSC45ODdMMjEuNzIgNDEuNzdIMHptNTkuMzk2IDBWMEgxMDF2NDEuNzdMNzkuNDIyIDgwSDYwLjM4M2wyMC43MzItMzguMjNINTkuMzk2eiIgZmlsbD0iY3VycmVudENvbG9yIiAvPjwvc3ZnPg==);
+  -webkit-mask-size: 71px 56px;
+  mask-size: 71px 56px;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+[dir="ltr"] .unordered-list,
+[dir="ltr"] .text-container ul,
+[dir="ltr"] .rte ul {
+  margin-left: 1.25em;
+  margin-right: 0;
+}
+
+[dir="rtl"] .unordered-list,
+[dir="rtl"] .text-container ul,
+[dir="rtl"] .rte ul {
+  margin-right: 1.25em;
+  margin-left: 0;
+}
+
+.unordered-list,
+.text-container ul,
+.rte ul {
+  list-style-type: square;
+  padding: 0;
+}
+
+[dir="ltr"] .ordered-list,
+[dir="ltr"] .text-container ol,
+[dir="ltr"] .rte ol {
+  margin-left: 1em;
+  margin-right: 0;
+}
+
+[dir="rtl"] .ordered-list,
+[dir="rtl"] .text-container ol,
+[dir="rtl"] .rte ol {
+  margin-right: 1em;
+  margin-left: 0;
+}
+
+.ordered-list,
+.text-container ol,
+.rte ol {
+  padding: 0;
+}
+
+[dir="ltr"] .unordered-list li,
+[dir="ltr"] .text-container ul li,
+[dir="ltr"] .rte ul li {
+  padding: 2px 0 2px 5px;
+}
+
+[dir="rtl"] .unordered-list li,
+[dir="rtl"] .text-container ul li,
+[dir="rtl"] .rte ul li {
+  padding: 2px 5px 2px 0;
+}
+
+[dir="ltr"] .ordered-list li,
+[dir="ltr"] .text-container ol li,
+[dir="ltr"] .rte ol li {
+  padding: 3px 0 3px 9px;
+}
+
+[dir="rtl"] .ordered-list li,
+[dir="rtl"] .text-container ol li,
+[dir="rtl"] .rte ol li {
+  padding: 3px 9px 3px 0;
+}
+
+.unordered-list li::marker,
+.text-container ul li::marker,
+.rte ul li::marker {
+  color: inherit;
+  font-size: 16px;
+}
+
+.ordered-list li::marker,
+.text-container ol li::marker,
+.rte ol li::marker {
+  color: inherit;
+  font-size: 11px;
+}
+
+/* Minimal table styling, with a bordered variation */
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.table,
+.rte table {
+  --table-spacing: 16px;
+  width: 100%;
+}
+
+.table--loose {
+  --table-spacing: 24px;
+}
+
+[dir="ltr"] .table th:not([class*="text--"]),
+[dir="ltr"] .rte table th:not([class*="text--"]) {
+  text-align: left;
+}
+
+[dir="rtl"] .table th:not([class*="text--"]),
+[dir="rtl"] .rte table th:not([class*="text--"]) {
+  text-align: right;
+}
+
+.table th,
+.rte table th {
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgb(var(--border-color));
+}
+
+.table th,
+.rte table th {
+  padding-left: var(--table-spacing);
+  padding-right: var(--table-spacing);
+}
+
+.table td.half-spaced,
+.rte table td.half-spaced {
+  padding: calc(var(--table-spacing) / 2);
+}
+
+.table td,
+.rte table td {
+  padding: var(--table-spacing);
+  padding-bottom: 0;
+}
+
+.table tr[onclick],
+.table tr[data-href] {
+  cursor: pointer;
+}
+
+[dir="ltr"] .table th:first-child,
+[dir="ltr"] .rte table th:first-child,
+[dir="ltr"] .table td:first-child,
+[dir="ltr"] .rte table td:first-child {
+  padding-left: 0;
+}
+
+[dir="rtl"] .table th:first-child,
+[dir="rtl"] .rte table th:first-child,
+[dir="rtl"] .table td:first-child,
+[dir="rtl"] .rte table td:first-child {
+  padding-right: 0;
+}
+
+[dir="ltr"] .table th:last-child,
+[dir="ltr"] .rte table th:last-child,
+[dir="ltr"] .table td:last-child,
+[dir="ltr"] .rte table td:last-child {
+  padding-right: 0;
+}
+
+[dir="rtl"] .table th:last-child,
+[dir="rtl"] .rte table th:last-child,
+[dir="rtl"] .table td:last-child,
+[dir="rtl"] .rte table td:last-child {
+  padding-left: 0;
+}
+
+.table tfoot tr:first-child td,
+.rte table tfoot tr:first-child td {
+  border-top: 1px solid rgb(var(--border-color));
+}
+
+.table tfoot tr:not(:first-child) td,
+.rte table tfoot tr:not(:first-child) td {
+  padding-top: 8px;
+}
+
+.table--bordered td {
+  border-top: 1px solid rgb(var(--border-color));
+  padding-bottom: var(--table-spacing);
+}
+
+.table--footered tbody tr:last-child td {
+  padding-bottom: var(--table-spacing);
+}
+
+@media screen and (max-width: 740px) {
+  .table tfoot td,
+  .rte table tfoot td {
+    padding-top: 16px;
+  }
+}
+
+@media screen and (min-width: 741px) {
+  .ordered-list li::marker,
+  .text-container ol li::marker,
+  .rte ol li::marker {
+    font-size: 12px;
+  }
+
+  .heading--xsmall {
+    line-height: 1.466666666;
+  }
+
+  .heading--small {
+    line-height: 1.2307692308;
+  }
+
+  .heading--large {
+    line-height: 1;
+  }
+
+  .h1,
+  .rte h1 {
+    line-height: 1.0416666667;
+    letter-spacing: -1px;
+  }
+
+  .h2,
+  .rte h2 {
+    line-height: 1.1052631579;
+    letter-spacing: -1px;
+  }
+
+  .h3,
+  .rte h3 {
+    line-height: 1.0625;
+    letter-spacing: -0.8px;
+  }
+
+  .h4,
+  .rte h4 {
+    line-height: 1.1666666667;
+    letter-spacing: -0.6px;
+  }
+
+  .h5,
+  .rte h5 {
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+  }
+
+  .h6,
+  .rte h6 {
+    line-height: 1.2222222222;
+  }
+
+  [dir="ltr"] .blockquote,
+  [dir="ltr"] .rte blockquote {
+    padding-left: 49px;
+    padding-right: 0;
+  }
+
+  [dir="rtl"] .blockquote,
+  [dir="rtl"] .rte blockquote {
+    padding-right: 49px;
+    padding-left: 0;
+  }
+
+  .blockquote,
+  .rte blockquote {
+    line-height: 1.1666666667;
+    letter-spacing: -0.6px;
+    min-height: 63px;
+  }
+
+  [dir="ltr"] .blockquote--center {
+    padding-left: 0;
+  }
+
+  [dir="rtl"] .blockquote--center {
+    padding-right: 0;
+  }
+
+  [dir="ltr"] .blockquote:not(.blockquote--center)::before,
+  [dir="ltr"] .rte blockquote:not(.blockquote--center)::before {
+    left: 0;
+  }
+
+  [dir="rtl"] .blockquote:not(.blockquote--center)::before,
+  [dir="rtl"] .rte blockquote:not(.blockquote--center)::before {
+    right: 0;
+  }
+
+  .blockquote:not(.blockquote--center)::before,
+  .rte blockquote:not(.blockquote--center)::before {
+    width: 80px;
+    height: 63px;
+    top: 0;
+    -webkit-mask-size: 80px 63px;
+    mask-size: 80px 63px;
+  }
+
+  [dir="ltr"] .unordered-list li,
+  [dir="ltr"] .text-container ul li,
+  [dir="ltr"] .rte ul li {
+    padding: 4px 0 4px 5px;
+  }
+
+  [dir="rtl"] .unordered-list li,
+  [dir="rtl"] .text-container ul li,
+  [dir="rtl"] .rte ul li {
+    padding: 4px 5px 4px 0;
+  }
+
+  [dir="ltr"] .ordered-list li,
+  [dir="ltr"] .text-container ol li,
+  [dir="ltr"] .rte ol li {
+    padding: 4px 0 4px 9px;
+  }
+
+  [dir="rtl"] .ordered-list li,
+  [dir="rtl"] .text-container ol li,
+  [dir="rtl"] .rte ol li {
+    padding: 4px 9px 4px 0;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  /* The rich text table keep the smaller padding as merchant often use RTE with lot of columns */
+  .table {
+    --table-spacing: 24px;
+  }
+
+  .table--loose {
+    --table-spacing: 32px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .heading--large,
+  .rte .heading--large {
+    line-height: 1;
+  }
+
+  .h1,
+  .rte h1 {
+    line-height: 1.0714285714;
+    letter-spacing: -1px;
+  }
+
+  .h2,
+  .rte h2 {
+    line-height: 1.0833333333;
+    letter-spacing: -1px;
+  }
+
+  .h3,
+  .rte h3 {
+    line-height: 1.1111111111;
+    letter-spacing: -0.8px;
+  }
+
+  .h4,
+  .rte h4 {
+    line-height: 1.1333333333;
+    letter-spacing: -0.7px;
+  }
+
+  .h5,
+  .rte h5 {
+    line-height: 1.1666666667;
+    letter-spacing: -0.4px;
+  }
+
+  .h6,
+  .rte h6 {
+    line-height: 1.2222222222;
+  }
+
+  [dir="ltr"] .blockquote,
+  [dir="ltr"] .rte blockquote {
+    padding-left: 69px;
+  }
+
+  [dir="rtl"] .blockquote,
+  [dir="rtl"] .rte blockquote {
+    padding-right: 69px;
+  }
+
+  .blockquote,
+  .rte blockquote {
+    line-height: 1.1333333333;
+    letter-spacing: -0.7px;
+    min-height: 80px;
+  }
+
+  [dir="ltr"] .blockquote--center,
+  [dir="ltr"] .rte .blockquote--center {
+    padding-left: 0;
+  }
+
+  [dir="rtl"] .blockquote--center,
+  [dir="rtl"] .rte .blockquote--center {
+    padding-right: 0;
+  }
+
+  .blockquote:not(.blockquote--center)::before,
+  .rte blockquote:not(.blockquote--center)::before {
+    width: 101px;
+    height: 81px;
+    -webkit-mask-size: 101px 81px;
+    mask-size: 101px 81px;
+  }
+}
+
+/**
+ * -------------------------------------------------------------
+ * RTE SPACING
+ *
+ * NOTE: to have the same spacing as in an RTE field, you can wrap
+ *       the element by a div with the class "text-container"
+ * -------------------------------------------------------------
+ */
+
+.text-container p:not(.heading) + p,
+.rte p:not(.heading) + p,
+.text-container p + form,
+.rte p + form {
+  margin-top: 24px;
+}
+
+.text-container .heading--large,
+.rte .heading--large {
+  margin: 48px 0 40px;
+}
+
+.text-container .h1,
+.rte h1 {
+  margin: 48px 0 24px;
+}
+
+.text-container .h2,
+.rte h2,
+.text-container .h3,
+.rte h3,
+.text-container .h4,
+.rte h4,
+.text-container .h5,
+.rte h5,
+.text-container .h6,
+.rte h6 {
+  margin: 40px 0 16px;
+}
+
+.text-container .heading--small,
+.rte .heading--small {
+  margin: 16px 0;
+}
+
+.text-container .heading--xsmall,
+.rte .heading--xsmall {
+  margin: 12px 0;
+}
+
+.blockquote,
+.rte blockquote {
+  margin: 48px 0 64px;
+}
+
+.text-container img:not([style*="float"]),
+.rte img:not([style*="float"]) {
+  display: block;
+  margin: 34px 0;
+}
+
+.text-container ul,
+.rte ul,
+.text-container ol,
+.rte ol {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+@media screen and (min-width: 1000px) {
+  .text-container p + form,
+  .rte p + form {
+    margin-top: 32px;
+  }
+
+  .text-container .h1,
+  .rte h1 {
+    margin: 48px 0 32px;
+  }
+
+  .text-container .h2,
+  .rte h2,
+  .text-container .h3,
+  .rte h3,
+  .text-container .h4,
+  .rte h4 {
+    margin: 48px 0 24px;
+  }
+
+  .text-container .h5,
+  .rte h5,
+  .text-container .h6,
+  .rte h6 {
+    margin: 40px 0 16px;
+  }
+
+  .blockquote,
+  .rte blockquote {
+    margin: 80px 0 96px;
+  }
+}
+
+/* We remove the spacing for first item and last item */
+
+.rte > :first-child,
+.text-container > :first-child {
+  margin-top: 0;
+}
+
+.rte > :last-child,
+.text-container > :last-child {
+  margin-bottom: 0;
+}
+
+/* Text alignment variations */
+
+.text-container {
+  &--text-center {
+    text-align: center;
+  }
+
+  [dir="ltr"] &--text-left {
+    text-align: left;
+  }
+
+  [dir="rtl"] &--text-left {
+    text-align: right;
+  }
+
+  [dir="ltr"] &--text-right {
+    text-align: right;
+  }
+
+  [dir="rtl"] &--text-right {
+    text-align: left;
+  }
+
+  @media screen and (max-width: 740px) {
+    [dir="ltr"] &--mobile-text-left {
+      text-align: left;
+    }
+
+    [dir="rtl"] &--mobile-text-left {
+      text-align: right;
+    }
+
+    [dir="ltr"] &--mobile-text-right {
+      text-align: right;
+    }
+
+    [dir="rtl"] &--mobile-text-right {
+      text-align: left;
+    }
+
+    &--mobile-text-center {
+      text-align: center !important;
+    }
+  }
+
+  &--compact {
+    .heading {
+      margin-bottom: 10px;
+    }
+
+    .heading--small {
+      margin: 0;
+    }
+
+    .heading + .button-wrapper {
+      margin-top: 20px;
+    }
+  }
+}
+
+/**
+ * -------------------------------------------------------------
+ * SPACING COMBINATIONS
+ *
+ * NOTE: this define common combination in order to provide a consistent
+ *       styling throughout the theme
+ * -------------------------------------------------------------
+ */
+
+.richtext-content {
+  margin-block-start: 1em;
+}
+
+.heading--small + .heading--large {
+  margin-top: 32px;
+}
+
+.heading--small + p,
+.heading--small + .richtext-content,
+.heading--xsmall + p,
+.heading--xsmall + .richtext-content {
+  margin-top: 16px;
+}
+
+.heading--small + p,
+.heading--small + .h1,
+.heading--small + h1,
+.heading--small + .h2,
+.heading--small + h2,
+.heading--small + .h3,
+.heading--small + h3,
+.heading--small + .h4,
+.heading--small + h4,
+.heading--small + .h5,
+.heading--small + h5,
+.heading--small + .h6,
+.heading--small + h6 {
+  margin-top: 16px;
+}
+
+.heading--xsmall + p,
+.heading--xsmall + .h1,
+.heading--xsmall + h1,
+.heading--xsmall + .h2,
+.heading--xsmall + h2,
+.heading--xsmall + .h3,
+.heading--xsmall + h3 {
+  margin-top: 16px;
+}
+
+.heading--xsmall + .h4,
+.heading--xsmall + h4,
+.heading--xsmall + .h5,
+.heading--xsmall + h5,
+.heading--xsmall + .h6,
+.heading--xsmall + h6 {
+  margin-top: 12px;
+}
+
+.heading + .button-wrapper,
+.heading + .button-group,
+p + .button-wrapper,
+p + .button-group,
+.richtext-content + .button-wrapper,
+.richtext-content + .button-group,
+.rte + .button-wrapper,
+.rte + .button-group,
+.button-wrapper + p,
+.button-group + p,
+.button-wrapper + .richtext-content,
+.button-group + .richtext-content {
+  margin-top: 32px;
+}
+
+@media screen and (min-width: 741px) {
+  .heading--small + p,
+  .heading--small + .richtext-content,
+  .heading--small + .h1,
+  .heading--small + h1,
+  .heading--small + .h2,
+  .heading--small + h2,
+  .heading--small + .h3,
+  .heading--small + h3,
+  .heading--small + .h4,
+  .heading--small + h4 {
+    margin-top: 24px;
+  }
+
+  .heading--small + .h5,
+  .heading--small + h5,
+  .heading--small + .h6,
+  .heading--small + h6 {
+    margin-top: 16px;
+  }
+
+  .heading--xsmall + .h1,
+  .heading--xsmall + h1,
+  .heading--xsmall + .h2,
+  .heading--xsmall + h2 {
+    margin-top: 24px;
+  }
+}

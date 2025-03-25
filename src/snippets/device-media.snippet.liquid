@@ -1,0 +1,70 @@
+{% assign media = media | default: device-media %}
+{% assign type = type | default: media.media_type | default: media.type %}
+{% assign mobile_type = mobile_type | default: mobile_media.media_type | default: mobile_media.type %}
+{% assign lazy = lazy | default: true, allow_false: true %}
+{% assign in_slider = in_slider | default: false %}
+{% assign slide_index = slide_index | default: 1 %}
+
+{% capture media_content %}
+  {% if type == 'video' %}
+    {% if mobile_type == 'video' %}
+      {% assign mobile_video = mobile_media %}
+    {% endif %}
+    <native-video
+      autoplay
+      {% if lazy %}
+        lazy
+      {% endif %}
+      {% if mobile_video != blank %}
+        has-mobile-video
+      {% endif %}
+      class="{{ class }} video-wrapper video-wrapper--native"
+    >
+      {% comment %}
+        Add a placeholder to reserve space for a video container
+        Otherwise flickity can't handle lazy video loading
+      {% endcomment %}
+      {% if in_slider %}
+        {% render 'media', media: media.preview_image, sizes: sizes, class: class, lazy: false %}
+      {% endif %}
+      <template>
+        {% assign desktop_video_class = 'video-wrapper__video--desktop' %}
+        {% if mobile_video != blank %}
+          {% assign desktop_video_class = desktop_video_class | append: ' hidden-phone' %}
+        {% endif %}
+        {% render 'media' with media, autoplay: true, class: desktop_video_class %}
+        {% if mobile_video != blank %}
+          {% render 'media' with mobile_video,
+            autoplay: true,
+            class: 'video-wrapper__video--mobile hidden-tablet-and-up'
+          %}
+        {% endif %}
+      </template>
+    </native-video>
+  {% else %}
+    {% if mobile_media %}
+      {% assign desktop_media_class = ' hidden-phone' %}
+      {% assign mobile_class = class | append: ' hidden-tablet-and-up' | strip %}
+      {% render 'media' with mobile_media, sizes: sizes, class: mobile_class, lazy: lazy %}
+    {% endif %}
+    {% assign class = class | append: desktop_media_class | strip %}
+    {% render 'media' with media, sizes: sizes, class: class, lazy: lazy %}
+  {% endif %}
+{% endcapture %}
+
+{% if in_slider %}
+  {% assign slide_wrapper_class = 'slide-media-content-wrapper' %}
+  {% if slide_index == 1 %}
+    {% assign slide_wrapper_class = slide_wrapper_class | append: ' is-selected' %}
+  {% endif %}
+  <div
+    id="product-item-{{ section.id }}-{{ media.id }}"
+    data-media-type="{{ type }}"
+    data-media-id="{{ media.id }}"
+    class="{{slide_wrapper_class}}"
+  >
+    {{ media_content }}
+  </div>
+{% else %}
+  {{ media_content }}
+{% endif %}

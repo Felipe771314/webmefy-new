@@ -1,0 +1,91 @@
+{%- assign returns_count = order.metafields['the-oz-return']['user-returns'].returns | size -%}
+{%- assign order_status = order.fulfillment_status | downcase -%}
+{%- assign now_date = 'now' | date: '%s' | plus: 0 -%}
+{%- assign client_allowed_return_date = 0 -%}
+{%- assign client_return_deadline_date = null -%}
+
+{%- assign locale_prefix = '' -%}
+{%- unless request.locale.primary -%}
+  {%- assign locale_prefix = request.locale.iso_code | splice: 0, 1 -%}
+{%- endunless -%}
+
+{% comment %}Take metafield deadline date in priority if exist{% endcomment %}
+{%- assign client_return_deadline_date = order.metafields['the-oz-return']['return-deadline'].value -%}
+{% if client_return_deadline_date == blank %}
+  {%- assign client_return_deadline_date = order.tags | where: 'CLIENT_RETURN_DEADLINE' | last -%}
+{%- endif -%}
+
+{%- if client_return_deadline_date == null or client_return_deadline_date == '' -%}
+  {%- assign client_return_deadline_date = null -%}
+{%- else -%}
+  {%- assign client_return_deadline_date = client_return_deadline_date | split: '|' | last -%}
+{%- endif -%}
+
+{%- assign order_is_returnable = false -%}
+{%- if order_status == 'fulfilled' or order_status == 'partial' -%}
+  {%- assign order_is_returnable = true -%}
+{%- endif -%}
+
+{% assign return_link_is_displayed = false %}
+
+{%- if order_is_returnable -%}
+  {%- if client_return_deadline_date != null -%}
+    {%- assign client_allowed_return_date = client_return_deadline_date | date: '%s' | plus: 0 -%}
+  {%- else -%}
+    {%- assign client_allowed_return_date = now_date -%}
+  {%- endif -%}
+
+  {% if settings.returns_app == 'theoz_cdn' and settings.returns_app_oz_cdn_returns_page != blank %}
+    {% assign returns_page = settings.returns_app_oz_cdn_returns_page %}
+    {% assign startsWith = '/' %}
+    {% assign checkArray = returns_page | split: startsWith %}
+    {% if checkArray[0] != blank %}
+      {% assign returns_page = returns_page | prepend: '/' %}
+    {% endif %}
+  {% else %}
+    {% assign returns_page = '/account?order_return' %}
+  {% endif %}
+
+  {% if returns_page contains '?' %}
+    {%- capture returns_page -%}{{ returns_page }}&ref={{ order.name | url_encode }}&email={{ customer.email | url_encode }}{%- endcapture -%}
+  {% else %}
+    {%- capture returns_page -%}{{ returns_page }}?ref={{ order.name | url_encode }}&email={{ customer.email | url_encode }}{%- endcapture -%}
+  {% endif %}
+
+  {%- if client_allowed_return_date != null and now_date <= client_allowed_return_date -%}
+    {% assign return_link_is_displayed = true %}
+    {% if settings.returns_app == 'theoz_cdn' %}
+      <oz-app-order-return-ask-return-link
+        store-name="{{ shop.permanent_domain | remove: '.myshopify.com' }}"
+        api-url="{{ settings.returns_app_oz_cdn_api_url }}"
+        ref="{{ order.name | url_encode }}"
+        email="{{ customer.email | url_encode }}"
+        class="hidden"
+      >
+        <a
+          class="app-return-link"
+          href="{{ returns_page }}&step=2"
+        >
+          {{- 'request_returns.account.ask_return' | t -}}
+        </a>
+      </oz-app-order-return-ask-return-link>
+    {% else %}
+      <a
+        class="app-return-link"
+        href="{{ returns_page }}&step=2"
+      >
+        {{- 'request_returns.account.ask_return' | t -}}
+      </a>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if returns_count > 0 -%}
+    {% assign return_link_is_displayed = true %}
+    <a
+      class="app-return-link"
+      href="{{ returns_page }}&step=3"
+    >
+      {{- 'request_returns.account.my_return_requests' | t -}}
+    </a>
+  {%- endif -%}
+{%- endif -%}

@@ -1,0 +1,233 @@
+/**
+ * -------------------------------------------------------------
+ * TABS (used in product pages and for the collections section)
+ * -------------------------------------------------------------
+ */
+
+.tabs-nav {
+  position: relative;
+  display: block;
+  margin-bottom: 32px;
+}
+
+.tabs-nav:not(:first-child) {
+  margin-top: 24px;
+}
+
+.tabs-nav__scroller {
+  display: block;
+}
+
+.tabs-nav__scroller-inner {
+  position: relative;
+  line-height: 1;
+}
+
+.tabs-nav__item-list {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  justify-content: flex-start;
+  gap: 32px;
+  vertical-align: top;
+  box-shadow: 0 -1px rgb(var(--border-color)) inset;
+}
+
+.tabs-nav__item {
+  padding-bottom: 18px;
+  opacity: 0.7;
+  transition: opacity 0.25s ease-in-out;
+  &--heading-colored {
+    color: rgb(var(--heading-color));
+  }
+}
+
+.tabs-nav__item[aria-expanded="true"] {
+  opacity: 1;
+}
+
+[dir="ltr"] .tabs-nav__position {
+  left: 0;
+}
+
+[dir="rtl"] .tabs-nav__position {
+  right: 0;
+}
+
+.tabs-nav__position {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(var(--scale, 0)) translateX(var(--translate, 0));
+  transform-origin: left; /* Make sure to always use left here even in RTL, as the calculation is based on LTR */
+}
+
+.tabs-nav__position.is-initialized {
+  transition: transform 0.4s ease-in-out;
+}
+
+@supports (scale: 0) {
+  .tabs-nav__position {
+    scale: var(--scale, 0) 1;
+    translate: calc(var(--translate, 0) * var(--scale, 0));
+    transform: none;
+  }
+
+  .tabs-nav__position.is-initialized {
+    transition: scale 0.2s ease-in-out, translate 0.4s ease-in-out;
+  }
+}
+
+/* Center variation */
+
+.tabs-nav--center .tabs-nav__scroller-inner {
+  max-width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Arrow variation */
+
+[dir="ltr"] .tabs-nav__arrows {
+  right: 0;
+}
+
+[dir="rtl"] .tabs-nav__arrows {
+  left: 0;
+}
+
+.tabs-nav__arrows {
+  display: none;
+  position: absolute;
+  top: -5px;
+  z-index: 1;
+}
+
+.tabs-nav__scroller.is-scrollable + .tabs-nav__arrows {
+  display: flex;
+}
+
+.tabs-nav__arrow-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: rgb(var(--background));
+  border: 1px solid rgb(var(--border-color));
+}
+
+[dir="ltr"] .tabs-nav__arrow-item + .tabs-nav__arrow-item {
+  border-left: none;
+}
+
+[dir="rtl"] .tabs-nav__arrow-item + .tabs-nav__arrow-item {
+  border-right: none;
+}
+
+.tabs-nav[arrows] .tabs-nav__scroller {
+  overflow: hidden; /* Prevent to be manually scrollable as we want to allow scroll with arrows only */
+}
+
+[dir="ltr"] .tabs-nav[arrows] .tabs-nav__scroller.is-scrollable::before {
+  right: 48px;
+}
+
+[dir="rtl"] .tabs-nav[arrows] .tabs-nav__scroller.is-scrollable::before {
+  left: 48px;
+}
+
+.tabs-nav[arrows] .tabs-nav__scroller.is-scrollable::before {
+  content: "";
+  position: absolute;
+  width: 48px;
+  height: 100%;
+  top: -2px; /* Prevent to overlap the bottom border */ /* Shift by the arrows size */
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to var(--transform-origin-start),
+    rgb(var(--section-background, var(--background))),
+    rgba(var(--section-background, var(--background)), 0)
+  );
+}
+
+[dir="ltr"] .tabs-nav[arrows] .tabs-nav__item-list {
+  margin-right: 0;
+}
+
+[dir="rtl"] .tabs-nav[arrows] .tabs-nav__item-list {
+  margin-left: 0;
+}
+
+.tabs-nav[arrows] .tabs-nav__item-list {
+  width: 100%; /* In arrow mode we want to extend the list all the time */
+  min-width: max-content;
+}
+
+.tabs-nav[arrows] .tabs-nav__item-list::after {
+  display: block;
+  content: "";
+  width: 35px;
+}
+
+/* No border variation */
+
+.tabs-nav--no-border.tabs-nav--narrow {
+  margin-bottom: 24px; /* When there is no bottom border spacing with next elements is closer */
+}
+
+.tabs-nav--no-border .tabs-nav__item-list {
+  box-shadow: none;
+}
+
+.tabs-nav--no-border.tabs-nav--narrow .tabs-nav__item {
+  padding-bottom: 5px; /* Due to the lack of border we reduce the spacing with the moving link */
+}
+
+/* fullwidth variation */
+.tabs-nav--fullwidth {
+  .tabs-nav__item-list {
+    display: grid;
+    grid-auto-columns: 1fr;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 999px) {
+  /* On phone and tablet, when the tab nav is contained within a section header, we stretch it to be edge to edge */
+  .tabs-nav--edge2edge {
+    margin-left: calc(-1 * var(--container-gutter));
+    margin-right: calc(-1 * var(--container-gutter));
+  }
+
+  .tabs-nav--edge2edge .tabs-nav__scroller-inner {
+    padding-left: var(--container-gutter);
+    padding-right: var(--container-gutter);
+    min-width: max-content;
+  }
+}
+
+@media screen and (min-width: 741px) {
+  .tabs-nav:not(:first-child) {
+    margin-top: 32px;
+  }
+
+  .tabs-nav--no-border.tabs-nav--narrow {
+    margin-bottom: 32px; /* When there is no bottom border spacing with next elements is closer */
+  }
+
+  .tabs-nav__item-list {
+    gap: 54px;
+  }
+
+  .tabs-nav--loose .tabs-nav__item-list {
+    gap: 72px;
+  }
+
+  .tabs-nav--narrow .tabs-nav__item-list {
+    gap: 40px;
+  }
+}

@@ -1,0 +1,17 @@
+/**
+ * -------------------------------------------------------------
+ * LOCK UTILITY
+ * -------------------------------------------------------------
+ */
+
+.lock-all {
+  overflow: hidden;
+  touch-action: none;
+}
+
+@media screen and (max-width: 740px) {
+  .lock-mobile {
+    overflow: hidden;
+    touch-action: none;
+  }
+}

@@ -1,0 +1,37 @@
+<div class="account__address">
+  {%- if address.id == customer.default_address.id -%}
+    <span class="account__address-title heading heading--small">
+      {{- 'customer.addresses.default_address' | t -}}
+    </span>
+  {%- else -%}
+    <span class="account__address-title heading heading--small">
+      {{- 'customer.addresses.address_count' | t: count: address_index -}}
+    </span>
+  {%- endif -%}
+
+  <div class="account__address-details">
+    {{- address | format_address -}}
+  </div>
+
+  <div class="account__address-actions">
+    <button
+      class="link text--subdued"
+      is="toggle-button"
+      aria-controls="drawer-address-{{ address.id }}"
+      aria-expanded="false"
+    >
+      {{ 'customer.addresses.edit' | t }}
+    </button>
+
+    <form method="post" action="{{ address.url }}">
+      <input type="hidden" name="_method" value="delete">
+      <button
+        class="link text--subdued"
+        is="confirm-button"
+        data-message="{{ 'customer.addresses.delete_confirm' | t | escape }}"
+      >
+        {{ 'customer.addresses.delete' | t }}
+      </button>
+    </form>
+  </div>
+</div>

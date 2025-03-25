@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_mode": "block",
+            "color_mode": "color",
+            "size_chart_page": "guide-des-tailles"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "atc_button_background": "rgba(0,0,0,0)",
+            "atc_button_text_color": "rgba(0,0,0,0)",
+            "buy_now_button_background": "rgba(0,0,0,0)",
+            "buy_now_button_text_color": "rgba(0,0,0,0)"
+          }
+        },
+        "777654eb-88e1-40c6-bfa9-bb2882e0bd8e": {
+          "type": "tab_desc",
+          "settings": {
+            "title": "Description"
+          }
+        },
+        "800c0586-43cc-4ec2-ac47-d877d5831b76": {
+          "type": "tab_content",
+          "settings": {
+            "title": "",
+            "content": "",
+            "page": ""
+          }
+        },
+        "55b5ee0b-abff-4ec7-9ae3-998740c917f6": {
+          "type": "tab_content",
+          "settings": {
+            "title": "",
+            "content": "",
+            "page": ""
+          }
+        },
+        "6c373695-d5d8-4525-a17a-48a2448f73db": {
+          "type": "tab_content",
+          "settings": {
+            "title": "{{ block.settings.page.title }}",
+            "content": "",
+            "page": "livraison-retour"
+          }
+        },
+        "232ca39b-ff76-4288-a41d-d5164242e7a1": {
+          "type": "tab_reviews",
+          "settings": {
+            "title": "Avis clients"
+          }
+        },
+        "ad36bc50-77a9-4091-92fb-f381ea36753b": {
+          "type": "shopify://apps/product-reviews/blocks/star_rating/bae150af-8da8-48b2-9867-398188115e5f",
+          "disabled": true,
+          "settings": {
+            "stars_fill_color": "#000000",
+            "star_size": 15,
+            "text_align": "center",
+            "product": "",
+            "stars_text_empty": "No reviews"
+          }
+        }
+      },
+      "block_order": [
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "777654eb-88e1-40c6-bfa9-bb2882e0bd8e",
+        "800c0586-43cc-4ec2-ac47-d877d5831b76",
+        "55b5ee0b-abff-4ec7-9ae3-998740c917f6",
+        "6c373695-d5d8-4525-a17a-48a2448f73db",
+        "232ca39b-ff76-4288-a41d-d5164242e7a1",
+        "ad36bc50-77a9-4091-92fb-f381ea36753b"
+      ],
+      "custom_css": [],
+      "settings": {
+        "show_vendor": true,
+        "show_sku": false,
+        "show_taxes_included": false,
+        "show_product_rating": true,
+        "show_sticky_add_to_cart": true,
+        "show_share_buttons": true,
+        "help_page": "",
+        "enable_video_autoplay": true,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "show_thumbnails_on_mobile": true,
+        "desktop_thumbnails_position": "bottom",
+        "transition_effect": "slide",
+        "container_size": "full-width",
+        "desktop_media_layout": "gallery",
+        "gallery_first_line_items_size": "3",
+        "gallery_default_line_items_size": "3",
+        "gallery_grid_gap": "medium",
+        "gallery_size": "2",
+        "gallery_no_margin_left": true,
+        "gallery_margin_right": "large",
+        "tabs_type": "accordion",
+        "tabs_position": "right",
+        "tabs_behaviour": "first_open",
+        "tabs_container_size": "full-width",
+        "tabs_first_grid_item_size": "2"
+      }
+    },
+    "ecdda692-4a71-41ae-872f-8af1c54bf3c4": {
+      "type": "product-recommendations",
+      "settings": {}
+    }
+  },
+  "order": ["main", "ecdda692-4a71-41ae-872f-8af1c54bf3c4"]
+}
