@@ -1,0 +1,28 @@
+{
+  "name": "FormInputGroup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "helpText",
+      "label": "HelpText",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "containerClassName",
+      "label": "ContainerClassName",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "FormInputGroup"
+    }
+  ]
+}

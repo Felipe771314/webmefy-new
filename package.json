@@ -27,7 +27,7 @@
     "start:all": "npm run docker:up && npm run dev & npm run storybook & sleep 5 && npm run test:coverage && npx serve coverage/lcov-report -l 5000 & sleep 2 && open -a \"Google Chrome\" http://localhost:3000 http://localhost:6006 http://localhost:9000 http://localhost:5000",
     "stop:all": "npm run docker:down && killall node",
     "clean:all": "rm -rf .next node_modules && npm install",
-    "generate:shopify-all": "node scripts/generate-shopify-schema.js",
+    "generate:shopify-all": "node scripts/generate-shopify-schema.cjs",
     "commitlint": "commitlint --from=HEAD~1",
     "serve:coverage": "npx serve coverage/lcov-report -l 5000",
     "analyze": "cross-env ANALYZE=true next build",

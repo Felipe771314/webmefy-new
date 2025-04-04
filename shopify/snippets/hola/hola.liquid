@@ -1,0 +1,14 @@
+
+{% schema %}
+{
+  "name": "Hola",
+  "settings": []
+}
+{% endschema %}
+
+<!-- Plantilla Liquid para Hola -->
+<div class="hola">
+  {%- for setting in section.settings -%}
+    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
+  {%- endfor -%}
+</div>

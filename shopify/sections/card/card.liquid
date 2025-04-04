@@ -1,0 +1,96 @@
+{% schema %}
+{
+  "name": "Card",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "content",
+      "label": "Content",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "imageUrl",
+      "label": "ImageUrl",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "onCardClick",
+      "label": "OnCardClick",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "actionsAlignment",
+      "label": "ActionsAlignment",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "primaryButtonLabel",
+      "label": "PrimaryButtonLabel",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "primaryButtonOnClick",
+      "label": "PrimaryButtonOnClick",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "primaryButtonAlignment",
+      "label": "PrimaryButtonAlignment",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "secondaryButtonLabel",
+      "label": "SecondaryButtonLabel",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "secondaryButtonOnClick",
+      "label": "SecondaryButtonOnClick",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "secondaryButtonAlignment",
+      "label": "SecondaryButtonAlignment",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "Card"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="card">
+  {% assign items = section.settings.items | split: ',' %}
+  <h2>{{ section.settings.title }}</h2>
+  <div class="caroussel-track" data-transition="{{ section.settings.transitionType }}">
+    {% for item in items %}
+      <div class="caroussel-item">
+        <img src="{{ item | strip }}" alt="slide-{{ forloop.index }}">
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.settings.showArrows %}
+    <div class="caroussel-arrows {{ section.settings.arrowsPosition }}">
+      <button>&lt;</button>
+      <button>&gt;</button>
+    </div>
+  {% endif %}
+</div>

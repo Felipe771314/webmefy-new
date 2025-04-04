@@ -1,0 +1,53 @@
+{% schema %}
+{
+  "name": "Checkbox",
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "Id",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "checked",
+      "label": "Checked",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "onChange",
+      "label": "OnChange",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "disabled",
+      "label": "Disabled",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "Checkbox"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="checkbox">
+  {% comment %}
+    Este es un template generado automáticamente.
+    Personalizá tu layout y lógica de visualización aquí.
+  {% endcomment %}
+
+  {% for setting in section.settings %}
+    <p><strong>{{ setting }}:</strong> {{ section.settings[setting] }}</p>
+  {% endfor %}
+</div>

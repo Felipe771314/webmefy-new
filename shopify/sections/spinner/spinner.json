@@ -1,0 +1,28 @@
+{
+  "name": "Spinner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "variant",
+      "label": "Variant",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "color",
+      "label": "Color",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "size",
+      "label": "Size",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spinner"
+    }
+  ]
+}

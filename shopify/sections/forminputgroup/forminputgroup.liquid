@@ -1,0 +1,48 @@
+{% schema %}
+{
+  "name": "FormInputGroup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "helpText",
+      "label": "HelpText",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "containerClassName",
+      "label": "ContainerClassName",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "FormInputGroup"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="forminputgroup">
+  {% assign items = section.settings.items | split: ',' %}
+  <h2>{{ section.settings.title }}</h2>
+  <div class="caroussel-track" data-transition="{{ section.settings.transitionType }}">
+    {% for item in items %}
+      <div class="caroussel-item">
+        <img src="{{ item | strip }}" alt="slide-{{ forloop.index }}">
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.settings.showArrows %}
+    <div class="caroussel-arrows {{ section.settings.arrowsPosition }}">
+      <button>&lt;</button>
+      <button>&gt;</button>
+    </div>
+  {% endif %}
+</div>

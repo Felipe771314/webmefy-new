@@ -1,0 +1,29 @@
+{% schema %}
+{
+  "name": "Hola",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Hola"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="hola">
+  {% assign items = section.settings.items | split: ',' %}
+  <h2>{{ section.settings.title }}</h2>
+  <div class="caroussel-track" data-transition="{{ section.settings.transitionType }}">
+    {% for item in items %}
+      <div class="caroussel-item">
+        <img src="{{ item | strip }}" alt="slide-{{ forloop.index }}">
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.settings.showArrows %}
+    <div class="caroussel-arrows {{ section.settings.arrowsPosition }}">
+      <button>&lt;</button>
+      <button>&gt;</button>
+    </div>
+  {% endif %}
+</div>

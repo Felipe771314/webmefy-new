@@ -1,0 +1,22 @@
+{
+  "name": "AlertMessage",
+  "settings": [
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Message",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "variant",
+      "label": "Variant",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "AlertMessage"
+    }
+  ]
+}

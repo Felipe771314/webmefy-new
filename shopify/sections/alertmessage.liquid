@@ -1,0 +1,35 @@
+{% schema %}
+{
+  "name": "AlertMessage",
+  "settings": [
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Message",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "variant",
+      "label": "Variant",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "AlertMessage"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="alertmessage">
+  {% comment %}
+    Este es un template generado automáticamente.
+    Personalizá tu layout y lógica de visualización aquí.
+  {% endcomment %}
+
+  {% for setting in section.settings %}
+    <p><strong>{{ setting }}:</strong> {{ section.settings[setting] }}</p>
+  {% endfor %}
+</div>

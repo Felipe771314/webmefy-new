@@ -1,0 +1,22 @@
+{% schema %}
+{
+  "name": "HiDavid",
+  "settings": [],
+  "presets": [
+    {
+      "name": "HiDavid"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="hidavid">
+  {% comment %}
+    Este es un template generado automáticamente.
+    Personalizá tu layout y lógica de visualización aquí.
+  {% endcomment %}
+
+  {% for setting in section.settings %}
+    <p><strong>{{ setting }}:</strong> {{ section.settings[setting] }}</p>
+  {% endfor %}
+</div>
