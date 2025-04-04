@@ -91,7 +91,7 @@ const Caroussel: React.FC<CarousselProps> = ({
         ))}
       </div>
       {showArrows && (
-        <div className={arrowsClass}>
+        <div className={arrowsClass} data-testid={`arrows-${arrowsPosition}`}>
           <button onClick={prevSlide}>{'<'}</button>
           <button onClick={nextSlide}>{'>'}</button>
         </div>
