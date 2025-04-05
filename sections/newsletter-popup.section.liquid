@@ -1,0 +1,178 @@
+{% assign terms_text = section.settings.terms_text | default: settings.rgpd_nl_text %}
+
+<style>
+  [aria-controls='newsletter-popup'] {
+    display: block; /* Allows to show the toggle icon in the header if the section is disabled */
+  }
+
+  #newsletter-popup {
+    {%- if section.settings.heading_color == 'rgba(0,0,0,0)' -%}
+      {%- assign heading_color = settings.heading_color -%}
+    {%- else -%}
+      {%- assign heading_color = section.settings.heading_color -%}
+    {%- endif -%}
+
+    {%- if section.settings.text_color == 'rgba(0,0,0,0)' -%}
+      {%- assign text_color = settings.text_color -%}
+    {%- else -%}
+      {%- assign text_color = section.settings.text_color -%}
+    {%- endif -%}
+
+    {%- if section.settings.terms_color == 'rgba(0,0,0,0)' -%}
+      {%- assign terms_color = settings.text_color -%}
+    {%- else -%}
+      {%- assign terms_color = section.settings.terms_color -%}
+    {%- endif -%}
+
+    {%- if section.settings.background == 'rgba(0,0,0,0)' -%}
+      {%- assign section_background = settings.background -%}
+    {%- else -%}
+      {%- assign section_background = section.settings.background -%}
+    {%- endif -%}
+
+  {%- if section.settings.button_background == 'rgba(0,0,0,0)' -%}
+    {%- assign button_background = settings.primary_button_background -%}
+  {%- assign secondary_button_background = settings.secondary_button_background -%}
+    {%- else -%}
+  {%- assign button_background = section.settings.button_background -%}
+    {%- assign secondary_button_background = section.settings.button_background -%}
+  {%- endif -%}
+
+  {%- if section.settings.button_text_color == 'rgba(0,0,0,0)' -%}
+    {%- assign button_text_color = settings.primary_button_text_color -%}
+    {%- assign secondary_button_text_color = settings.secondary_button_text_color -%}
+  {%- else -%}
+    {%- assign button_text_color = section.settings.button_text_color -%}
+    {%- assign secondary_button_text_color = section.settings.button_text_color -%}
+  {%- endif -%}
+
+  {%- if section.settings.modal_close_button_color == 'rgba(0,0,0,0)' -%}
+    {%- assign section_modal_close_button_color = settings.text_color -%}
+  {%- else -%}
+    {%- assign section_modal_close_button_color = section.settings.modal_close_button_color -%}
+  {%- endif -%}
+
+  {%- if section.settings.mobile_modal_close_button_color == 'rgba(0,0,0,0)' -%}
+    {%- assign section_mobile_modal_close_button_color = settings.background -%}
+  {%- else -%}
+    {%- assign section_mobile_modal_close_button_color = section.settings.mobile_modal_close_button_color -%}
+  {%- endif -%}
+
+    --heading-color: {{ heading_color.red }}, {{ heading_color.green }}, {{ heading_color.blue }};
+    --text-color: {{ text_color.red }}, {{ text_color.green }}, {{ text_color.blue }};
+    --terms-color: {{ terms_color.red }}, {{ terms_color.green }}, {{ terms_color.blue }};
+    --section-background: {{ section_background.red }}, {{ section_background.green }}, {{ section_background.blue }};
+
+    --primary-button-background: {{ button_background.red }}, {{ button_background.green }}, {{ button_background.blue }};
+    --primary-button-text-color: {{ button_text_color.red }}, {{ button_text_color.green }}, {{ button_text_color.blue }};
+
+    --secondary-button-background: {{ secondary_button_background.red }}, {{ secondary_button_background.green }}, {{ secondary_button_background.blue }};
+    --secondary-button-text-color: {{ secondary_button_text_color.red }}, {{ secondary_button_text_color.green }}, {{ secondary_button_text_color.blue }};
+
+    --image-alignement: {{ section.settings.image_alignement }}
+
+  }
+</style>
+
+<style>
+  #newsletter-popup .modal__close-button {
+    color: {{ section_modal_close_button_color }};
+  }
+
+  {%- if section.settings.image != blank or section.settings.mobile_image != blank -%}
+    {% unless section.settings.hide_image_on_mobile %}
+      @media screen and (max-width: 999px) {
+        #newsletter-popup .modal__close-button {
+          color: {{ section_mobile_modal_close_button_color }};
+        }
+      }
+    {% endunless %}
+  {%- endif -%}
+</style>
+
+{%- assign should_appear_automatically = false -%}
+
+{%- unless section.settings.show_only_on_index and request.page_type != 'index' -%}
+  {%- unless section.settings.show_only_for_visitors and customer -%}
+    {%- assign should_appear_automatically = true -%}
+  {%- endunless -%}
+{%- endunless -%}
+
+<modal-content
+  section="{{ section.id }}"
+  {% if section.settings.show_only_once %}
+    only-once
+  {% endif %}
+  {% if should_appear_automatically %}
+    apparition-delay="{{ section.settings.apparition_delay }}"
+  {% endif %}
+  apparition-page-count="{{ section.settings.viewed_pages }}"
+  id="newsletter-popup"
+  class="modal {% if section.settings.block_position == 'bottom_right' %}modal__bottom-right{% endif %} {% if section.settings.block_position == 'bottom_left' %}modal__bottom-left{% endif %}"
+>
+  <div class="modal__overlay"></div>
+
+  <div class="modal__content">
+    <button
+      type="button"
+      class="modal__close-button tap-area"
+      data-action="close"
+      title="{{ 'general.accessibility.close' | t | escape }}"
+    >
+      {%- render 'icon' with 'close' -%}
+    </button>
+
+    <div class="newsletter-modal {% if section.settings.image_position == 'right' %}newsletter-modal--reverse{% endif %}">
+      {%- if section.settings.image != blank -%}
+        {%- capture class_attribute -%}newsletter-modal__image {% if section.settings.mobile_image != blank or section.settings.hide_image_on_mobile %}hidden-phone{% endif %}{%- endcapture -%}
+        {%- capture sizes_attribute -%}{% unless section.settings.mobile_image != blank or section.settings.hide_image_on_mobile %}(max-width: 740px) 100vw, {% endunless %}500px{%- endcapture -%}
+
+        {{-
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            loading: 'lazy',
+            sizes: sizes_attribute,
+            widths: '300,400,500,600,700,800,900,1000',
+            class: class_attribute
+        -}}
+      {%- endif -%}
+      {%- if section.settings.mobile_image != blank and section.settings.hide_image_on_mobile != true -%}
+        {%- capture class_attribute -%}newsletter-modal__image hidden-tablet-and-up{%- endcapture -%}
+
+        {{-
+          section.settings.mobile_image
+          | image_url: width: section.settings.mobile_image.width
+          | image_tag:
+            loading: 'lazy',
+            sizes: '(max-width: 740px) 100vw',
+            widths: '300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800',
+            class: class_attribute
+        -}}
+      {%- endif -%}
+
+      <div class="newsletter-modal__content {% if section.settings.image != blank %}newsletter-modal__content--extra{% endif %} text-container text--{{ section.settings.text_alignment }}">
+        {%- if section.settings.title != blank -%}
+          <div class="heading h5">{{ section.settings.title | escape }}</div>
+        {%- endif -%}
+
+        <div class="newsletter-modal__text">
+          {%- if section.settings.content != blank -%}
+            {{- section.settings.content -}}
+          {%- endif -%}
+        </div>
+
+        {% if section.settings.toggle_form == true %}
+          {% render 'newsletter-form',
+            form_class: 'newsletter-modal__form',
+            popup_container: 'newsletter-popup',
+            source: 'popup-newsletter',
+            terms_text: terms_text,
+            button_style: section.settings.link_style,
+            button_size: section.settings.button_size
+          %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</modal-content>

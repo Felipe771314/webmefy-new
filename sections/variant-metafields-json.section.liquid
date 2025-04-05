@@ -1,0 +1,66 @@
+{%- comment -%}
+  ------------------------------------------------------------------------------------
+   USED INAJAX
+   Product handles arejust simple handles comma separated
+  ------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+{%- liquid
+  assign page_url = content_for_header | split: '"pageurl":"' | last | split: '"' | first
+  assign page_url = page_url | replace: '\/', '/' | replace: '%20', ' ' | replace: '%7C', '|' | replace: '%2C', ','
+  assign page_url = page_url | split: '?'
+  assign page_url = page_url[1]
+  assign page_url = page_url | split: '\u0026'
+
+  for param in page_url
+    assign pair = param | split: '='
+    if pair[0] == 'metafields'
+      assign metafields = pair[1]
+    endif
+    if pair[0] == 'product_handles'
+      assign product_handles = pair[1]
+    endif
+  endfor
+
+  assign handles = product_handles | split: ',' | uniq | join: ',' | split: ','
+  assign metafield_list = metafields | split: ','
+
+  assign productDatas = '{'
+
+  for handle in handles
+    if forloop.index > 1
+      assign productDatas = productDatas | append: ','
+    endif
+
+    assign product = all_products[handle]
+    assign productDatas = productDatas | append: '"' | append: product.handle | append: '" : {'
+
+    for variant in product.variants
+      if forloop.index > 1
+        assign productDatas = productDatas | append: ','
+      endif
+
+      assign productDatas = productDatas | append: '"' | append: variant.id | append: '" : {'
+
+      for metafield in metafield_list
+        if forloop.index > 1
+          assign productDatas = productDatas | append: ','
+        endif
+
+        assign metafield_detail = metafield | split: '.'
+        assign meta_value = variant.metafields[metafield_detail[0]][metafield_detail[1]] | replace: '"', '\"'
+
+        if meta_value != blank
+          assign productDatas = productDatas | append: '"' | append: metafield_detail[0] | append: '_' | append: metafield_detail[1] | append: '" :'
+          assign productDatas = productDatas | append: '"' | append: meta_value | append: '"'
+        endif
+      endfor
+
+      assign productDatas = productDatas | append: '}'
+    endfor
+    assign productDatas = productDatas | append: '}'
+  endfor
+  assign productDatas = productDatas | append: '}'
+%}
+
+{{ productDatas }}

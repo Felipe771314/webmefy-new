@@ -1,0 +1,68 @@
+{%- comment -%}
+  ------------------------------------------------------------------------------------
+   USED INAJAX
+  ------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+{%- liquid
+  assign page_url = content_for_header | split: '"pageurl":"' | last | split: '"' | first
+  assign page_url = page_url | replace: '\/', '/' | replace: '%20', ' '
+  assign page_url = page_url | split: '?'
+  assign page_url = page_url[1]
+  assign page_url = page_url | split: '\u0026'
+
+  for param in page_url
+    assign pair = param | split: '='
+    if pair[0] == 'reducedContent'
+      if pair[1] == 'false'
+        assign reduced_content = false
+      else
+        assign reduced_content = true
+      endif
+    endif
+    if pair[0] == 'reducedFontSize'
+      if pair[1] == 'false'
+        assign reduced_font_size = false
+      else
+        assign reduced_font_size = true
+      endif
+    endif
+    if pair[0] == 'hideSecondaryImage'
+      if pair[1] == 'false'
+        assign hide_secondary_image = false
+      else
+        assign hide_secondary_image = true
+      endif
+    endif
+    if pair[0] == 'sizesAttribute'
+      assign sizes_attribute = pair[1] | url_decode
+    endif
+    if pair[0] == 'position'
+      assign position = pair[1] | times: 1
+    endif
+    if pair[0] == 'list'
+      assign list = pair[1] | url_decode
+    endif
+    if pair[0] == 'class'
+      assign class = pair[1] | url_decode
+    endif
+    if pair[0] == 'enable_media_in_slider'
+      if pair[1] == 'true'
+        assign enable_media_in_slider = true
+      else
+        assign enable_media_in_slider = false
+      endif
+    endif
+  endfor
+%}
+{% render 'product-item',
+  product: product,
+  reduced_content: reduced_content,
+  reduced_font_size: reduced_font_size,
+  hide_secondary_image: hide_secondary_image,
+  sizes_attribute: sizes_attribute,
+  position: position,
+  list: list,
+  class: class,
+  enable_media_in_slider: enable_media_in_slider
+%}

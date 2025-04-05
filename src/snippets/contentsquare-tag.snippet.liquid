@@ -1,9 +1,0 @@
-{% render 'vite-tag' with '@modules/snippets/contentsquare' %}
-<contentsquare-catcher
-  page-path="{{- request.origin -}}{{- request.path -}}"
-  script-url="{{ 'contentsquare-extensibility.js' | asset_url }}"
-  currency="{{ cart.currency.iso_code }}"
-  tag-id="{{ contentsquare_tag_id }}"
-  page-type="{{ request.page_type  }}"
-  page-title="{{- page_title | strip -}}"
-></contentsquare-catcher>

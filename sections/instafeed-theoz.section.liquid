@@ -1,0 +1,80 @@
+<style>
+  #insta-feed {
+      width:{{section.settings.feed_width}}%;
+  }
+  #insta-feed h2 {
+      font-size:{{section.settings.heading_size}}px;
+  }
+
+  .shopify-section--instafeed {
+
+  {% if section.settings.instagram_link_custom_font_size != blank %}
+      --heading-custom-font-size: {{ section.settings.instagram_link_custom_font_size }};
+  {% endif %}
+  {% if section.settings.instagram_link_custom_font_size_mobile != blank %}
+      --heading-custom-font-size-mobile: {{ section.settings.instagram_link_custom_font_size_mobile }};
+  {% endif %}
+  }
+</style>
+
+{%- capture content -%}
+    {% assign instagram_account_link = section.settings.instagram_account_link %}
+    {% assign instagram_account_link_text = section.settings.instagram_account_link_text %}
+    {% assign instagram_link_size = section.settings.instagram_link_size | default: section.settings.instagram_link_size | default: 'h4' %}
+    {% assign instagram_link_custom_font_size = section.settings.instagram_link_custom_font_size | default: section.settings.instagram_link_custom_font_size %}
+    {% assign instagram_link_custom_font_size_mobile = section.settings.instagram_link_custom_font_size_mobile | default: section.settings.instagram_link_custom_font_size_mobile %}
+    {% assign instagram_link_weight = section.settings.instagram_link_weight | default: section.settings.instagram_link_weight %}
+    {% assign instagram_link_transform = section.settings.instagram_link_transform | default: section.settings.instagram_link_transform %}
+    {% assign instagram_link_typo = section.settings.instagram_link_typo | default: section.settings.instagram_link_typo %}
+
+    {%- capture instagram_link -%}
+        {%- if instagram_account_link_text != blank -%}
+            {% assign class_list = 'heading ' | append: instagram_link_size | append: ' ' %}
+            {% if instagram_link_custom_font_size != blank %}
+                {% assign class_list = class_list | append: 'custom-font-size '%}
+            {% endif %}
+            {% if instagram_link_custom_font_size_mobile != blank %}
+                {% assign class_list = class_list | append: 'custom-font-size--mobile ' %}
+            {% endif %}
+            {% if instagram_link_weight != blank %}
+                {% assign class_list = class_list | append: 'font-weight--' | append: instagram_link_weight | append: ' ' %}
+            {% endif %}
+            {% if instagram_link_transform != blank %}
+                {% assign class_list = class_list | append: 'text-transform--' | append: instagram_link_transform | append: ' ' %}
+            {% endif %}
+            {% if instagram_link_typo != 'default' %}
+                {% assign class_list = class_list | append: 'heading--' | append: instagram_link_typo | append: ' ' %}
+            {% endif %}
+
+            {% if instagram_account_link != blank %}
+                <a href="{{ instagram_account_link }}" target="_blank" class="{{ class_list }}">{{- instagram_account_link_text | espace -}}</a>
+            {% else %}
+                <span class="{{ class_list }}">{{- instagram_account_link_text | espace -}}</span>
+            {% endif %}
+        {%- endif -%}
+    {%- endcapture -%}
+
+        {% if section.settings.instagram_account_link_text != blank %}
+            <div class="instagram-link hidden-phone {{ section.settings.section_vertical_padding }}">
+                {{ instagram_link }}
+            </div>
+            {% if section.settings.instagram_account_link_mobile_position == "link_top" %}
+                <div class="instagram-link instagram-link--top hidden-tablet-and-up section__header text-container {{ section.settings.instagram_account_mobile_alignment }}">
+                    {{ instagram_link }}
+                </div>
+            {% endif %}
+        {% endif %}
+        {{ section.settings.html_area -}}
+        {%- unless section.settings.html_area contains 'feed-' %}
+            <div id="insta-feed"></div>
+        {% endunless -%}
+        {% if section.settings.instagram_account_link_text != blank %}
+            {% if section.settings.instagram_account_link_mobile_position == "link_bottom" %}
+                <div class="instagram-link instagram-link--bottom hidden-tablet-and-up section__header text-container {{ section.settings.instagram_account_mobile_alignment }}">
+                    {{ instagram_link }}
+                </div>
+            {% endif %}
+        {% endif %}
+    {%- endcapture -%}
+
+{% render 'section-layout', content: content %}

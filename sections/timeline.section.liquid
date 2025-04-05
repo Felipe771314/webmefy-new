@@ -1,0 +1,135 @@
+{% capture extra_section_style %}
+  --prev-next-button-background: {{ settings.background.red }}, {{ settings.background.green }}, {{ settings.background.blue }};
+  --prev-next-button-color: {{ settings.text_color.red }}, {{ settings.text_color.green }}, {{ settings.text_color.blue }};
+  --section-items-count: {{ section.blocks.size }};
+{% endcapture %}
+
+{% capture extra_style %}
+  #shopify-section-{{ section.id }} .timeline__item {
+  {%- if section.settings.item_background == 'rgba(0,0,0,0)' -%}
+    {%- assign item_background = settings.secondary_background -%}
+  {%- else -%}
+    {%- assign item_background = section.settings.item_background -%}
+  {%- endif -%}
+
+  {%- if section.settings.item_text_color == 'rgba(0,0,0,0)' -%}
+    {%- assign item_text_color = settings.text_color -%}
+  {%- else -%}
+    {%- assign item_text_color = section.settings.item_text_color -%}
+  {%- endif -%}
+
+  --heading-color: {{ item_text_color.red }}, {{ item_text_color.green }}, {{ item_text_color.blue }};
+  --text-color: {{ item_text_color.red }}, {{ item_text_color.green }}, {{ item_text_color.blue }};
+  --primary-button-background: {{ item_text_color.red }}, {{ item_text_color.green }}, {{ item_text_color.blue }};
+  --primary-button-text-color: {{ item_background.red }}, {{ item_background.green }}, {{ item_background.blue }};
+  --section-box-background: {{ item_background.red }}, {{ item_background.green }}, {{ item_background.blue }};
+  }
+{% endcapture %}
+
+{% capture content %}
+  <time-line class="timeline">
+    <div class="timeline__inner">
+      {%- if section.blocks.size > 1 -%}
+        <prev-next-buttons class="timeline__prev-next-buttons prev-next-buttons hidden-pocket">
+          <button
+            class="timeline__arrow prev-next-button prev-next-button--prev"
+            disabled="disabled"
+            aria-label="{{ 'general.accessibility.previous' | t }}"
+          >
+            {%- include 'icon' with 'nav-arrow-left', direction_aware: true -%}
+          </button>
+
+          <button
+            class="timeline__arrow prev-next-button prev-next-button--next"
+            aria-label="{{ 'general.accessibility.next' | t }}"
+          >
+            {%- include 'icon' with 'nav-arrow-right', direction_aware: true -%}
+          </button>
+        </prev-next-buttons>
+      {% endif %}
+
+      <div class="timeline__list-wrapper hide-scrollbar">
+        <div class="container">
+          <div class="timeline__list">
+            {%- for block in section.blocks -%}
+              <div
+                id="block-{{ section.id }}-{{ block.id }}"
+                class="timeline__item"
+                {% unless forloop.first %}
+                  hidden
+                {% endunless %}
+                {{ block.shopify_attributes }}
+              >
+                <div class="timeline__image-wrapper">
+                  {%- if block.settings.image != blank -%}
+                    {{-
+                    block.settings.image
+                    | image_url: width: block.settings.image.width
+                    | image_tag:
+                    loading: 'lazy',
+                    sizes: '(max-width: 740px) 81vw, 490px',
+                    widths: '400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600',
+                    class: 'timeline__image'
+                    -}}
+                  {%- else -%}
+                    {{ 'image' | placeholder_svg_tag: 'timeline__image placeholder-background' }}
+                  {%- endif -%}
+                </div>
+
+                <div class="timeline__content-wrapper timeline__content-wrapper--{{ section.settings.text_position }}">
+                  <div class="timeline__content text-container">
+                    {%- if block.settings.title != blank -%}
+                      <h2 class="heading h5">{{ block.settings.title | escape }}</h2>
+                    {%- endif -%}
+
+                    {%- if block.settings.content != blank -%}
+                      {{- block.settings.content -}}
+                    {%- endif -%}
+
+                    {%- if block.settings.button_text != blank -%}
+                      <div class="button-wrapper">
+                        <a href="{{ block.settings.button_link }}" class="button button--primary">
+                          {{- block.settings.button_text | escape -}}
+                        </a>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%- if section.blocks.size > 1 -%}
+      <div class="container">
+        <div class="timeline__nav-wrapper hide-scrollbar">
+          <div class="timeline__nav-scroller">
+            <page-dots align-selected class="timeline__nav">
+              <span class="timeline__progress-bar progress-bar" style="--divider: {{ section.blocks.size }}"></span>
+
+              {%- for block in section.blocks -%}
+                <button
+                  class="timeline__nav-item"
+                  {% if forloop.first %}
+                    aria-current="true"
+                  {% endif %}
+                >
+                  <span class="heading heading--small">{{ block.settings.label | escape }}</span>
+                </button>
+              {%- endfor -%}
+            </page-dots>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </time-line>
+{% endcapture %}
+
+{% render 'section-layout',
+  content: content,
+  extra_section_style: extra_section_style,
+  extra_style: extra_style,
+  module: 'timeline'
+%}

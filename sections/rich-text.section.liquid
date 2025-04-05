@@ -1,0 +1,134 @@
+{%- if section.settings.background_type == 'boxed' -%}
+  {%- assign is_boxed = true -%}
+{%- else -%}
+  {%- assign is_boxed = false -%}
+{%- endif -%}
+
+{%- if section.settings.background != settings.background and section.settings.background != 'rgba(0,0,0,0)' -%}
+  {%- assign blends_with_background = false -%}
+{%- else -%}
+  {%- assign blends_with_background = true -%}
+{%- endif -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    {%- if section.settings.background == 'rgba(0,0,0,0)' -%}
+      {%- assign section_background = settings.background -%}
+    {%- else -%}
+      {%- assign section_background = section.settings.background -%}
+    {%- endif -%}
+
+    {%- if section.settings.text_color == 'rgba(0,0,0,0)' -%}
+      {%- assign heading_color = settings.heading_color -%}
+      {%- assign text_color = settings.text_color -%}
+    {%- else -%}
+      {%- assign heading_color = section.settings.text_color -%}
+      {%- assign text_color = section.settings.text_color -%}
+    {%- endif -%}
+
+  {%- if section.settings.button_background == 'rgba(0,0,0,0)' -%}
+    {%- assign button_background = settings.primary_button_background -%}
+    {%- assign secondary_button_background = settings.secondary_button_background -%}
+  {%- else -%}
+    {%- assign button_background = section.settings.button_background -%}
+    {%- assign secondary_button_background = section.settings.button_background -%}
+  {%- endif -%}
+
+  {%- if section.settings.button_text_color == 'rgba(0,0,0,0)' -%}
+    {%- assign button_text_color = settings.primary_button_text_color -%}
+    {%- assign secondary_button_text_color = settings.secondary_button_text_color -%}
+  {%- else -%}
+    {%- assign button_text_color = section.settings.button_text_color -%}
+    {%- assign secondary_button_text_color = section.settings.button_text_color -%}
+  {%- endif -%}
+
+    --heading-color: {{ heading_color.red }}, {{ heading_color.green }}, {{ heading_color.blue }};
+    --text-color: {{ text_color.red }}, {{ text_color.green }}, {{ text_color.blue }};
+
+    --primary-button-background: {{ button_background.red }}, {{ button_background.green }}, {{ button_background.blue }};
+    --primary-button-text-color: {{ button_text_color.red }}, {{ button_text_color.green }}, {{ button_text_color.blue }};
+
+    --secondary-button-background: {{ button_background.red }}, {{ button_background.green }}, {{ button_background.blue }};
+    --secondary-button-text-color: {{ button_text_color.red }}, {{ button_text_color.green }}, {{ button_text_color.blue }};
+
+    --section-background: {{ section_background.red }}, {{ section_background.green }}, {{ section_background.blue }};
+  }
+</style>
+
+<section class="oz-section {{ section.settings.block_space }}">
+  <div
+    {% if is_boxed %}
+      class="container"
+    {% endif %}
+  >
+    <div class="oz-section__wrapper section__color-wrapper {% if is_boxed %}section__color-wrapper--boxed{% endif %}">
+      <div class="{% unless is_boxed %}container{% endunless %} {% unless blends_with_background %}vertical-breather{% endunless %}">
+        {%- assign text_position = section.settings.text_position -%}
+        {%- assign text_alignment = section.settings.text_alignment -%}
+
+        <div class="content-box content-box--{{ section.settings.text_width }} content-box--text-{{ text_alignment }} content-box--{{ text_position }} text-container">
+          {%- if section.settings.subheading != blank -%}
+            <{{ section.settings.subheading_tag }} class="heading heading--small {{ section.settings.subheading_size }}">
+              {{- section.settings.subheading | escape -}}
+            </{{ section.settings.subheading_tag }}>
+          {%- endif -%}
+
+          {%- if section.settings.title != blank -%}
+            <{{ section.settings.heading_tag }} class="heading {{ section.settings.heading_size }}">
+              {{- section.settings.title | escape -}}
+            </{{ section.settings.heading_tag }}>
+          {%- endif -%}
+
+          {%- if section.settings.content != blank -%}
+            <truncate-content
+              {% if section.settings.truncate_content != 'none' %}
+                max-length="{{ section.settings.content_max_length }}"
+              {% endif %}
+              {% if section.settings.truncate_content == 'mobile' %}
+                match-media="screen and (max-width: 740px)"
+              {% elsif section.settings.truncate_content == 'tablet_mobile' %}
+                match-media="screen and (max-width: 999px)"
+              {% endif %}
+              class="truncate-content collection-description"
+            >
+              <div class="collection-description__content truncate-content__content">
+                {{- section.settings.content -}}
+              </div>
+              <a
+                href="#showmore"
+                hidden
+                class="truncate-content__show-more collection-description__button collection-description__button--show-more link"
+              >
+                {{- 'collection.general.read_more' | t -}}
+              </a>
+              <a
+                href="#showless"
+                hidden
+                class="truncate-content__show-less collection-description__button collection-description__button--show-less link"
+              >
+                {{- 'collection.general.read_less' | t -}}
+              </a>
+            </truncate-content>
+          {%- endif -%}
+
+          {%- if section.settings.button_text != blank -%}
+            {%- if section.settings.link_style == 'link' -%}
+              <a href="{{ section.settings.button_link }}" class="multi-column__link heading heading--small link">
+                {{- section.settings.button_text | escape -}}
+              </a>
+            {%- else -%}
+              <div class="button-wrapper">
+                <a
+                  href="{{ section.settings.button_link }}"
+                  class="button button--{{ section.settings.link_style }}"
+                >
+                  {{- section.settings.button_text | escape -}}
+                </a>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

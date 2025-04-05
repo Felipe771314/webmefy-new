@@ -1,0 +1,80 @@
+{% liquid
+  assign desktop_products_per_row = 4
+  assign mobile_products_per_row = 2
+%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --section-products-per-row: {{ mobile_products_per_row | times: 1 }};
+  }
+
+  @media screen and (min-width: 1200px) {
+    #shopify-section-{{ section.id }} {
+      --section-products-per-row: {{ desktop_products_per_row }};
+    }
+  }
+</style>
+<section>
+  <div
+    class="container container--default wishlist"
+  >
+    {% if section.settings.products_number %}
+      <wishlist-count
+        class="wishlist-count wishlist__products-number"
+        count-messages="{{ 'wishlist.products.product_count' | t }}"
+      ></wishlist-count>
+    {% endif %}
+    <div class="wishlist__header-actions">
+      <button
+        id="ClearWishlist"
+        is="clear-wishlist"
+        class="wishlist__clear-button link"
+      >
+        {% render 'icon' with 'trash-can' %}
+        <span>{{ 'wishlist.clear_list' | t }}</span>
+      </button>
+    </div>
+    <wishlist-selection
+      desktop-products-per-row="{{ desktop_products_per_row }}"
+      mobile-products-per-row="{{ mobile_products_per_row }}"
+      class="wishlist__selection"
+    >
+      <div class="spinner">
+        <svg focusable="false" width="24" height="24" class="icon icon--spinner" viewBox="25 25 50 50">
+          <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="5"></circle>
+        </svg>
+      </div>
+      <template class="empty-wishlist">
+        <div class="wishlist__empty-selection">
+          <p>{{ 'wishlist.empty_list' | t }}</p>
+
+          <div class="button-wrapper">
+            <a href="{{ section.settings.empty_button_link }}" class="button button--primary">
+              {{- 'cart.general.start_shopping' | t -}}
+            </a>
+          </div>
+        </div>
+      </template>
+    </wishlist-selection>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wishlist page",
+  "class": "shopify-section--main-wishlist",
+  "settings": [
+    {
+      "type": "url",
+      "id": "empty_button_link",
+      "label": "Empty button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "checkbox",
+      "id": "products_number",
+      "label": "Display number of products in wishlist"
+    }
+  ]
+}
+{% endschema %}

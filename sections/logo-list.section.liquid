@@ -1,0 +1,546 @@
+{% capture section_style %}
+  {%- if section.settings.button_background == 'rgba(0,0,0,0)' -%}
+    {%- assign button_background = settings.primary_button_background -%}
+  {%- else -%}
+    {%- assign button_background = section.settings.button_background -%}
+  {%- endif -%}
+
+  {%- if section.settings.button_text_color == 'rgba(0,0,0,0)' -%}
+    {%- assign button_text_color = settings.primary_button_text_color -%}
+  {%- else -%}
+    {%- assign button_text_color = section.settings.button_text_color -%}
+  {%- endif -%}
+
+  --primary-button-background: {{ button_background.red }}, {{ button_background.green }}, {{ button_background.blue }};
+  --primary-button-text-color: {{ button_text_color.red }}, {{ button_text_color.green }}, {{ button_text_color.blue }};
+
+  --prev-next-button-background: {{ settings.background.red }}, {{ settings.background.green }}, {{ settings.background.blue }};
+  --prev-next-button-color: {{ settings.text_color.red }}, {{ settings.text_color.green }}, {{ settings.text_color.blue }};
+
+  --section-logo-background: {{ section.settings.logo_background.red }} {{ section.settings.logo_background.green }} {{ section.settings.logo_background.blue }} / {{ section.settings.logo_background.alpha }};
+  --section-logo-count: {{ section.blocks.size | default: 6 }};
+{% endcapture %}
+
+{% capture content %}
+  {%- capture section_content -%}
+    <div class="logo-list__list">
+      {%- for block in section.blocks -%}
+        {%- capture logo_content -%}
+          {%- if block.settings.logo != blank -%}
+            {%- assign logo_max_size = block.settings.logo.width | divided_by: 2 | at_most: 200 -%}
+            {%- capture logo_widths -%}{{ logo_max_size }},{{ logo_max_size | times: 2 }}{%- endcapture -%}
+            {%- capture logo_sizes -%}{{ logo_max_size }}px{%- endcapture -%}
+            {%- capture logo_style -%}width: {{ logo_max_size }}px{%- endcapture -%}
+
+            {{ block.settings.logo | image_url: width: block.settings.logo.width | image_tag: loading: 'lazy', style: logo_style, sizes: logo_sizes, widths: logo_widths, class: 'logo-list__image' }}
+          {%- else -%}
+            {{- 'image' | placeholder_svg_tag: 'logo-list__image logo-list__image--placeholder' -}}
+          {%- endif -%}
+        {%- endcapture -%}
+
+        {%- if block.settings.link -%}
+          <a href="{{ block.settings.link }}" {% if section.settings.reveal_on_scroll %}reveal{% endif %} class="logo-list__item" {{ block.shopify_attributes }}>
+            {{- logo_content -}}
+          </a>
+        {%- else -%}
+          <div class="logo-list__item" {% if section.settings.reveal_on_scroll %}reveal{% endif %} {{ block.shopify_attributes }}>
+            {{- logo_content -}}
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        {%- for i in (1..6) -%}
+          <div class="logo-list__item" {% if section.settings.reveal_on_scroll %}reveal{% endif %}>
+            {{- 'image' | placeholder_svg_tag: 'logo-list__image logo-list__image--placeholder' -}}
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  {%- endcapture -%}
+
+  {%- if section.settings.stack_logos -%}
+    <logo-list
+      {% if section.settings.reveal_on_scroll %}
+        reveal-on-scroll
+      {% endif %}
+      class="logo-list logo-list--grid"
+    >
+      {{- section_content -}}
+    </logo-list>
+  {%- else -%}
+    <div class="scroller">
+      <div class="scroller__inner">
+        <logo-list
+          {% if section.settings.reveal_on_scroll %}
+            reveal-on-scroll
+          {% endif %}
+          class="logo-list logo-list--carousel"
+        >
+          {%- if section.blocks.size > 6 -%}
+            <prev-next-buttons class="logo-list__prev-next hidden-pocket">
+              <button class="logo-list__arrow prev-next-button prev-next-button--prev" disabled>
+                <span class="visually-hidden">{{ 'general.accessibility.previous' | t }}</span>
+                {%- include 'icon' with 'nav-arrow-left', block: true, direction_aware: true -%}
+              </button>
+
+              <button class="logo-list__arrow prev-next-button prev-next-button--next">
+                <span class="visually-hidden">{{ 'general.accessibility.next' | t }}</span>
+                {%- include 'icon' with 'nav-arrow-right', block: true, direction_aware: true -%}
+              </button>
+            </prev-next-buttons>
+          {%- endif -%}
+
+          {{- section_content -}}
+        </logo-list>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.button_text != blank -%}
+    <div class="oz-section__footer section__footer">
+      <a class="button button--primary" href="{{ section.settings.button_link }}">
+        {{- section.settings.button_text -}}
+      </a>
+    </div>
+  {%- endif -%}
+{% endcapture %}
+
+{% render 'section-layout', content: content, extra_section_style: section_style, module: 'logo-list' %}
+
+{% schema %}
+{
+  "name": "Logo list",
+  "class": "shopify-section--logo-list",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay", "footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "reveal_on_scroll",
+      "label": "Reveal on scroll",
+      "info": "Show animation when section becomes visible.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Subheading"
+    },
+    {
+      "type": "select",
+      "id": "subheading_tag",
+      "label": "Subheading tag",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "span",
+          "label": "SPAN"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "",
+          "label": "Default"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "subheading_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "",
+          "label": "Default"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "subheading_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "bold",
+          "label": "Bold"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Brands"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "span",
+          "label": "SPAN"
+        }
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "span",
+          "label": "SPAN"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "heading_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "",
+          "label": "Default"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Font weight",
+      "info": "Does not work if 'Heading' is set to 'Bold' in theme settings",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "bold",
+          "label": "Bold"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "textblock_alignment",
+      "label": "Text block alignment",
+      "options": [
+        {
+          "value": "section__header--left",
+          "label": "Left"
+        },
+        {
+          "value": "",
+          "label": "Center"
+        },
+        {
+          "value": "section__header--right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_logos",
+      "label": "Stack logos",
+      "default": true,
+      "info": "When stack, it is recommended to use a multiple of 6 logos."
+    },
+    {
+      "type": "select",
+      "id": "block_space",
+      "label": "Vertical block space",
+      "options": [
+        {
+          "value": "section--flush",
+          "label": "None"
+        },
+        {
+          "value": "section--tight",
+          "label": "Small"
+        },
+        {
+          "value": "section",
+          "label": "Normal"
+        }
+      ],
+      "default": "section"
+    },
+    {
+      "type": "select",
+      "id": "internal_margin",
+      "label": "Internal margin",
+      "options": [
+        {
+          "value": "",
+          "label": "None"
+        },
+        {
+          "value": "vertical-breather--tight",
+          "label": "Small"
+        },
+        {
+          "value": "vertical-breather",
+          "label": "Normal"
+        }
+      ],
+      "default": "vertical-breather--tight"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "logo_background",
+      "label": "Logo background",
+      "default": "rgba(0,0,0,0)"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Logo",
+      "type": "logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Image",
+          "info": "450 x 150px .png recommended"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo list",
+      "blocks": [
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

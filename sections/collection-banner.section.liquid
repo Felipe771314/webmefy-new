@@ -1,0 +1,377 @@
+{% capture breadcrumb_subcollection %}{% render 'collection-breadcrumb-menu', collection: collection %}{% endcapture %}
+
+{% assign breadcrumb_subcollection_data = breadcrumb_subcollection | split: '##' %}
+{% assign breadcrumb_menu = breadcrumb_subcollection_data.first %}
+{% assign subcollection = breadcrumb_subcollection_data.last %}
+
+<style>
+  #shopify-section-{{ section.id }} .image-overlay {
+      --heading-color: {{ section.settings.image_text_color.red }}, {{ section.settings.image_text_color.green }},{{ section.settings.image_text_color.blue }};
+      --text-color: {{ section.settings.image_text_color.red }}, {{ section.settings.image_text_color.green }},{{ section.settings.image_text_color.blue }};
+      --section-items-alignment: center;
+      --section-overlay-color: {{ section.settings.image_overlay_color.red }}, {{ section.settings.image_overlay_color.green }},{{ section.settings.image_overlay_color.blue }};
+      --section-overlay-opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+  }
+</style>
+
+<section>
+  {%- comment -%}
+    ------------------------------------------------------------------------------------------
+    TOP PART (IMAGE AND BREADCRUMB)
+    ------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+
+  {%- capture breadcrumb_zone -%}
+
+        {%- liquid
+            if section.settings.breadcrumb_show_home_link
+              assign breadcrumb = 'general.breadcrumb.home' | t | append: '||' | append: routes.root_url | append: '[]'
+            endif
+            if breadcrumb_menu != blank
+              assign breadcrumb = breadcrumb | append: breadcrumb_menu
+            elsif collection.handle == 'all'
+              assign translation =  'collection.general.all_products' | t
+                assign breadcrumb = breadcrumb | append: translation | append: '||' | append: 'all'
+            else
+                assign breadcrumb = breadcrumb | append: collection.title | append: '||' | append: collection.url
+            endif
+        -%}
+
+        {% render 'breadcrumb', floating: true, hidden_classes: 'hidden-phone', breadcrumb: breadcrumb %}
+
+    {%- endcapture -%}
+
+  {%- capture collection_description -%}
+    {%- if section.settings.show_collection_description and collection.description != blank -%}
+      <truncate-content
+        {% if section.settings.truncate_collection_description != 'none' %}
+          max-length="{{ section.settings.collection_description_max_length }}"
+        {% endif %}
+        {% if section.settings.truncate_collection_description == 'mobile' %}
+          match-media="screen and (max-width: 740px)"
+        {% elsif section.settings.truncate_collection_description == 'tablet_mobile' %}
+          match-media="screen and (max-width: 999px)"
+        {% endif %}
+        class="truncate-content collection-description"
+      >
+        <div class="collection-description__content truncate-content__content">
+          {{- collection.description -}}
+        </div>
+        <a href="#showmore" hidden class="truncate-content__show-more collection-description__button collection-description__button--show-more link">
+          {{- 'collection.general.read_more' | t -}}
+        </a>
+        <a href="#showless" hidden class="truncate-content__show-less collection-description__button collection-description__button--show-less link">
+          {{- 'collection.general.read_less' | t -}}
+        </a>
+      </truncate-content>
+    {%- endif -%}
+  {%- endcapture -%}
+
+  {%- if collection.image and section.settings.show_collection_image -%}
+    <image-with-text-overlay
+      reveal-on-scroll
+      parallax
+      class="image-overlay image-overlay--{{ section.settings.section_height }}"
+      {% if section.settings.section_height == 'auto' %}
+        style="--image-aspect-ratio: {{ collection.image.aspect_ratio }}"
+      {% endif %}
+    >
+      <div
+        class="image-overlay__image-wrapper"
+        {% if section.settings.section_height == 'auto' %}
+          style="padding-bottom: {{ 100.0 | divided_by: collection.image.aspect_ratio }}%"
+        {% endif %}
+      >
+        {%- comment -%}Performance note: this image must not be lazyloaded as it contributes to the LCP{%- endcomment -%}
+        <picture>
+          {%- if section.settings.section_height != 'auto' -%}
+            {{-
+              collection.image
+              | image_url: width: collection.image.width, height: 600, crop: 'center'
+              | image_tag: loading: 'eager', widths: '400,500,600,700,800,900,1000', media: '(max-width: 740px)'
+              | replace: '<img', '<source'
+            -}}
+          {%- else -%}
+            {{-
+              collection.image
+              | image_url: width: collection.image.width
+              | image_tag: loading: 'eager', widths: '400,500,600,700,800,900,1000', media: '(max-width: 740px)'
+              | replace: '<img', '<source'
+            -}}
+          {%- endif -%}
+
+          {{-
+            collection.image
+            | image_url: width: collection.image.width
+            | image_tag:
+              widths: '600,700,800,1000,1200,1400,1600,1800,2000,2200,2400,2600',
+              class: 'image-overlay__image',
+              reveal: false
+          -}}
+        </picture>
+      </div>
+
+      <div class="container">
+        <div class="image-overlay__content-wrapper">
+          {{- breadcrumb_zone -}}
+
+          <div class="image-overlay__content content-box content-box--{{ section.settings.text_width }} content-box--text-center content-box--center text-container">
+            {%- if section.settings.show_collection_title -%}
+              <h1 class="heading h1">
+                <split-lines reveal>{{ collection.title }}</split-lines>
+              </h1>
+            {%- endif -%}
+
+            {% if collection_description != blank %}
+              <div class="image-overlay__text-container" reveal>
+                {{ collection_description }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </image-with-text-overlay>
+  {%- else -%}
+    <div class="container">
+      <div class="page-header">
+        {{- breadcrumb_zone -}}
+
+        <div class="page-header__text-wrapper text-container">
+          {%- if section.settings.show_collection_title -%}
+            <h1 class="heading h1">{{ collection.title }}</h1>
+          {%- endif -%}
+
+          {% if collection_description != blank %}
+            {{ collection_description }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}
+    ------------------------------------------------------------------------------------------
+    QUICK LINKS PART
+    ------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+  {% liquid
+    assign hide_subcollections_metafield_arr = settings.breadcrumb_hide_subcollection_metafield | split: '.'
+    assign hide_subcollections_metafield_value = collection.metafields[hide_subcollections_metafield_arr[0]][hide_subcollections_metafield_arr[1]].value
+  %}
+
+  {%- if section.settings.show_subcollections
+    and subcollection != blank
+    and hide_subcollections_metafield_value != true
+  -%}
+    {% assign subcollection_data = subcollection | split: '@@' %}
+    {% assign subcollection_title_data = subcollection_data.first | split: '||' %}
+    {% assign subcollection_links = subcollection_data.last | strip | split: '[]' %}
+    <link-bar class="link-bar">
+      <div class="container">
+        <div class="link-bar__wrapper">
+          {% assign subcollection_title = subcollection_title_data[0] %}
+          {% assign subcollection_title_url = subcollection_title_data[1] %}
+          {% assign subcollection_title_active = subcollection_title_data[2] %}
+          {% unless section.settings.subcollections_hide_title %}
+            <span class="link-bar__title heading heading--small text--subdued">
+              <a
+                href="{{ subcollection_title_url }}"
+                class="link-bar__link link--animated {% if subcollection_title_active %}text--underlined{% endif %}"
+              >
+                {% if section.settings.subcollections_title != blank %}
+                  {{ section.settings.subcollections_title }}
+                {% else %}
+                  {{ subcollection_title }}
+                {% endif %}
+              </a>
+            </span>
+          {% endunless %}
+
+          <div class="link-bar__scroller hide-scrollbar">
+            <ul class="link-bar__linklist list--unstyled" role="list">
+              {%- for link in subcollection_links -%}
+                {% assign link_data = link | split: '||' %}
+                {% assign link_title = link_data[0] %}
+                {% assign link_url = link_data[1] %}
+                {% assign link_active = link_data[2] %}
+                <li class="link-bar__link-item {% if link_active %}link-bar__link-item--selected{% endif %}">
+                  <a
+                    href="{{ link_url }}"
+                    class="link-bar__link link--animated {% if link_active %}text--underlined{% endif %}"
+                  >
+                    {{- link_title -}}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </link-bar>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Collection banner",
+  "class": "shopify-section--collection-banner",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "To change collection descriptions or collection images, [edit your collections](/admin/collections)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Show collection image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_title",
+      "label": "Show collection title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "label": "Show collection description",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "truncate_collection_description",
+      "label": "Truncate collection description",
+      "options": [
+        {
+          "value": "none",
+          "label": "Don't truncate"
+        },
+        {
+          "value": "all",
+          "label": "Truncate on all devices"
+        },
+        {
+          "value": "tablet_mobile",
+          "label": "Truncate only on tablet & mobile"
+        },
+        {
+          "value": "mobile",
+          "label": "Truncate only on mobile"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "number",
+      "id": "collection_description_max_length",
+      "label": "Truncated collection description max length",
+      "default": 400
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Image height",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Original image ratio"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "info": "Choose \"Original image ratio\" to not cut images. [Learn more](https://help.shopify.com/en/manual/online-store/images/theme-images#best-practices-for-slideshows-and-full-width-images)",
+      "default": "small"
+    },
+    {
+      "type": "select",
+      "id": "text_width",
+      "label": "Text width",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "fill",
+          "label": "Fill screen"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "Color",
+      "info": "Only applicable when collection image is used."
+    },
+    {
+      "type": "color",
+      "id": "image_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "image_overlay_color",
+      "label": "Overlay",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "image_overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "breadcrumb_show_home_link",
+      "label": "Breadcrumb show home link",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subcollections",
+      "label": "Show sub-collections",
+      "info": "You must set a menu in 'settings > Breadcrumb'",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "subcollections_hide_title",
+      "label": "Hide sub collections title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subcollections_title",
+      "label": "Override sub collections parent title"
+    }
+  ]
+}
+{% endschema %}

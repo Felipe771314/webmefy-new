@@ -1,0 +1,93 @@
+{%- assign direction = 'ltr' -%}
+{%- case request.locale.iso_code -%}
+  {%- when 'ar', 'arc', 'dv', 'fa', 'ha', 'he', 'kwh', 'ks', 'ku', 'ps', 'ur', 'yi' -%}
+    {%- assign direction = 'rtl' -%}
+{%- endcase -%}
+
+{%- capture section_content -%}
+  <shop-the-look
+    {% if section.settings.reveal_on_scroll %}
+      reveal-on-scroll
+    {% endif %}
+    class="shop-the-look"
+  >
+    <div class="shop-the-look__item-list">
+      {%- for block in section.blocks -%}
+        {%- capture look_id -%}block-{{ section.id }}-{{ block.id }}{%- endcapture -%}
+
+        <shop-the-look-item
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}
+          id="{{ look_id }}"
+          class="shop-the-look__item"
+          {{ block.shopify_attributes }}
+        >
+          {% render 'shop-the-look-item' with block %}
+        </shop-the-look-item>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.blocks.size > 1 -%}
+      <div class="container">
+        <shop-the-look-nav
+          {% if section.settings.reveal_on_scroll %}
+            reveal
+          {% endif %}
+          class="shop-the-look__nav"
+        >
+          {%- if section.settings.label != blank -%}
+            <span class="shop-the-look__label heading heading--small hidden-pocket">
+              {{- section.settings.label | escape -}}
+            </span>
+          {%- endif -%}
+
+          <div class="shop-the-look__prev-next-buttons">
+            <button class="shop-the-look__arrow prev-next-button prev-next-button--prev" data-action="prev">
+              <span class="visually-hidden">{{ 'general.accessibility.previous' | t }}</span>
+              {%- include 'icon' with 'nav-arrow-left', direction_aware: true -%}
+            </button>
+
+            <span class="shop-the-look__counter hidden-pocket">
+              <span class="shop-the-look__counter-page">
+                <span class="shop-the-look__counter-page-base">1</span>
+
+                {%- for i in (1..section.blocks.size) -%}
+                  <span
+                    class="shop-the-look__counter-page-transition"
+                    {% unless forloop.first %}
+                      hidden
+                    {% endunless %}
+                  >
+                    {{- i -}}
+                  </span>
+                {%- endfor -%}
+              </span>
+              <span class="shop-the-look__counter-separator">/</span>
+              <span class="shop-the-look__counter-total">{{ section.blocks.size }}</span>
+            </span>
+
+            <button class="shop-the-look__arrow prev-next-button prev-next-button--next" data-action="next">
+              <span class="visually-hidden">{{ 'general.accessibility.next' | t }}</span>
+              {%- include 'icon' with 'nav-arrow-right', direction_aware: true -%}
+            </button>
+          </div>
+        </shop-the-look-nav>
+      </div>
+    {%- endif -%}
+  </shop-the-look>
+{%- endcapture -%}
+
+{%- capture content -%}
+  {%- if section.settings.stack_on_mobile -%}
+    {{- section_content -}}
+  {%- else -%}
+    <div class="scroller">
+      <div class="scroller__inner">
+        {{- section_content -}}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+{% render 'section-layout', content: content, module: 'shop-the-look' %}

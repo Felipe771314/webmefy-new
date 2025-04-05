@@ -1,0 +1,23 @@
+{% render 'vite-tag' with '@modules/main-pages/main-customers-login' %}
+
+{% comment %}
+  Captcha bindings
+
+  Note:
+  if we pass nil value to the 'data-shopify-captcha' form attribute
+  then the attribute is not rendered in the DOM.
+{% endcomment %}
+{% assign force_register_form_captcha = null %}
+{% if section.settings.force_register_form_captcha %}
+  {% assign force_register_form_captcha = 'true' %}
+{% endif %}
+
+<section class="oz-section">
+  <div class="oz-section__inner container">
+    <div
+      class="page-content page-content--small"
+    >
+      {% render 'register', force_register_form_captcha: force_register_form_captcha %}
+    </div>
+  </div>
+</section>

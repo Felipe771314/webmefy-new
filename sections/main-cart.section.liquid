@@ -1,0 +1,388 @@
+<section>
+  <div id="main-cart" is="cart-container" class="container container--medium">
+    {%- if cart.item_count > 0 -%}
+      <div class="page-header">
+        <div class="page-header__text-wrapper text-container">
+          <h1 class="heading h2">{{ 'cart.general.title' | t }}</h1>
+
+          {% render 'f_render_free_shipping_bar' %}
+        </div>
+      </div>
+    {%- else -%}
+      <div class="empty-state text-container">
+        <h1 class="heading h1">{{ 'cart.general.title' | t }}</h1>
+        <p class="text--large">{{ 'cart.general.empty' | t }}</p>
+
+        <div class="button-wrapper">
+          <a href="{{ section.settings.empty_button_link }}" class="button button--primary">
+            {{- 'cart.general.start_shopping' | t -}}
+          </a>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if cart.item_count > 0 -%}
+      <div class="page-content page-content--fluid">
+        <div class="cart">
+          <div class="cart__content">
+            <table class="line-item-table table table--loose">
+              <thead class="line-item-table__header-group hidden-phone">
+                <tr class="line-item-table__header-line">
+                  <th>
+                    <span class="heading heading--xsmall text--subdued">{{ 'cart.general.product' | t }}</span>
+                  </th>
+                  <th>
+                    <span class="heading heading--xsmall text--subdued text--center">
+                      {{- 'cart.general.quantity' | t -}}
+                    </span>
+                  </th>
+                  <th>
+                    <span class="heading heading--xsmall text--subdued text--right">
+                      {{- 'cart.general.total' | t -}}
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody class="line-item-table__list" is="cart-custom-items">
+                {%- for line_item in cart.items -%}
+                  {% render 'cart-line-item',
+                    line_item: line_item,
+                    position: forloop.index,
+                    packshot_first_image: section.settings.enable_packshot_main_cart
+                  %}
+                {%- endfor -%}
+              </tbody>
+            </table>
+
+            {%- assign items_requiring_shipping = cart.items | where: 'requires_shipping' -%}
+
+            {%- if section.settings.show_shipping_estimator and items_requiring_shipping.size > 0 -%}
+              <div class="shipping-estimator">
+                <button
+                  type="button"
+                  is="toggle-button"
+                  class="shipping-estimator__toggle-button collapsible-toggle heading heading--small"
+                  aria-controls="shipping-estimator"
+                  aria-expanded="false"
+                >
+                  {{- 'cart.shipping_estimator.estimate_shipping' | t -}}
+                  {%- render 'icon' with 'chevron' -%}
+                </button>
+
+                <collapsible-content id="shipping-estimator" class="collapsible">
+                  <shipping-estimator class="shipping-estimator__form" role="form">
+                    <div class="input-row">
+                      <div class="input">
+                        <label class="input__block-label" for="shipping-estimator[country]">
+                          {{- 'cart.shipping_estimator.country' | t -}}
+                        </label>
+                        <div class="select-wrapper">
+                          <select
+                            class="select"
+                            is="country-selector"
+                            name="shipping-estimator[country]"
+                            id="shipping-estimator[country]"
+                            aria-owns="shipping-estimator-province-wrapper"
+                            {% if customer and customer.default_address %}
+                              data-default="{{ customer.default_address.country }}"
+                            {% else %}
+                              data-default="{{ section.settings.shipping_estimator_default_country }}"
+                            {% endif %}
+                          >
+                            {{ country_option_tags }}
+                          </select>
+                          {%- render 'icon' with 'chevron' -%}
+                        </div>
+                      </div>
+
+                      <div id="shipping-estimator-province-wrapper" class="input" hidden>
+                        <label class="input__block-label" for="shipping-estimator[province]">
+                          {{- 'cart.shipping_estimator.province' | t -}}
+                        </label>
+                        <div class="select-wrapper">
+                          <select
+                            class="select"
+                            name="shipping-estimator[province]"
+                            id="shipping-estimator[province]"
+                            {% if customer and customer.default_address %}
+                              data-default="{{ customer.default_address.province }}"
+                            {% endif %}
+                          ></select>
+                          {%- render 'icon' with 'chevron' -%}
+                        </div>
+                      </div>
+
+                      <div class="input">
+                        <label class="input__block-label" for="shipping-estimator[zip]">
+                          {{- 'cart.shipping_estimator.zip_code' | t -}}
+                        </label>
+                        <input
+                          type="text"
+                          class="input__field"
+                          name="shipping-estimator[zip]"
+                          id="shipping-estimator[zip]"
+                        >
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      is="loader-button"
+                      class="form__submit form__submit--closer button button--primary"
+                    >
+                      {{ 'cart.shipping_estimator.submit' | t }}
+                    </button>
+                  </shipping-estimator>
+                </collapsible-content>
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="cart__aside">
+            <safe-sticky offset="24" class="cart__aside-inner">
+              <form
+                action="{{ routes.cart_url }}"
+                method="post"
+                novalidate
+                class="cart__recap"
+                id="main-cart-form"
+                is="cancellable-form"
+              >
+                <input type="hidden" name="checkout">
+
+                {%- for block in section.blocks -%}
+                  {%- case block.type -%}
+                    {%- when 'totals' -%}
+                      <div class="cart__recap-block" {{ block.shopify_attributes }}>
+                        <cart-level-discounts
+                          component="cart"
+                        >
+                          <template discount-badge>
+                            {% render 'icon' with 'discount-badge' %}
+                          </template>
+                          {%- if cart.cart_level_discount_applications != blank -%}
+                            <ul class="cart__discount-list list--unstyled" role="list">
+                              {%- for discount_application in cart.cart_level_discount_applications -%}
+                                <li class="cart__discount">
+                                  <span class="cart__discount-badge discount-badge">
+                                    {%- render 'icon' with 'discount-badge' -%}
+                                    {{ discount_application.title -}}
+                                  </span>
+                                  <span class="cart__discount-price">
+                                    {%- render 'f_format_money' with discount_application.total_allocated_amount %}
+                                  </span>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+                        </cart-level-discounts>
+                        <div class="cart__total-container">
+                          <span class="heading h6 cart__total-container-heading">{{ 'cart.general.total' | t }}</span>
+                          <cart-total class="heading h6 price price--highlight">
+                            {% if settings.activate_price_placeholder %}
+                              <place-holder width="100" height="30" />
+                            {% else %}
+                              {% render 'f_format_money' with cart.total_price %}
+                            {% endif %}
+                          </cart-total>
+                          <cart-original-total class="price price--compare price--line-discount">
+                            {% unless settings.activate_price_placeholder == true
+                              or cart.original_total_price == cart.total_price
+                              or cart.original_total_price == 0
+                            %}
+                              {% render 'f_format_money' with cart.original_total_price %}
+                            {% endunless %}
+                          </cart-original-total>
+                          <!-- Remove comment if you want to display cart total discount -->
+                          <!-- cart-total-discount class="label label--highlight"></cart-total-discount -->
+                        </div>
+
+                        {%- capture shipping_tax_note -%}{{ 'cart.general.shipping_tax_note' | t }}{%- endcapture -%}
+
+                        {%- if shipping_tax_note != '' -%}
+                          <p class="cart__tax-note text--subdued">{{ shipping_tax_note }}</p>
+                        {%- endif -%}
+                      </div>
+                    {%- when 'order_note' -%}
+                      <div class="cart__recap-note" {{ block.shopify_attributes }}>
+                        <button
+                          type="button"
+                          is="toggle-button"
+                          id="order-note-toggle"
+                          class="link text--subdued"
+                          aria-controls="cart-note"
+                          aria-expanded="{% if block.settings.open_by_default %}true{% else %}false{% endif %}"
+                        >
+                          {%- if cart.note == '' -%}
+                            {{- 'cart.general.add_order_note' | t -}}
+                          {%- else -%}
+                            {{- 'cart.general.edit_order_note' | t -}}
+                          {%- endif -%}
+                        </button>
+
+                        <collapsible-content
+                          id="cart-note"
+                          class="collapsible"
+                          {% if block.settings.open_by_default %}
+                            open
+                          {% endif %}
+                        >
+                          <div class="cart__order-note">
+                            <textarea
+                              is="cart-note"
+                              aria-owns="order-note-toggle"
+                              name="note"
+                              class="input__field input__field--textarea"
+                              rows="3"
+                              placeholder="{{ 'cart.general.order_note_placeholder' | t }}"
+                              aria-label="{{ 'cart.general.order_note' | t | escape }}"
+                            >{{ cart.note }}</textarea>
+                          </div>
+                        </collapsible-content>
+                      </div>
+                    {%- when 'express_checkout_buttons' -%}
+                      {%- if additional_checkout_buttons -%}
+                        <div class="cart__recap-block" {{ block.shopify_attributes }}>
+                          <div class="additional-checkout-buttons additional-checkout-buttons--vertical">
+                            {{- content_for_additional_checkout_buttons -}}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- when '@app' -%}
+                      <div class="cart__recap-block">
+                        {%- render block -%}
+                      </div>
+                  {%- endcase -%}
+                {%- endfor -%}
+
+                {% if settings.enable_aki_discounts %}
+                  {% render 'aki-coupon' %}
+                {% endif %}
+
+                {% if settings.cart_gift_wrap_checkbox and settings.cart_gift_wrap %}
+                  {% render 'cart-gift-wrap-checkbox' %}
+                {% endif %}
+
+                {% render 'cart-terms-conditions-checkbox', form: 'main-cart-form' %}
+
+                <button
+                  type="submit"
+                  class="cart__checkout-button checkout-button button button--primary button--full"
+                  name="checkout"
+                  form="main-cart-form"
+                  {%- if settings.enable_aki_discounts != blank -%}
+                    disabled
+                    is="aki-validation"
+                    translation-need-login="{{  'aki_discount.validation.need_login' | t | escape  }} "
+                    {%- if settings.enable_aki_functions -%}
+                      aki-functions
+                    {% endif %}
+                  {% endif %}
+                >
+                  <span class="checkout-button__lock">{%- render 'icon' with 'lock' -%}</span>
+                  {{- 'cart.general.checkout' | t -}}
+                </button>
+              </form>
+
+              {% if settings.cart_gift_wrap_checkbox and settings.cart_gift_wrap %}
+                {% render 'cart-gift-wrap-form' %}
+              {% endif %}
+
+              {%- if section.settings.show_payment_methods and shop.enabled_payment_types.size > 0 -%}
+                <div class="cart__payment-methods">
+                  <span class="cart__payment-methods-label text--xsmall text--subdued">
+                    {{- 'cart.general.we_accept' | t -}}
+                  </span>
+
+                  <div class="payment-methods-list payment-methods-list--center">
+                    {% for type in shop.enabled_payment_types %}
+                      {{ type | payment_type_svg_tag }}
+                    {% endfor %}
+                  </div>
+                </div>
+              {%- endif -%}
+            </safe-sticky>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "blocks": [
+    {
+      "type": "totals",
+      "name": "Totals",
+      "limit": 1
+    },
+    {
+      "type": "order_note",
+      "name": "Order note",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "express_checkout_buttons",
+      "name": "Express checkout buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Make payment faster with accelerated payment buttons. [Learn more](https://shopify.dev/themes/pricing-payments/accelerated-checkout)"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_payment_methods",
+      "label": "Show payment methods",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_estimator",
+      "label": "Show shipping rates calculator",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_estimator_default_country",
+      "label": "Default country",
+      "info": "If the customer is logged in, the country of their shipping address will be used.",
+      "default": "United States"
+    },
+    {
+      "type": "url",
+      "id": "empty_button_link",
+      "label": "Empty button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Packshot Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_packshot_main_cart",
+      "label": "Enable packshot image",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

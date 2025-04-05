@@ -1,0 +1,32 @@
+{%- liquid
+  assign page_url = content_for_header | split: '"pageurl":"' | last | split: '"' | first
+  assign page_url = page_url | replace: '\/', '/' | replace: '%20', ' '
+  assign page_url = page_url | split: '?' | last
+  assign page_url = page_url | split: '\u0026'
+
+  for param in page_url
+    assign pair = param | split: '='
+    if pair[0] == 'original_id'
+      assign original_id = pair[1]
+    endif
+    if pair[0] == 'item_id'
+      assign item_id = pair[1]
+    endif
+    if pair[0] == 'quantity'
+      assign quantity = pair[1]
+    endif
+
+    if pair[0] == 'position'
+      assign position = pair[1]
+    endif
+  endfor
+  assign num_id = original_id | plus: 0
+  for item in cart.items
+    if item.id == num_id
+      assign line_item = item
+      break
+    endif
+  endfor
+%}
+
+{% render 'cart-line-item', line_item: line_item, item_id: item_id, quantity: quantity, position: position %}

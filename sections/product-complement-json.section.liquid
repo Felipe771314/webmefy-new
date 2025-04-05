@@ -1,0 +1,61 @@
+{%- comment -%}
+  ------------------------------------------------------------------------------------
+   USED INAJAX
+   Product handles arejust simple handles comma separated
+  ------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+{%- liquid
+  assign page_url = content_for_header | split: '"pageurl":"' | last | split: '"' | first
+  assign page_url = page_url | replace: '\/', '/' | replace: '%20', ' ' | replace: '%7C', '|' | replace: '%2C', ','
+  assign page_url = page_url | split: '?'
+  assign page_url = page_url[1]
+  assign page_url = page_url | split: '\u0026'
+
+  assign desktop_products_per_row = 4
+  assign mobile_products_per_row = 2
+
+  for param in page_url
+    assign pair = param | split: '='
+    if pair[0] == 'product_handles'
+      assign product_handles = pair[1]
+    endif
+  endfor
+
+  assign handles = product_handles | split: ',' | uniq | join: ',' | split: ','
+
+  assign productDatas = '{'
+  for handle in handles
+    assign product = all_products[handle]
+    assign collections = product.collections | map: 'title' | join: ','
+
+    assign variants = product.variants
+
+    if forloop.index > 1
+      assign productDatas = productDatas | append: ','
+    endif
+    assign productDatas = productDatas | append: '"' | append: handle | append: '" :'
+    assign productDatas = productDatas | append: '{'
+    assign collections_cleaned = collections | replace: '"', '\"'
+    assign productDatas = productDatas | append: '"collection_names": "' | append: collections_cleaned | append: '",'
+
+    assign productDatas = productDatas | append: '"variants_complement": ['
+
+    for variant in variants
+      assign inventory_quantity = variant.inventory_quantity
+      if forloop.index > 1
+        assign productDatas = productDatas | append: ','
+      endif
+      assign productDatas = productDatas | append: '{'
+      assign productDatas = productDatas | append: '"inventory_quantity": ' | append: inventory_quantity | append: ','
+      assign productDatas = productDatas | append: '"inventory_policy": "' | append: variant.inventory_policy | append: '"'
+      assign productDatas = productDatas | append: '}'
+    endfor
+    assign productDatas = productDatas | append: ']'
+
+    assign productDatas = productDatas | append: '}'
+  endfor
+  assign productDatas = productDatas | append: '}'
+%}
+
+{ "product_complements" : {{ productDatas }} }

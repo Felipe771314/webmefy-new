@@ -1,0 +1,935 @@
+{% if section.settings.google_api_token %}
+  {% capture store_list %}
+    <map-controller
+      id="map-place-list-{{ section.id }}-list"
+      map-id="{{ section.id }}"
+      class="map-place-list__list"
+    >
+      {% paginate  shop.metaobjects.store.values by 1000 %}
+        {% for store in shop.metaobjects.store.values %}
+          <div class="map-place-list__list-store" map-target="store_{{- store.system.id -}}">
+            {% if section.settings.list_image_display and store.image %}
+              <img
+                class="map-place-list__list-store-image"
+                src="{{ store.image | img_url: '400x'}}"
+                loading="lazy"
+                srcset="{{ store.image | img_url: '200x'}} 200w, {{ store.image | img_url: '300x'}} 300w"
+              >
+            {% endif %}
+            <div class="map-place-list__list-store-infos">
+              <h3 class="map-place-list__list-store-name heading h6">{{ store.name }}</h3>
+              <div class="map-place-list__list-address">
+                {{ store.address | newline_to_br }}
+                {% if store.zip_code != blank or store.city != blank %}
+                  <div class="map-place-list__list-address-city">{{ store.zip_code }}&nbsp;{{ store.city }}</div>
+                {% endif %}
+                {% if store.country != blank %}
+                  <div class="map-place-list__list-address-country">{{ store.country}}</div>
+                {% endif %}
+              </div>
+              {% if section.settings.list_opening_hours_display and store.opening_hours != blank %}
+                <div class="map-place-list__list-store-opening-hours">{{ store.opening_hours | newline_to_br }}</div>
+              {% endif %}
+              <div class="map-place-list__list-store-contact-list">
+                {% if section.settings.list_phone_display and  store.phone %}
+                  <div class="map-place-list__list-store-contacts">
+                    <span>{{ 'sections.map_place_list.phone' | t }}</span> <a href="callto:{{ store.phone }}">{{ store.phone }}</a></div>
+                {% endif %}
+                {% if section.settings.list_email_display and  store.email %}
+                  <div class="map-place-list__list-store-contacts">
+                    <span>{{ 'sections.map_place_list.email' | t }}</span> <a href="mailto:{{ store.email }}">{{ store.email }}</a></div>
+                {% endif %}
+                {% if section.settings.list_link_display and store.link %}
+                  <div class="map-place-list__list-store-contacts">
+                    <span>{{ 'sections.map_place_list.link' | t }}</span> <a href="{{ store.link }}">{{ store.link }}</a></div>
+                {% endif %}
+              </div>
+              {% render 'button', class : "map-place-list__list-store-see-map-btn", text_key: 'sections.map_place_list.see_on_map', style: section.settings.see_on_map_button_style, size: 'small', width: 'fullwidth' %}
+            </div>
+          </div>
+        {% endfor %}
+      {% endpaginate %}
+    </map-controller>
+  {% endcapture %}
+
+  {%- capture content -%}
+    <div class="map-place-list__section">
+      <map-search map-id="{{ section.id }}" class="map-place-list__search">
+        {% assign geolocation_text = 'sections.map_place_list.search_localize' | t %}
+        {% assign valid_text = 'sections.map_place_list.search_valid' | t %}
+        <div class="map-place-list__search-input-wrapper input-autocomplete">
+          <div class="input">
+            <button type="button" class="map-place-list__search-geolocation-button tap-area">
+              {% render 'icon' with 'picto-geolocation' %}
+            </button>
+            <input class="input__field map-place-list__search-input" data-lpignore="true" autocomplete="off" placeholder="{{ 'sections.map_place_list.search_placeholder' | t }}">
+            <button type="button" class="input-autocomplete__clear tap-area">
+              {% render 'icon' with 'close' %}
+            </button>
+          </div>
+          {% render 'button', class : "input-autocomplete__submit", icon: 'header-search', style: section.settings.search_button_style, size: 'small' %}
+        </div>
+
+        <template name="error-message">
+         <div>
+          {{ 'sections.map_place_list.search_error' |  t}}
+         </div>
+        </template>
+        <template name="error-message-localization">
+          <div>
+            {{ 'sections.map_place_list.localization_error' |  t}}
+          </div>
+        </template>
+        <div class="map-place-list__list-wrapper hidden-lap-and-below">
+          {{ store_list }}
+        </div>
+      </map-search>
+    <map-viewer
+      id="map-place-list-{{ section.id }}-map"
+      map-id="{{ section.id }}"
+      cluster-color="{{ section.settings.cluster_color.red }}, {{ section.settings.cluster_color.green }}, {{ section.settings.cluster_color.blue }}"
+      cluster-text-color="{{ section.settings.cluster_text_color }}"
+      cluster-size="{{ section.settings.cluster_size }}"
+      google-api-token="{{- section.settings.google_api_token | strip -}}"
+      google-api-region="{{ request.locale.iso_code}}-{{ localization.country.iso_code }}"
+      search-radius="{{ section.settings.search_radius | times: 1000 }}"
+
+      {% if section.settings.store_icon != blank %}
+
+        store-icon="{{ section.settings.store_icon | img_url: '40x' | prepend: 'https:' }}"
+      {% endif %}
+      {% if section.settings.location_icon != blank %}
+        location-icon="{{ section.settings.location_icon | img_url: '40x' | prepend: 'https:' }}"
+      {% endif %}
+      class="map-place-list__map"
+      {% if section.settings.custom_map_id != blank %}
+        map-style-id="{{ section.settings.custom_map_id }}"
+      {% else %}
+        map-style-name="{{ section.settings.map_style }}"
+      {% endif %}
+    >
+
+      {% paginate shop.metaobjects.store.values by 1000 %}
+        {% for store in shop.metaobjects.store.values %}
+          <template
+            name="store_{{- store.system.id -}}"
+            address="{{- store.address | strip_html | strip_newlines -}} {{- store.zip_code | strip -}} {{- store.city | strip -}} {{- store.country | strip -}}"
+            latitude="{{- store.latitude | strip -}}"
+            longitude="{{- store.longitude | strip -}}"
+
+          >
+            <div class="map-place-list__card map-place-list__modal-store">
+              <div class="map-place-list__modal-store-infos">
+                <h3 class="map-place-list__modal-store-name">{{ store.name }}</h3>
+                <div class="map-place-list__modal-address">
+                  {{ store.address | newline_to_br }}
+                  {% if store.zip_code != blank or store.city != blank %}
+                    <div class="map-place-list__modal-city">{{ store.zip_code }}&nbsp;{{ store.city }}</div>
+                  {% endif %}
+                  {% if store.country != blank %}
+                    <div class="map-place-list__modal-country">{{ store.country }}</div>
+                  {% endif %}
+                </div>
+                <div class="map-place-list__modal-store-opening-hours">{{ store.opening_hours | newline_to_br }}</div>
+                <div class="map-place-list__modal-store-contact-list">
+                  {% if section.settings.modal_phone_display and store.phone != blank %}
+                    <div class="map-place-list__modal-store-contacts">
+                      <span>{{ 'sections.map_place_list.phone' | t }}</span> <a
+                        href="callto:{{ store.phone }}">{{ store.phone }}</a></div>
+                  {% endif %}
+                  {% if section.settings.modal_email_display and store.email != blank %}
+                    <div class="map-place-list__modal-store-contacts">
+                      <span>{{ 'sections.map_place_list.email' | t }}</span> <a
+                        href="mailto:{{ store.email }}">{{ store.email }}</a></div>
+                  {% endif %}
+                  {% if section.settings.modal_link_display and store.link != blank %}
+                    <div class="map-place-list__modal-store-contacts">
+                      <span>{{ 'sections.map_place_list.link' | t }}</span> <a
+                        href="{{ store.link }}">{{ store.link }}</a></div>
+                  {% endif %}
+                </div>
+                {% if section.settings.modal_navigation_display %}
+                  <div class="map-place-list__modal-store-navigation">
+                    <a class="button button--{{ section.settings.navigate_to_button_style }} button--small" target="_blank" navigate-button>{{ 'sections.map_place_list.navigate' | t }}</a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            {% if section.settings.modal_image_display and store.image != blank%}
+              <img
+                class="map-place-list__modal-store-image"
+                src="{{ store.image | img_url: '400x' }}"
+                loading="lazy"
+                srcset="{{ store.image | img_url: '200x' }} 200w, {{ store.image | img_url: '300x' }} 300w"
+              >
+            {% endif %}
+          </template>
+        {% endfor %}
+
+      {% endpaginate %}
+      </map-viewer>
+
+      <div class="map-place-list__button-wrapper">
+        {% assign aria_controls = 'map-place-list-' | append: section.id | append: '-list-drawer' %}
+        {% render 'button',
+          class : "map-place-list__button-see-list hidden-desk",
+          text_key: 'sections.map_place_list.see_list',
+          style: section.settings.see_list_button_style,
+          width: 'fullwidth',
+          is: 'toggle-button',
+          aria_controls: aria_controls,
+          aria_expanded: 'false',
+          button_tag: 'button' %}
+      </div>
+    </div>
+
+    <map-list-drawer
+      id="map-place-list-{{ section.id }}-list-drawer"
+      class="drawer drawer--large hidden-desk"
+      map-id="{{ section.id }}"
+    >
+      <span class="drawer__overlay"></span>
+      <header class="drawer__header">
+        <p class="drawer__title heading h6">{{ 'sections.map_place_list.list_drawer_title' | t }}</p>
+        <button
+          type="button"
+          class="drawer__close-button tap-area"
+          data-action="close"
+          title="{{ 'general.accessibility.close' | t | escape }}"
+        >
+          {%- render 'icon' with 'close' -%}
+        </button>
+      </header>
+
+      <div class="drawer__content drawer__content--no-padded">
+        {{ store_list }}
+      </div>
+    </map-list-drawer>
+
+
+   {% assign logo =  shop.brand.logo | default:  page_image  %}
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "{{ shop.domain }}",
+      "image": ["{{ logo | img_url }}"],
+      "department": [
+        {%- paginate  shop.metaobjects.store.values by 1000 -%}
+          {%- for store in shop.metaobjects.store.values -%}
+            {%- if forloop.index > 1 -%} ,{ {%- else -%} {  {%- endif -%}
+              {%if section.settings.list_image_display and store.image %}  "image": [ "https:{{ store.image | img_url: '400x'}}" ],   {% endif %}
+                      "@type": "Store",
+                      "name": "{{ store.name }}"
+                  {% assign address =  store.address | strip_newlines  %}
+                  {%- if address != blank or store.city != blank or  store.zip_code != blank  or store.country != blank -%}
+                      , "address": {
+                          "@type": "PostalAddress"
+                          {% if address != blank  %} ,"streetAddress": "   {{ store.address | strip_newlines }}" {% endif %}
+                          {% if store.city != blank  %},"addressLocality": "{{ store.city }}"{% endif %}
+                          {%if store.zip_code != blank %} , "postalCode": "{{ store.zip_code }}" {%endif %}
+                          {%if store.country != blank %} ,"addressCountry": "{{ store.country}}" {% endif %}
+                        }
+                  {%- endif -%}
+                          {% if section.settings.list_phone_display and  store.phone %}   ,  "telephone": "{{ store.phone }}" {% endif %}
+                          {% if section.settings.list_link_display and store.link %}   ,  "url": "{{ store.link }}"    {% endif %}
+          }
+          {%- endfor -%}
+        {%- endpaginate -%}
+      ]
+    }
+  </script>
+
+
+
+  {%- endcapture -%}
+
+  {% render 'section-layout', content: content, module: 'map-place-list', extra_section_style: extra_style %}
+{% endif %}
+{% schema %}
+{
+  "name": "Map-place-list",
+  "class": "shopify-section--map-place-list",
+  "limit": 1,
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Configuration"
+    },
+    {
+      "type": "text",
+      "id": "google_api_token",
+      "label": "Google Maps API Token",
+      "info": "You need to create a MAPS API Token [Learn more](https://developers.google.com/maps)"
+    },
+    {
+      "type": "header",
+      "content": "Map"
+    },
+    {
+      "type": "select",
+      "id": "map_style",
+      "label": "Map Style",
+      "options": [
+        {
+          "value": "CLASSIC",
+          "label": "Classic"
+        },
+        {
+          "value": "RETRO",
+          "label": "Retro"
+        },
+        {
+          "value": "DARK",
+          "label": "Dark"
+        },
+        {
+          "value": "GRAY",
+          "label": "Gray"
+        }
+      ],
+      "default": "CLASSIC"
+    },
+    {
+      "type": "text",
+      "id": "custom_map_id",
+      "label": "Custom Map Id",
+      "info": "Use a custom Maps style [Learn more](https://console.cloud.google.com/google/maps-apis/client-styles)"
+    },
+    {
+      "type": "range",
+      "id": "search_radius",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "km",
+      "label": "Search radius",
+      "default": 20,
+      "info": "Show search results within a selected radius around the matching point on the map"
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "image_picker",
+      "id": "store_icon",
+      "label": "Store icon"
+    },
+    {
+      "type": "color",
+      "id": "cluster_color",
+      "label": "Cluster color",
+      "default": "#1c1b1b"
+    },
+    {
+      "type": "color",
+      "id": "cluster_text_color",
+      "label": "Cluster text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "cluster_size",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Cluster size",
+      "default": 45
+    },
+    {
+      "type": "image_picker",
+      "id": "location_icon",
+      "label": "User location icon"
+    },
+    {
+      "type": "header",
+      "content": "Store List"
+    },
+    {
+      "type": "checkbox",
+      "id": "list_phone_display",
+      "label": "Display Phone",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "list_email_display",
+      "label": "Display Email",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "list_link_display",
+      "label": "Display Site Link",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "list_opening_hours_display",
+      "label": "Display Opening hours",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "list_image_display",
+      "label": "Display Store Picture",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Map Modal"
+    },
+    {
+      "type": "checkbox",
+      "id": "modal_phone_display",
+      "label": "Display Phone",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "modal_email_display",
+      "label": "Display Email",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "modal_link_display",
+      "label": "Display Site Link",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "modal_navigation_display",
+      "label": "Display Navigation button",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "modal_image_display",
+      "label": "Display Store Picture",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "select",
+      "id": "search_button_style",
+      "label": "Search button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary button"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary button"
+        },
+        {
+          "value": "ternary",
+          "label": "Ternary button"
+        },
+        {
+          "value": "transparent",
+          "label": "Transparent"
+        }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "see_list_button_style",
+      "label": "See list button style (mobile)",
+      "options": [
+        {
+          "value": "link",
+          "label": "Link"
+        },
+        {
+          "value": "primary",
+          "label": "Primary button"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary button"
+        },
+        {
+          "value": "ternary",
+          "label": "Ternary button"
+        },
+        {
+          "value": "transparent",
+          "label": "Transparent"
+        }
+      ],
+      "default": "secondary"
+    },
+    {
+      "type": "select",
+      "id": "see_on_map_button_style",
+      "label": "See on map button style",
+      "options": [
+        {
+          "value": "link",
+          "label": "Link"
+        },
+        {
+          "value": "primary",
+          "label": "Primary button"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary button"
+        },
+        {
+          "value": "ternary",
+          "label": "Ternary button"
+        },
+        {
+          "value": "transparent",
+          "label": "Transparent"
+        }
+      ],
+      "default": "transparent"
+    },
+    {
+      "type": "select",
+      "id": "navigate_to_button_style",
+      "label": "Navigate to button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary button"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary button"
+        },
+        {
+          "value": "ternary",
+          "label": "Ternary button"
+        },
+        {
+          "value": "transparent",
+          "label": "Transparent"
+        }
+      ],
+      "default": "transparent"
+    },
+    {
+      "type": "header",
+      "content": "Header Text"
+    },
+    {
+      "type": "header",
+      "content": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Subheading"
+    },
+
+    {
+      "type": "select",
+      "id": "subheading_tag",
+      "label": "Subheading tag (SEO)",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "span",
+          "label": "SPAN"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "",
+          "label": "Default"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "subheading_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "",
+          "label": "Default"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "subheading_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "bold",
+          "label": "Bold"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Our stores"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag (SEO)",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "span",
+          "label": "SPAN"
+        }
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "heading_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "",
+          "label": "Default"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Font weight",
+      "info": "Does not work if 'Heading' is set to 'Bold' in theme settings",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "bold",
+          "label": "Bold"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "header",
+      "content": "Headings Layout"
+    },
+    {
+      "type": "select",
+      "id": "textblock_alignment",
+      "label": "Text block alignment",
+      "options": [
+        {
+          "value": "section__header--left",
+          "label": "Left"
+        },
+        {
+          "value": "",
+          "label": "Center"
+        },
+        {
+          "value": "section__header--right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "fullwidth",
+          "label": "Full width"
+        },
+        {
+          "value": "fullwidth-gutter",
+          "label": "Full width with gutter"
+        },
+        {
+          "value": "boxed",
+          "label": "Boxed"
+        }
+      ],
+      "default": "boxed"
+    },
+    {
+      "type": "select",
+      "id": "container_size",
+      "label": "Boxed size",
+      "info": "Only works for 'boxed'",
+      "options": [
+        {
+          "value": "",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "section_vertical_margin",
+      "label": "Section vertical margin",
+      "options": [
+        {
+          "value": "section--flush",
+          "label": "None"
+        },
+        {
+          "value": "section--tight",
+          "label": "Small"
+        },
+        {
+          "value": "",
+          "label": "Normal"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "section_vertical_padding",
+      "label": "Section internal margin",
+      "options": [
+        {
+          "value": "",
+          "label": "None"
+        },
+        {
+          "value": "vertical-breather--tight",
+          "label": "Small"
+        },
+        {
+          "value": "vertical-breather",
+          "label": "Normal"
+        }
+      ],
+      "default": "vertical-breather--tight"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradiant",
+      "label": "Background gradiant"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Map-place-list"
+    }
+  ]
+}
+{% endschema %}

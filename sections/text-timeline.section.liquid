@@ -1,0 +1,28 @@
+{% if section.blocks.size > 0 %}
+  {%- capture extra_section_style -%}
+    --line-color: {{ section.settings.line_color.red }}, {{ section.settings.line_color.green }}, {{ section.settings.line_color.blue }};
+  {%- endcapture -%}
+
+  {%- capture content -%}
+    <div class="text-timeline__list">
+      <div class="text-timeline__delimiter"></div>
+      {% for block in section.blocks %}
+        {% if block.settings.title != blank and block.settings.text != blank %}
+          <div class="text-timeline__item">
+            <div
+              class="text-timeline__title"
+              {% if block.settings.title_color != 'rgba(0,0,0,0)' and block.settings.title_color != blank %}
+                style="--title-color: {{ block.settings.title_color.red }}, {{ block.settings.title_color.green }}, {{ block.settings.title_color.blue }};"
+              {% endif %}
+            >
+              {{ block.settings.title }}
+            </div>
+            <div class="text-timeline__text">{{ block.settings.text }}</div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {%- endcapture -%}
+
+  {% render 'section-layout', content: content, extra_section_style: extra_section_style, module: 'text-timeline' %}
+{% endif %}

@@ -1,0 +1,289 @@
+{% comment %}extra css var for the section{% endcomment %}
+{%- capture extra_section_style -%}
+    {%- if section.settings.text_color == 'rgba(0,0,0,0)' -%}
+        {%- assign heading_color = settings.heading_color -%}
+        {%- assign text_color = settings.text_color -%}
+    {%- else -%}
+        {%- assign heading_color = section.settings.text_color -%}
+        {%- assign text_color = section.settings.text_color -%}
+    {%- endif -%}
+
+
+    --heading-color: {{ heading_color.red }}, {{ heading_color.green }}, {{ heading_color.blue }};
+    --text-color: {{ text_color.red }}, {{ text_color.green }}, {{ text_color.blue }};
+    {% if section.settings.accent_background %}
+        --section-accent-background: {{ section.settings.accent_background.red }} {{ section.settings.accent_background.green }} {{ section.settings.accent_background.blue }} / {{ section.settings.accent_background.alpha }};
+    {% endif %}
+
+    {% if section.settings.breadcrumb_color %}
+        --breadcrumb-color : {{ section.settings.breadcrumb_color.red }}, {{ section.settings.breadcrumb_color.green }}, {{ section.settings.breadcrumb_color.blue }};
+    {% endif %}
+    --subcollection-title-position: {{ section.settings.show_subcollection_title_position }};
+    --subcollection-image-border-radius: {{ section.settings.subcollection_image_border_radius }}%;
+    --subcollection-image-border-color: {{ section.settings.subcollection_image_border_color }};
+{%- endcapture -%}
+
+{% comment %}extra style like media queries or other specific selectors{% endcomment %}
+{%- capture extra_style -%}
+    {%- if section.settings.background_overlap != 'both' -%}
+        /* We have to remove some extra spacing adding in non-overlap mode */
+        @media screen and (max-width: 999px) {
+        {%- if section.settings.background_overlap == 'image' -%}
+            {%- unless is_boxed -%}
+                #shopify-section-{{ section.id }} .section {
+                margin-top: 0;
+                }
+
+                #shopify-section-{{ section.id }} .image-with-text {
+                margin-bottom: calc(-1 * var(--vertical-breather)) !important;
+                }
+            {%- else -%}
+                #shopify-section-{{ section.id }} .image-with-text {
+                margin-bottom: calc(-1 * var(--container-gutter)) !important;
+                }
+            {%- endunless -%}
+        {%- elsif section.settings.background_overlap == 'text' -%}
+            {%- unless is_boxed -%}
+                #shopify-section-{{ section.id }} .section {
+                margin-bottom: 0;
+                }
+
+                #shopify-section-{{ section.id }} .image-with-text {
+                margin-top: calc(-1 * var(--vertical-breather)) !important;
+                }
+            {%- else -%}
+                #shopify-section-{{ section.id }} .image-with-text {
+                margin-top: calc(-1 * var(--container-gutter)) !important;
+                }
+            {%- endunless -%}
+        {%- endif -%}
+        }
+    {%- endif -%}
+
+    #shopify-section-{{ section.id }} .link-bar {
+    {% if section.settings.subcollection_container_border == false %}
+        box-shadow: none;
+    {% endif %}
+    }
+
+    {% if section.settings.show_subcollection_title_position == "column-reverse" %}
+        #shopify-section-{{ section.id }} .subcollection-image__wrapper.link-bar__linklist {
+        align-items: baseline;
+        }
+    {% endif %}
+
+
+    {% if section.settings.subcollection_image_border == true %}
+        #shopify-section-{{ section.id }}  .subcollection-image__image-container {
+        border: 1px solid var(--subcollection-image-border-color);
+        }
+    {% endif %}
+{%- endcapture -%}
+
+{% comment %}Content placed before the section{% endcomment %}
+{%- capture before_content -%}
+{%- endcapture -%}
+
+{% comment %}Content of the section{% endcomment %}
+{%- capture content -%}
+    {% capture breadcrumb_subcollection %}{% render 'collection-breadcrumb-menu', collection: collection %}{% endcapture %}
+
+    {% assign breadcrumb_subcollection_data = breadcrumb_subcollection | split: '##' %}
+    {% assign breadcrumb_menu = breadcrumb_subcollection_data.first %}
+    {% assign subcollection = breadcrumb_subcollection_data.last %}
+
+    {% capture collection_description %}
+        {%- if request.page_type == 'collection' and section.settings.show_collection_description and collection.description != blank -%}
+            <truncate-content
+              {% if section.settings.truncate_collection_description != 'none' %}
+                  max-length="{{ section.settings.collection_description_max_length }}"
+              {% endif %}
+              {% if section.settings.truncate_collection_description == 'mobile' %}
+                  match-media="screen and (max-width: 740px)"
+              {% elsif section.settings.truncate_collection_description == 'tablet_mobile' %}
+                  match-media="screen and (max-width: 999px)"
+              {% endif %}
+              class="truncate-content collection-description"
+            >
+                <div class="collection-description__content truncate-content__content">
+                    {{- collection.description -}}
+                </div>
+                <a
+                  href="#showmore"
+                  hidden
+                  class="truncate-content__show-more collection-description__button collection-description__button--show-more link"
+                >
+                    {{- 'collection.general.read_more' | t -}}
+                </a>
+                <a
+                  href="#showless"
+                  hidden
+                  class="truncate-content__show-less collection-description__button collection-description__button--show-less link"
+                >
+                    {{- 'collection.general.read_less' | t -}}
+                </a>
+            </truncate-content>
+        {%- endif -%}
+    {% endcapture %}
+
+
+
+    {%- capture breadcrumb_zone -%}
+
+        {%- liquid
+            if section.settings.breadcrumb_show_home_link
+                assign breadcrumb = 'general.breadcrumb.home' | t | append: '||' | append: routes.root_url | append: '[]'
+            endif
+            if breadcrumb_menu != blank
+                assign breadcrumb = breadcrumb | append: breadcrumb_menu
+            elsif collection.handle == 'all'
+                assign translation = 'collection.general.all_products' | t
+                assign breadcrumb = breadcrumb | append: translation | append: '||' | append: 'all'
+            else
+                assign breadcrumb = breadcrumb | append: collection.title | append: '||' | append: collection.url
+            endif
+        -%}
+
+        {% render 'breadcrumb', floating: false, hidden_classes: 'hidden-phone', breadcrumb: breadcrumb %}
+
+    {%- endcapture -%}
+
+    {% assign breadcrumb_position = section.settings.breadcrumb_position %}
+    {% assign breadcrumb_alignment = section.settings.breadcrumb_alignment %}
+    {% assign show_breadcrumb_mobile = section.settings.show_breadcrumb_mobile %}
+
+    {%- if section.settings.show_breadcrumb and breadcrumb_position == 'top'-%}
+        <div class="container{% if section.settings.section_width == "boxed" %} remove-padding{% endif %} {{ breadcrumb_alignment }} {% if show_breadcrumb_mobile %}show-breadcrumb-mobile{% endif %}">
+            {{ breadcrumb_zone }}
+        </div>
+    {%- endif -%}
+
+    {% capture before_content %}
+        {%- if section.settings.show_breadcrumb and breadcrumb_position == "inside_top" -%}
+            <div class="container__breadcrumb {{ breadcrumb_alignment }} breadcrumb--top {% if show_breadcrumb_mobile %}show-breadcrumb-mobile{% endif %}">
+                {{ breadcrumb_zone }}
+            </div>
+        {%- elsif section.settings.show_breadcrumb and breadcrumb_position == "inside_bottom" -%}
+            <div class="container__breadcrumb {{ breadcrumb_alignment }} breadcrumb--bottom {% if show_breadcrumb_mobile %}show-breadcrumb-mobile{% endif %}">
+                {{ breadcrumb_zone }}
+            </div>
+        {%- endif -%}
+    {% endcapture %}
+
+    {% render 'promotion-block' with section,
+    class: 'promotion-block-list__item',
+    size: section.settings.section_size,
+    isCarouselItem: isCarouselItem,
+    before_content: before_content,
+    extra_text_content: collection_description
+    %}
+
+
+    {%- if section.settings.show_breadcrumb and breadcrumb_position == "bottom"-%}
+        <div class="container{% if section.settings.section_width == "boxed" %} remove-padding{% endif %} {{ breadcrumb_alignment }} {% if show_breadcrumb_mobile %} show-breadcrumb-mobile{% endif %}">
+            {{ breadcrumb_zone }}
+        </div>
+    {%- endif -%}
+
+{%- endcapture -%}
+
+{% render 'section-layout',
+  content: content,
+  hide_headings: true,
+  extra_section_style: extra_section_style,
+  extra_style: extra_style
+%}
+
+{% liquid
+  assign hide_subcollections_metafield_arr = settings.breadcrumb_hide_subcollection_metafield | split: '.'
+  assign hide_subcollections_metafield_value = collection.metafields[hide_subcollections_metafield_arr[0]][hide_subcollections_metafield_arr[1]].value
+%}
+
+{%- if section.settings.show_subcollections
+  and subcollection != blank
+  and hide_subcollections_metafield_value != true
+-%}
+  {% assign subcollection_data = subcollection | split: '@@' %}
+  {% assign subcollection_title_data = subcollection_data.first | split: '||' %}
+  {% assign subcollection_links = subcollection_data.last | strip | split: '[]' %}
+
+  <link-bar class="link-bar">
+    {% if section.settings.show_subcollection_img %}
+      {%- for link in subcollection_links -%}
+        {% assign subcollection_links_size = subcollection_links.size %}
+      {%- endfor -%}
+    {% endif %}
+
+    <div class="container">
+      <div class="link-bar__wrapper">
+        {% assign subcollection_title = subcollection_title_data[0] %}
+        {% assign subcollection_title_url = subcollection_title_data[1] %}
+        {% assign subcollection_title_active = subcollection_title_data[2] %}
+        {% unless section.settings.subcollections_hide_root_title %}
+          <span class="link-bar__title heading heading--small text--subdued">
+            <a
+              href="{{ subcollection_title_url }}"
+              class="link-bar__link link--animated {% if subcollection_title_active %}text--underlined{% endif %}"
+            >
+              {% if section.settings.subcollections_title != blank %}
+                {{ section.settings.subcollections_title }}
+              {% else %}
+                {{ subcollection_title }}
+              {% endif %}
+            </a>
+          </span>
+        {% endunless %}
+
+        <div class="link-bar__scroller hide-scrollbar">
+          <ul
+            class="link-bar__linklist list--unstyled {% if section.settings.show_subcollection_img %} subcollection-image__wrapper {% endif %} "
+            role="list"
+            {% if section.settings.show_subcollection_img %}
+              {% unless mobile_hide_subcollection_img == true %}
+                style="grid-template-columns: repeat({{ subcollection_links_size }}, 1fr);"
+              {% endunless %}
+            {% endif %}
+          >
+            {%- for link in subcollection_links -%}
+              {% assign link_data = link | split: '||' %}
+              {% assign link_title = link_data[0] %}
+              {% assign link_url = link_data[1] %}
+              {% assign link_img = link_data[2] %}
+              {% assign link_active = link_data[3] %}
+
+              <li class="link-bar__link-item {% if link_active %}link-bar__link-item--selected{% endif %}">
+                {% if section.settings.show_subcollection_img %}
+                  <a
+                    href="{{ link_url }}"
+                    class="link-bar__link subcollection-image {% if section.settings.subcollection_img_zoom == false %}image-zoom {% endif %}{% if link_active %}text--underlined{% endif %}"
+                  >
+                    {% unless section.settings.subcollections_hide_title %}
+                      <div class="subcollection-image__text-container">
+                        {{- link_title -}}
+                      </div>
+                    {% endunless %}
+                    <div class="subcollection-image__image-container {% if section.settings.mobile_hide_subcollection_img == true %} hidden-phone {% endif %}">
+                      {% if link_img != ' ' %}
+                        {{ link_img }}
+
+                      {% else %}
+                        {{ 'collection-1' | placeholder_svg_tag }}
+                      {% endif %}
+                    </div>
+                  </a>
+                {% else %}
+                  <a
+                    href="{{ link_url }}"
+                    class="link-bar__link link--animated {% if link_active %}text--underlined{% endif %}"
+                  >
+                    {{- link_title -}}
+                  </a>
+                {% endif %}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </link-bar>
+{%- endif -%}

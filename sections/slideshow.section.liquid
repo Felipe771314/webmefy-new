@@ -1,0 +1,496 @@
+<style>
+    #shopify-section-{{ section.id }} {
+      --progress-bar-color: {{ section.settings.navigation_color.red }}, {{ section.settings.navigation_color.green }},{{ section.settings.navigation_color.blue }};
+      --section-autoplay-duration: {% if section.settings.autoplay %}{{ section.settings.cycle_speed }}s{% else %}0s{% endif %};
+      --section-animation-play-state: paused;
+      --slideshow-arrow-color: {{ section.settings.arrow_color.red }}, {{ section.settings.arrow_color.green }},{{ section.settings.arrow_color.blue }};
+      background-color: {{ section.settings.background }}; /* Allows to set a placeholder color while loading */
+    }
+
+    {%- for block in section.blocks -%}
+    {%- assign text_position = block.settings.text_position | split: '_' | first -%}
+    {%- assign text_position_mobile = block.settings.text_position_mobile | split: '_' | first -%}
+
+    {%- case text_position -%}
+    {%- when 'top' -%}
+    {%- assign section_items_alignment = 'flex-start' -%}
+    {%- when 'middle' -%}
+    {%- assign section_items_alignment = 'center' -%}
+    {%- when 'bottom' -%}
+    {%- assign section_items_alignment = 'flex-end' -%}
+    {%- endcase -%}
+
+    {%- case text_position_mobile -%}
+    {%- when 'top' -%}
+    {%- assign section_items_alignment_mobile = 'flex-start' -%}
+    {%- when 'middle' -%}
+    {%- assign section_items_alignment_mobile = 'center' -%}
+    {%- when 'bottom' -%}
+    {%- assign section_items_alignment_mobile = 'flex-end' -%}
+    {%- endcase -%}
+
+    #block-{{ section.id }}-{{ block.id }} {
+    {%- if block.settings.text_color == 'rgba(0,0,0,0)' -%}{%- assign heading_color = settings.heading_color -%}{%- assign text_color = settings.text_color -%}{%- else -%}{%- assign heading_color = block.settings.text_color -%}{%- assign text_color = block.settings.text_color -%}{%- endif -%}{%- if block.settings.title_color != 'rgba(0,0,0,0)' and block.settings.title_color != blank -%}{%- assign heading_color = block.settings.title_color -%}{%- endif -%}{%- if block.settings.subheading_color != 'rgba(0,0,0,0)' and block.settings.subheading_color != blank -%}{%- assign subheading_color = block.settings.subheading_color -%}{%- endif -%} --text-color: {{ text_color.red }}, {{ text_color.green }},{{ text_color.blue }};
+
+    {% if heading_color != 'rgba(0,0,0,0)' and heading_color != blank %} --heading-color: {{ heading_color.red }}, {{ heading_color.green }},{{ heading_color.blue }};
+    {% endif %}{% if subheading_color != 'rgba(0,0,0,0)' and subheading_color != blank %} --heading-small-color: {{ subheading_color.red }}, {{ subheading_color.green }},{{ subheading_color.blue }};
+    {% endif %} --heading-shadow-color: {{ block.settings.text_shadow_color.red }}, {{ block.settings.text_shadow_color.green }},{{ block.settings.text_shadow_color.blue }};
+      --heading-shadow-color-opacity: {{ block.settings.text_shadow_color_opacity | divided_by: 100.0 }};
+
+      --section-blocks-alignment: {{ section_items_alignment }};
+      --section-blocks-overlay-color: {{ block.settings.overlay_color.red }}, {{ block.settings.overlay_color.green }},{{ block.settings.overlay_color.blue }};
+      --section-blocks-overlay-opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    }
+
+    {% if section_items_alignment_mobile != blank %}
+    @media screen and (max-width: 740px) {
+     #block-{{ section.id }}-{{ block.id }} {
+      --section-blocks-alignment: {{ section_items_alignment_mobile }};
+     }
+    }
+    {% endif %}
+
+    {%- liquid
+      if block.settings.button_1_background == 'rgba(0,0,0,0)' or block.settings.button_1_background == blank
+        assign button_1_background = settings.primary_button_background
+        assign secondary_button_1_background = settings.secondary_button_background
+      else
+        assign button_1_background = block.settings.button_1_background
+        assign secondary_button_1_background = block.settings.button_1_background
+      endif
+
+      if block.settings.button_1_text_color == 'rgba(0,0,0,0)' or block.settings.button_1_text_color == blank
+        assign button_1_text_color = settings.primary_button_text_color
+        assign secondary_button_1_text_color = settings.secondary_button_text_color
+      else
+        assign button_1_text_color = block.settings.button_1_text_color
+        assign secondary_button_1_text_color = block.settings.button_1_text_color
+      endif
+    %}
+
+    #block-{{ section.id }}-{{ block.id }} .btn-1 {
+      --primary-button-background: {{ button_1_background.red }}, {{ button_1_background.green }},{{ button_1_background.blue }};
+      --primary-button-text-color: {{ button_1_text_color.red }}, {{ button_1_text_color.green }},{{ button_1_text_color.blue }};
+
+      --secondary-button-background: {{ secondary_button_1_background.red }}, {{ secondary_button_1_background.green }},{{ secondary_button_1_background.blue }};
+      --secondary-button-text-color: {{ secondary_button_1_text_color.red }}, {{ secondary_button_1_text_color.green }},{{ secondary_button_1_text_color.blue }};
+    }
+
+    {%- liquid
+      if block.settings.button_2_background == 'rgba(0,0,0,0)' or block.settings.button_2_background == blank
+        assign button_2_background = settings.primary_button_background
+        assign secondary_button_2_background = settings.secondary_button_background
+      else
+        assign button_2_background = block.settings.button_2_background
+        assign secondary_button_2_background = block.settings.button_2_background
+      endif
+
+      if block.settings.button_2_text_color == 'rgba(0,0,0,0)' or block.settings.button_2_text_color == blank
+        assign button_2_text_color = settings.primary_button_text_color
+        assign secondary_button_2_text_color = settings.secondary_button_text_color
+      else
+        assign button_2_text_color = block.settings.button_2_text_color
+        assign secondary_button_2_text_color = block.settings.button_2_text_color
+      endif
+    %}
+
+    #block-{{ section.id }}-{{ block.id }} .btn-2 {
+      --primary-button-background: {{ button_2_background.red }}, {{ button_2_background.green }},{{ button_2_background.blue }};
+      --primary-button-text-color: {{ button_2_text_color.red }}, {{ button_2_text_color.green }},{{ button_2_text_color.blue }};
+
+      --secondary-button-background: {{ secondary_button_2_background.red }}, {{ secondary_button_2_background.green }},{{ secondary_button_2_background.blue }};
+      --secondary-button-text-color: {{ secondary_button_2_text_color.red }}, {{ secondary_button_2_text_color.green }},{{ secondary_button_2_text_color.blue }};
+    }
+
+    {%- liquid
+    if block.settings.button_3_background == 'rgba(0,0,0,0)' or block.settings.button_3_background == blank
+      assign button_3_background = settings.primary_button_background
+      assign secondary_button_3_background = settings.secondary_button_background
+    else
+      assign button_3_background = block.settings.button_3_background
+      assign secondary_button_3_background = block.settings.button_3_background
+    endif
+
+    if block.settings.button_3_text_color == 'rgba(0,0,0,0)' or block.settings.button_3_text_color == blank
+      assign button_3_text_color = settings.primary_button_text_color
+      assign secondary_button_3_text_color = settings.secondary_button_text_color
+    else
+      assign button_3_text_color = block.settings.button_3_text_color
+      assign secondary_button_3_text_color = block.settings.button_3_text_color
+    endif
+  %}
+
+    #block-{{ section.id }}-{{ block.id }} .btn-3 {
+      --primary-button-background: {{ button_3_background.red }}, {{ button_3_background.green }},{{ button_3_background.blue }};
+      --primary-button-text-color: {{ button_3_text_color.red }}, {{ button_3_text_color.green }},{{ button_3_text_color.blue }};
+
+      --secondary-button-background: {{ secondary_button_3_background.red }}, {{ secondary_button_3_background.green }},{{ secondary_button_3_background.blue }};
+      --secondary-button-text-color: {{ secondary_button_3_text_color.red }}, {{ secondary_button_3_text_color.green }},{{ secondary_button_3_text_color.blue }};
+    }
+
+    {%- endfor -%}
+
+    {%- if section.settings.slideshow_nav_position == 'outside' and section.settings.navigation_color == '#FFFFFF' -%}
+    #shopify-section-{{ section.id }} .slideshow__round::before,
+    #shopify-section-{{ section.id }} .slideshow__square::before,
+    #shopify-section-{{ section.id }} .slideshow__progress-bar::before {
+      background: rgba(211, 211, 211, 0.5);
+    }
+
+    #shopify-section-{{ section.id }} .slideshow__round::after,
+    #shopify-section-{{ section.id }} .slideshow__square::after,
+    #shopify-section-{{ section.id }} .slideshow__progress-bar::after {
+      background: rgba(211, 211, 211, 1);
+    }
+
+    {%- endif -%}
+</style>
+{% render 'vite-tag' with '@modules/sections/slideshow' %}
+
+{% assign vip_slides_count = 0 %}
+{% assign non_vip_slides_count = 0 %}
+{% assign visible_slides_count = 0 %}
+
+{% for block in section.blocks %}
+  {% case block.settings.visibility_target %}
+    {% when 'vip' %}
+      {% assign vip_slides_count = vip_slides_count | plus: 1 %}
+    {% when 'non_vip' %}
+      {% assign non_vip_slides_count = non_vip_slides_count | plus: 1 %}
+    {% when 'all' %}
+      {% assign visible_slides_count = visible_slides_count | plus: 1 %}
+  {% endcase %}
+{% endfor %}
+
+{% assign customer_is_VIP = false %}
+{% assign VIP_tag = settings.vip_tag %}
+{% if VIP_tag != blank and customer.tags contains VIP_tag %}
+  {% assign customer_is_VIP = true %}
+{% endif %}
+
+{% assign display_slides = false %}
+{% if customer_is_VIP %}
+  {% assign visible_slides_count = visible_slides_count | plus: vip_slides_count %}
+{% else %}
+  {% assign visible_slides_count = visible_slides_count | plus: non_vip_slides_count %}
+{% endif %}
+
+{% if visible_slides_count > 0 %}
+  <section class="{{ section.settings.block_space }}">
+    <slide-show
+      reveal-on-scroll
+      {% if section.settings.autoplay %}
+        auto-play
+      {% endif %}
+      transition-type="{{ section.settings.transition_type | escape }}"
+      class="slideshow slideshow--{{ section.settings.section_height }}"
+    >
+      <div class="slideshow__slide-list">
+        {% assign first_visible_slide = false %}
+        {%- for block in section.blocks -%}
+          {%- comment -%}
+            ------------------------------------------------------------------------------------------------------------------
+            IMAGE PART
+            ------------------------------------------------------------------------------------------------------------------
+          {%- endcomment -%}
+
+          {%- assign video = block.settings.video -%}
+          {%- assign mobile_video = block.settings.mobile_video -%}
+          {%- assign image = block.settings.image -%}
+          {%- assign split_image = block.settings.split_image -%}
+          {%- assign mobile_image = block.settings.mobile_image -%}
+
+          {% assign has_mobile_media = false %}
+          {% if mobile_image != blank or mobile_video != blank %}
+            {% assign has_mobile_media = true %}
+          {% endif %}
+
+          {% assign media = null %}
+          {% assign mobile_media = null %}
+
+          {% if video != blank %}
+            {% assign media = video %}
+            {% if mobile_video != blank %}
+              {% assign mobile_media = mobile_video %}
+            {% endif %}
+          {% elsif image != blank %}
+            {% assign media = image %}
+            {% if mobile_image != blank %}
+              {% assign mobile_media = mobile_image %}
+            {% endif %}
+          {% endif %}
+          {%- assign media_aspect_ratio = media.aspect_ratio | default: 2.63 -%}
+
+          {%- comment -%}
+            If the image is split and that we want to preserve the ratio, we have to multiply the ratio by 2 (as each image
+            only account for half the screen size)
+          {%- endcomment -%}
+
+          {%- if media != blank and split_image != blank and section.settings.section_height == 'auto' -%}
+            {%- assign media_aspect_ratio = media_aspect_ratio | times: 2.0 -%}
+          {%- endif -%}
+
+          {%- if forloop.index > 2 -%}
+            {%- assign loading_attribute_value = 'lazy' -%}
+          {%- else -%}
+            {%- assign loading_attribute_value = 'eager' -%}
+          {%- endif -%}
+
+          {%- capture slide_content -%}
+				<div class="slideshow__image-wrapper {% if mobile_image != blank %}hidden-phone{% endif %}"
+						 {% if section.settings.transition_type == 'reveal' %}reveal-visibility{% endif %}>
+					{% if video != blank %}
+						<native-video autoplay lazy {% if mobile_video != blank %}has-mobile-video{% endif %}
+													class="video-wrapper video-wrapper--native">
+							<template>
+								{% assign desktop_video_class = 'video-wrapper__video--desktop' %}
+								{% if mobile_video != blank %}
+									{% assign desktop_video_class = desktop_video_class | append: ' hidden-phone' %}
+								{% endif %}
+								{% render 'media' with video, autoplay: true, class: desktop_video_class %}
+								{% if mobile_video != blank %}
+									{% render 'media' with mobile_video, autoplay: true, class: 'video-wrapper__video--mobile hidden-tablet-and-up' %}
+								{% endif %}
+							</template>
+						</native-video>
+					{%- elsif image != blank -%}
+						{%- capture sizes_attributes -%}{% if split_image != blank %}(min-width: 1000px) 50vw{% else %}100vw{% endif %}{%- endcapture -%}
+						{{- image | image_url: width: 3000 | image_tag: loading: loading_attribute_value, draggable: false, class: 'slideshow__image', sizes: sizes_attributes, widths: '600,700,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000' -}}
+					{%- else -%}
+						{% capture image_name %}lifestyle-{% cycle '1', '2' %}{%- endcapture -%}
+						{{- image_name | placeholder_svg_tag: 'slideshow__image slideshow__image--placeholder' -}}
+					{%- endif -%}
+				</div>
+
+				{%- comment -%}If a second image (split image) is uploaded, we use it. Note that we use the same ratio as the first image (to have equal column height){% endcomment %}
+				{%- if media != blank and split_image != blank -%}
+					<div class="slideshow__image-wrapper slideshow__image-wrapper--secondary hidden-phone"
+							 {% if section.settings.transition_type == 'reveal' %}reveal-visibility{% endif %}>
+						{{- split_image | image_url: width: 3000 | image_tag: loading: loading_attribute_value, draggable: false, class: 'slideshow__image', sizes: '50vw', widths: '600,700,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000' -}}
+					</div>
+				{%- endif -%}
+
+				{%- if mobile_image != blank -%}
+					<div class="slideshow__image-wrapper hidden-tablet-and-up"
+							 {% if section.settings.transition_type == 'reveal' %}reveal-visibility{% endif %}>
+						{{- mobile_image | image_url: width: 3000 | image_tag: loading: loading_attribute_value, draggable: false, class: 'slideshow__image', sizes: '100vw', widths: '600,700,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000' -}}
+					</div>
+				{%- endif -%}
+
+				{%- comment -%}
+				----------------------------------------------------------------------------------------------------------------
+				CONTENT PART
+				----------------------------------------------------------------------------------------------------------------
+				{%- endcomment -%}
+
+				{%- capture section_content -%}
+				{%- if block.settings.subheading != blank -%}
+				<{{ block.settings.subheading_tag }} class="heading
+				heading--small {{ block.settings.subheading_size }}{% if block.settings.subheading_transform != blank %} text-transform--{{ block.settings.subheading_transform }}{% endif %}{% if block.settings.subheading_weight != blank %} font-weight--{{ block.settings.subheading_weight }}{% endif %}
+				">
+				<split-lines
+					{% if section.settings.transition_type != 'fade' %}reveal{% endif %}>{{ block.settings.subheading | escape }}</split-lines>
+			</{{ block.settings.subheading_tag }}>
+			{%- endif -%}
+
+			{%- if block.settings.title != blank -%}
+			<{{ block.settings.heading_tag }} class="heading
+			heading--large {{ block.settings.heading_size }} {% if block.settings.text_shadow_toggle %}heading--text-shadow{% endif %}{% if block.settings.heading_transform != blank %} text-transform--{{ block.settings.heading_transform }}{% endif %}{% if block.settings.heading_weight != blank %} font-weight--{{ block.settings.heading_weight }}{% endif %}
+			">
+			<split-lines
+				{% if section.settings.transition_type != 'fade' %}reveal{% endif %}>{{ block.settings.title | escape }}</split-lines>
+		</{{ block.settings.heading_tag }}>
+		{%- endif -%}
+
+  {%- if block.settings.text != blank -%}
+    <div class="rte">
+      {{- block.settings.text -}}
+    </div>
+  {%- endif -%}
+  {% assign buttons_count = 0 %}
+  {%- capture buttons -%}
+  {%- if block.settings.button_1_text != blank -%}
+  {% assign buttons_count = buttons_count | plus: 1 %}
+  {% assign button_tag = 'a' %}
+  {% if block.settings.link_slide == true and block.settings.button_2_text == blank and block.settings.button_3_text == blank %}
+    {% assign button_tag = 'button' %}
+  {% endif %}
+
+  {%- if block.settings.link_style_1 == 'link' -%}
+  <{{ button_tag }} {% if block.settings.link_slide == true and block.settings.button_2_text == blank and block.settings.button_3_text == blank %}type="button"{% else %}href="{{ block.settings.button_1_link }}"{% endif %}
+  class="multi-column__link heading heading--small link">{{ block.settings.button_1_text | escape }}</{{ button_tag }}>
+{%- else -%}
+  <div class="button-wrapper btn-1">
+  <{{ button_tag }} {% if block.settings.link_slide == true and block.settings.button_2_text == blank and block.settings.button_3_text == blank %}type="button"{% else %}href="{{ block.settings.button_1_link }}"{% endif %}
+  class="button button--{{ block.settings.link_style_1 }}
+  ">{{ block.settings.button_1_text | escape }}</{{ button_tag }}>
+  </div>
+  {%- endif -%}
+  {%- endif -%}
+
+  {%- if block.settings.button_2_text != blank -%}
+    {% assign buttons_count = buttons_count | plus: 1 %}
+    {%- if block.settings.link_style_2 == 'link' -%}
+      <a href="{{ block.settings.button_2_link }}"
+         class="multi-column__link heading heading--small link">{{ block.settings.button_2_text | escape }}</a>
+    {%- else -%}
+      <div class="button-wrapper btn-2">
+        <a href="{{ block.settings.button_2_link }}"
+           class="button button--{{ block.settings.link_style_2 }}">{{ block.settings.button_2_text | escape }}</a>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if block.settings.button_3_text != blank -%}
+    {% assign buttons_count = buttons_count | plus: 1 %}
+    {%- if block.settings.link_style_3 == 'link' -%}
+      <a href="{{ block.settings.button_3_link }}"
+         class="multi-column__link heading heading--small link">{{ block.settings.button_3_text | escape }}</a>
+    {%- else -%}
+      <div class="button-wrapper btn-3">
+        <a href="{{ block.settings.button_3_link }}"
+           class="button button--{{ block.settings.link_style_3 }}">{{ block.settings.button_3_text | escape }}</a>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- endcapture -%}
+
+  {%- if buttons_count > 1 -%}
+    <div class="button-group" {% if section.settings.transition_type != 'fade' %}reveal{% endif %}>
+      <div class="button-group__wrapper">
+        {{- buttons -}}
+      </div>
+    </div>
+  {%- elsif buttons != blank -%}
+    <div class="button-wrapper" {% if section.settings.transition_type != 'fade' %}reveal{% endif %}>
+      {{- buttons -}}
+    </div>
+  {%- endif -%}
+  {%- endcapture -%}
+
+		{%- if section_content != blank -%}
+			<div class="container">
+				{%- assign text_alignment = block.settings.text_position | split: '_' | first -%}
+				{%- assign text_position = block.settings.text_position | split: '_' | last -%}
+				{%- assign text_alignment_mobile = block.settings.text_position_mobile | split: '_' | first -%}
+				{%- assign text_position_mobile = block.settings.text_position_mobile | split: '_' | last -%}
+
+				<div class="slideshow__text-wrapper slideshow__text-wrapper--{{ text_alignment }} vertical-breather {% if block.settings.text_position_mobile != "same_as_desktop" %}slideshow__text-wrapper--mobile-{{ text_alignment_mobile }}{% endif %}">
+					<div
+						class="content-box content-box--medium content-box--text-{{ text_position }} content-box--{{ text_position }} text-container {% if block.settings.text_position_mobile != "same_as_desktop" %}content-box--mobile-text-{{ text_position_mobile }} content-box--mobile-{{ text_position_mobile }}{% endif %}">
+						{{- section_content -}}
+					</div>
+				</div>
+
+			</div>
+		{%- endif -%}
+		{%- endcapture -%}
+
+          {%- comment -%}If only the button 1 link is filled, then we make the whole slide clickable{%- endcomment -%}
+
+          {% assign block_is_visible = false %}
+          {% if block.settings.visibility_target == 'all' %}
+            {% assign block_is_visible = true %}
+          {% elsif block.settings.visibility_target == 'vip' and customer_is_VIP %}
+            {% assign block_is_visible = true %}
+          {%- elsif block.settings.visibility_target == 'non_vip' and customer_is_VIP == false -%}
+            {% assign block_is_visible = true %}
+          {% endif %}
+
+          {%- capture slide_attributes -%}
+						{{ block.shopify_attributes }}
+						id="block-{{ section.id }}-{{ block.id }}"
+						class="slideshow__slide {% if split_image != blank %}slideshow__slide--split{% endif %} {% if section.settings.transition_type == 'sweep' %}slideshow__slide--sweep{% endif %}"
+
+						{% if first_visible_slide == false and block_is_visible %}
+							{% assign first_visible_slide = true %}
+						{% else %}
+							hidden
+						{% endif %}
+
+						{% if section.settings.section_height == 'auto' %}
+							style="--media-aspect-ratio: {{ media_aspect_ratio }}; --mobile-media-aspect-ratio: {{ mobile_media.aspect_ratio | default: media_aspect_ratio | default: 1 }};"
+						{% endif %}
+					{%- endcapture -%}
+
+          {% if block_is_visible == true %}
+            <slide-show-item
+              {% if section.settings.transition_type != 'reveal' %}
+                reveal-visibility
+              {% endif %}
+              {{ slide_attributes }}
+            >
+              {%- if block.settings.button_1_link != blank
+                and block.settings.button_1_text == blank
+                and block.settings.button_2_text == blank
+              -%}
+                <a class="slideshow__slide-inner" href="{{ block.settings.button_1_link }}">
+                  {{- slide_content -}}
+                </a>
+              {%- elsif block.settings.button_1_link != blank
+                and block.settings.link_slide == true
+                and block.settings.button_2_text == blank
+              -%}
+                <a class="slideshow__slide-inner" href="{{ block.settings.button_1_link }}">
+                  {{- slide_content -}}
+                </a>
+              {%- else -%}
+                <div class="slideshow__slide-inner">
+                  {{- slide_content -}}
+                </div>
+              {%- endif -%}
+            </slide-show-item>
+          {% endif %}
+        {%- endfor -%}
+      </div>
+
+      {%- if visible_slides_count > 1 -%}
+        {%- if section.settings.navigation_arrow -%}
+          <prev-next-buttons class="slideshow__prev-next-buttons hidden-phone">
+            <button class="slideshow__arrow slideshow__arrow--prev">
+              <span class="visually-hidden">{{ 'general.accessibility.previous' | t }}</span>
+              {%- include 'icon' with 'nav-arrow-left', direction_aware: true -%}
+            </button>
+
+            <button class="slideshow__arrow slideshow__arrow--next">
+              <span class="visually-hidden">{{ 'general.accessibility.next' | t }}</span>
+              {%- include 'icon' with 'nav-arrow-right', direction_aware: true -%}
+            </button>
+          </prev-next-buttons>
+        {%- endif -%}
+
+        <page-dots
+          {% if section.settings.autoplay %}
+            animation-timer
+          {% endif %}
+          class="slideshow__nav {% if section.settings.slideshow_nav_position == "outside" %} slideshow__nav--outside {% endif %} container"
+        >
+          {%- for block in section.blocks limit: visible_slides_count -%}
+            {%- if section.settings.navigation_type == 'progress_bar' -%}
+              <button
+                class="slideshow__progress-bar"
+                aria-controls="block-{{ section.id }}-{{ block.id }}"
+                {% if forloop.first %}
+                  aria-current="true"
+                {% endif %}
+              >
+                <span class="visually-hidden">{{ 'general.accessibility.go_to_slide' | t: num: forloop.index }}</span>
+              </button>
+            {% else %}
+              <button
+                class="slideshow__{{ section.settings.navigation_type }}"
+                aria-controls="block-{{ section.id }}-{{ block.id }}"
+                {% if forloop.first %}
+                  aria-current="true"
+                {% endif %}
+              >
+                <span class="visually-hidden">{{ 'general.accessibility.go_to_slide' | t: num: forloop.index }}</span>
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </page-dots>
+      {%- endif -%}
+    </slide-show>
+  </section>
+{% endif %}

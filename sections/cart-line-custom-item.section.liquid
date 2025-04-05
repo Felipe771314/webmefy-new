@@ -1,0 +1,34 @@
+{%- liquid
+  assign page_url = content_for_header | split: '"pageurl":"' | last | split: '"' | first
+  assign page_url = page_url | replace: '\/', '/' | replace: '%20', ' '
+  assign page_url = page_url | split: '?'
+  assign page_url = page_url[1]
+  assign page_url = page_url | split: '\u0026'
+
+  for param in page_url
+    assign pair = param | split: '='
+    if pair[0] == 'item_id'
+      assign item_id = pair[1]
+    endif
+    if pair[0] == 'quantity'
+      assign quantity = pair[1]
+    endif
+    if pair[0] == 'variant_id'
+      assign variant_id = pair[1]
+    endif
+    if pair[0] == 'position'
+      assign position = pair[1]
+    endif
+  endfor
+%}
+
+{% if item_id != blank %}
+  {% render 'cart-line-custom-item',
+    product: product,
+    variant: variant,
+    item_id: item_id,
+    quantity: quantity,
+    position: position,
+    variant_id: variant_id
+  %}
+{% endif %}

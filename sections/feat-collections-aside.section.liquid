@@ -1,0 +1,135 @@
+{% capture section_style %}
+    --prev-next-button-background: {{ settings.background.red }}, {{ settings.background.green }}, {{ settings.background.blue }};
+    --prev-next-button-color: {{ settings.text_color.red }}, {{ settings.text_color.green }}, {{ settings.text_color.blue }};
+    --section-products-per-row: 2;
+{% endcapture %}
+
+{% capture extra_style %}
+    @media screen and (min-width: 741px) {
+    #shopify-section-{{ section.id }} {
+    --section-products-per-row: {{ section.settings.products_per_row | at_most: 3 }};
+    }
+    }
+
+    @media screen and (min-width: 1000px) {
+    #shopify-section-{{ section.id }} {
+    --section-products-per-row: {{ section.settings.products_per_row | at_most: 4 }};
+    }
+    }
+
+    @media screen and (min-width: 1200px) {
+    #shopify-section-{{ section.id }} {
+    --section-products-per-row: {{ section.settings.products_per_row }};
+    }
+    }
+
+    #shopify-section-{{ section.id }} .feat-collections-aside__title {
+    --aside-title-position: {{ section.settings.aside_title_position }}
+    }
+
+{% endcapture %}
+
+{% capture content %}
+
+        <div class="feat-collections-aside">
+            <div class="feat-collections-aside__title">
+                <a href="/collections/{{ section.settings.collection }}">
+                    <h3 class="heading h2">{{ section.settings.aside_title }}</h3>
+                </a>
+            </div>
+            <div class="feat-collections-aside__product-list">
+
+                    {%- assign collection = section.settings.collection -%}
+                    {%- assign smallest_image_aspect_ratio = 0 -%}
+
+                    <product-list
+                            {% if settings.stagger_products_apparition %}
+                                stagger-apparition
+                            {% endif %}
+                            id="block-{{ section.id }}-{{ block.id }}"
+                            class="product-list product-list--center"
+                    >
+                        <div class="scroller">
+                            <div class="product-list__inner product-list__inner--scroller hide-scrollbar">
+                                {%- assign number_of_products_minus_one = section.settings.products_per_row | minus: 1 -%}
+                                {%- assign gap_width = 24.0
+                                        | divided_by: section.settings.products_per_row
+                                        | times: number_of_products_minus_one
+                                -%}
+                                {%- capture sizes_attribute -%}(max-width: 740px) 52vw, calc(min(100vw - 80px, 1520px) / {{ section.settings.products_per_row }} - {{ gap_width | ceil }}px){%- endcapture -%}
+
+                                {%- for product in collection.products limit: section.settings.products_count -%}
+                                    {% if product.type == 'static' %}
+                                        {% continue %}
+                                    {% endif %}
+                                    {%- if product.featured_media -%}
+                                        {%- assign smallest_image_aspect_ratio = smallest_image_aspect_ratio
+                                                | at_least: product.featured_media.aspect_ratio
+                                        -%}
+                                    {%- endif -%}
+                                    {% assign list = 'block:featured_collections|' | append: collection.handle %}
+                                    {%- render 'product-item',
+                                            product: product,
+                                            collection: collection,
+                                            show_cta: section.settings.show_cta,
+                                            block: block,
+                                            sizes_attribute: sizes_attribute,
+                                            reveal: settings.stagger_products_apparition,
+                                            list: list,
+                                            position: forloop.index,
+                                            enable_media_in_slider: settings.enable_media_in_slider_sections
+                                    -%}
+                                {%- else -%}
+                                    {%- assign smallest_image_aspect_ratio = 1 -%}
+
+                                    {%- for i in (1..section.settings.products_count) -%}
+                                        {%- capture product_image -%}product-{% cycle '1', '2', '3', '4', '5' %}{% endcapture %}
+                                        {%- render 'product-item-placeholder',
+                                                product_image: product_image,
+                                                show_cta: section.settings.show_cta,
+                                                reveal: settings.stagger_products_apparition
+                                        -%}
+                                    {%- endfor -%}
+                                {%- endfor -%}
+                            </div>
+                        </div>
+
+                        {%- unless section.settings.stack_products -%}
+                            {%- if collection.products_count == 0 -%}
+                                {%- assign products_shown = section.settings.products_count -%}
+                            {%- else -%}
+                                {%- assign products_shown = collection.products_count
+                                        | default: section.settings.products_count
+                                        | at_most: section.settings.products_count
+                                -%}
+                            {%- endif -%}
+
+                            {%- if products_shown > section.settings.products_per_row -%}
+                                {%- if smallest_image_aspect_ratio == 0 -%}
+                                    {%- assign smallest_image_aspect_ratio = 1 -%}
+                                {%- endif -%}
+
+                                <prev-next-buttons
+                                        class="product-list__prev-next hidden-pocket"
+                                        style="--smallest-image-aspect-ratio: {{ smallest_image_aspect_ratio }}"
+                                >
+                                    <button class="product-list__arrow prev-next-button prev-next-button--prev"
+                                            disabled>
+                                        <span class="visually-hidden">{{ 'general.accessibility.previous' | t }}</span>
+                                        {%- include 'icon' with 'nav-arrow-left', block: true, direction_aware: true -%}
+                                    </button>
+
+                                    <button class="product-list__arrow prev-next-button prev-next-button--next">
+                                        <span class="visually-hidden">{{ 'general.accessibility.next' | t }}</span>
+                                        {%- include 'icon' with 'nav-arrow-right', block: true, direction_aware: true -%}
+                                    </button>
+                                </prev-next-buttons>
+                            {%- endif -%}
+                        {%- endunless -%}
+                    </product-list>
+
+            </div>
+        </div>
+    {% endcapture %}
+
+{% render 'section-layout', content: content, extra_section_style: section_style, extra_style: extra_style %}

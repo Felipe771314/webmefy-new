@@ -1,0 +1,147 @@
+{%- liquid
+  assign page_url = content_for_header | split: '"pageurl":"' | last | split: '"' | first
+  assign page_url = page_url | replace: '\/', '/' | replace: '%20', ' '
+  assign page_url = page_url | split: '?'
+  assign page_url = page_url[1]
+  assign page_url = page_url | split: '\u0026'
+
+  assign page = 'customers/account'
+  for param in page_url
+    assign pair = param | split: '='
+    if pair[0] == 'wishlist'
+      assign page = 'wishlist'
+    endif
+    if pair[0] == 'orders'
+      assign page = 'orders'
+    endif
+    if pair[0] == 'order_return'
+      assign page = 'order_return'
+    endif
+    if pair[0] == 'subscriptions'
+      assign page = 'subscriptions'
+    endif
+    if pair[0] == 'customer_posted'
+      assign page = 'subscriptions'
+    endif
+  endfor
+%}
+
+<section>
+  <div class="customer-account-panel container">
+    <div class="account-sidebar">
+      {% render 'account-sidebar', special_page: page %}
+    </div>
+
+    {% case page %}
+      {% when 'customers/account' %}
+        {% render 'account-information', customer: customer, section: section %}
+      {% when 'orders' %}
+        {% render 'account-orderlist', customer: customer, section: section %}
+      {% when 'wishlist' %}
+        {% render 'account-wishlist', settings: section.settings %}
+      {% when 'order_return' %}
+        {% render 'account-order-return' %}
+      {% when 'subscriptions' %}
+        {% render 'account-subscriptions' %}
+    {% endcase %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer account",
+  "class": "shopify-section--main-customers-account customers-orders",
+
+  "settings": [
+    {
+      "type": "header",
+      "content": "Wishlist"
+    },
+    {
+      "type": "url",
+      "id": "empty_button_link",
+      "label": "Empty button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "select",
+      "id": "mobile_products_per_row",
+      "label": "Products per row (mobile)",
+      "info": "Only works with Grid layout 'fixed'",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "min": 3,
+      "max": 5,
+      "id": "desktop_products_per_row",
+      "label": "Products per row (desktop)",
+      "info": "Only works with Grid layout 'fixed'",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Custom order status"
+    },
+    {
+      "type": "text",
+      "id": "custom_status_metafield",
+      "label": "Custom order metafield",
+      "default": "erp.order_status"
+    },
+    {
+      "type": "header",
+      "content": "Image order"
+    },
+    {
+      "type": "checkbox",
+      "id": "visible_img_order",
+      "label": "Show image on order",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Order custom button link"
+    },
+    {
+      "type": "url",
+      "id": "empty_orderlist_button_link",
+      "label": "Empty button link",
+      "default": "/collections/all"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "liquid",
+      "name": "Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "liquid",
+          "label": "Liquid",
+          "info": "Add app snippets or other Liquid code to create advanced customizations."
+        }
+      ]
+    },
+    {
+      "type": "orders",
+      "name": "Order list",
+      "limit": 1
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,50 @@
+{% capture content %}
+    <section class="newsletter-social">
+        <div class="newsletter-social__container">
+            <div class="newsletter-social__newsletter">
+                <div class="newsletter-social__newsletter-block-left">
+                    {%- if section.settings.newsletter_title != blank -%}
+                        <p class="footer__item-title heading heading--small font-weight--bold">
+                            {{ section.settings.newsletter_title | escape }}
+                        </p>
+                    {%- endif -%}
+                    {%- if section.settings.newsletter_content != blank -%}
+                        {{- section.settings.newsletter_content -}}
+                    {%- endif -%}
+                </div>
+                <div class="newsletter-social__newsletter-block-right">
+                    <div class="footer__item-content">
+                        {%- capture button_svg -%}
+                            {%- render 'icon', icon: 'nav-arrow-right' -%}
+                        {%- endcapture -%}
+                        {% render 'newsletter-form',
+                                form_class: 'footer__newsletter-form',
+                                button_style: 'transparent',
+                                button_content: button_svg
+                        %}
+                    </div>
+                </div>
+            </div>
+            <div class="newsletter-social__social">
+                {%- if section.settings.social_title != blank -%}
+                    <p class="footer__item-title heading heading--small font-weight--bold">
+                        {{ section.settings.social_title | escape }}
+                    </p>
+                {%- endif -%}
+                <div class="newsletter-social__social-lower-block">
+                    {%- render 'social-media' -%}
+                    {%- if section.settings.blog_title != blank -%}
+                        <div class="newsletter-social__social-blog">
+                            <a href="{{ section.settings.blog_link }}">
+                                {{ section.settings.blog_title }}
+                                <span>{%- render 'icon' with 'icon-blog' -%}</span>
+                            </a>
+                        </div>
+                    {%- endif -%}
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endcapture %}
+
+{% render 'section-layout', content: content %}

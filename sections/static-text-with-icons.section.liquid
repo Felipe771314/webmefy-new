@@ -1,0 +1,105 @@
+{%- comment -%}
+  IMPLEMENTATION NOTE: This section is similar to the dynamic "Text with icons" section embedded in the home page. This
+    one is however statically included in every pages.
+{%- endcomment -%}
+
+{%- if section.settings.show_section and section.blocks.size > 0 -%}
+  {%- if section.settings.background != settings.background and section.settings.background != 'rgba(0,0,0,0)' -%}
+    {%- assign blends_with_background = false -%}
+  {%- else -%}
+    {%- assign blends_with_background = true -%}
+  {%- endif -%}
+
+  {%- comment -%}
+    ------------------------------------------------------------------------------------------------------------------------
+      CSS
+    ------------------------------------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+
+  <style>
+    #shopify-section-{{ section.id }} {
+      {%- if section.settings.background == 'rgba(0,0,0,0)' -%}
+        {%- assign section_background = settings.background -%}
+      {%- else -%}
+        {%- assign section_background = section.settings.background -%}
+      {%- endif -%}
+
+      {%- if section.settings.text_color == 'rgba(0,0,0,0)' -%}
+        {%- assign heading_color = settings.heading_color -%}
+        {%- assign text_color = settings.text_color -%}
+      {%- else -%}
+        {%- assign heading_color = section.settings.text_color -%}
+        {%- assign text_color = section.settings.text_color -%}
+      {%- endif -%}
+
+      --heading-color: {{ heading_color.red }}, {{ heading_color.green }}, {{ heading_color.blue }};
+      --text-color: {{ text_color.red }}, {{ text_color.green }}, {{ text_color.blue }};
+      --section-background: {{ section_background.red }}, {{ section_background.green }}, {{ section_background.blue }};
+      --vertical-breather: 40px; /* Inner spacing is smaller on this section */
+    }
+  </style>
+
+  <section class="oz-section section {% unless blends_with_background or is_boxed %}section--flush{% endunless %}">
+    <div class="oz-section__wrapper section__color-wrapper">
+      <div class="oz-section__inner container {% unless blends_with_background %}vertical-breather{% endunless %}">
+        <native-carousel class="text-with-icons">
+          <div class="text-with-icons__list hide-scrollbar">
+            {%- for block in section.blocks -%}
+              <native-carousel-item
+                {% unless forloop.first %}
+                  hidden
+                {% endunless %}
+                id="block-{{ section.id }}-{{ block.id }}"
+                class="text-with-icons__item"
+                {{ block.shopify_attributes }}
+              >
+                <div class="text-with-icons__icon-wrapper">
+                  {%- if block.settings.custom_icon != blank -%}
+                    {% capture custom_icon_width %}{{ block.settings.custom_icon_width | times: 2 }}x{% endcapture %}
+                    <img
+                      class="text-with-icons__custom-icon"
+                      style="max-width: {{ block.settings.custom_icon_width }}px"
+                      width="{{ block.settings.custom_icon.width }}"
+                      height="{{ block.settings.custom_icon.height }}"
+                      src="{{ block.settings.custom_icon | img_url: custom_icon_width }}"
+                      alt="{{ block.settings.custom_icon.alt | escape }}"
+                    >
+                  {%- else -%}
+                    {%- render 'icon' with block.settings.icon -%}
+                  {%- endif -%}
+                </div>
+
+                {%- if block.settings.title != blank or block.settings.content != blank -%}
+                  <div class="text-with-icons__content-wrapper">
+                    {%- if block.settings.title != blank -%}
+                      <p class="heading heading--small">{{ block.settings.title | escape }}</p>
+                    {%- endif -%}
+
+                    {%- if block.settings.content != blank -%}
+                      {{- block.settings.content -}}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </native-carousel-item>
+            {%- endfor -%}
+          </div>
+
+          {%- if section.blocks.size > 1 -%}
+            <page-dots class="text-with-icons__dots dots-nav dots-nav--centered hidden-lap-and-up">
+              {%- for block in section.blocks -%}
+                <button
+                  class="dots-nav__item tap-area"
+                  {% if forloop.first %}
+                    aria-current="true"
+                  {% endif %}
+                >
+                  <span class="visually-hidden">{{ 'general.accessibility.go_to_slide' | t: num: forloop.index }}</span>
+                </button>
+              {%- endfor -%}
+            </page-dots>
+          {%- endif -%}
+        </native-carousel>
+      </div>
+    </div>
+  </section>
+{%- endif -%}

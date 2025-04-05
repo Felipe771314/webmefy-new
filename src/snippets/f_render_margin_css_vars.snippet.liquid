@@ -1,8 +1,0 @@
-{% assign vars = vars | split: ',' %}
-{% assign params = value | split: ' ' %}
-{% if vars[0] != blank and params[0] != blank %}
-  {{ vars[0] | strip }}:{{ params[0] }};
-{% endif %}
-{% if vars[1] != blank %}
-  {{ vars[1] | strip }}:{% if params[1] != blank %}{{ params[1] }}{% else %}{{ params[0] }}{% endif %};
-{% endif %}

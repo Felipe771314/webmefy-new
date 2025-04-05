@@ -1,0 +1,67 @@
+{%- capture content -%}
+  <press-list
+    {% if section.settings.reveal_on_scroll %}
+      reveal-on-scroll
+    {% endif %}
+    class="press-list"
+  >
+    <div class="press-list__wrapper">
+      {%- for block in section.blocks -%}
+        <press-item
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}
+          id="block-{{ section.id }}-{{ block.id }}"
+          class="press-list__item"
+          {{ block.shopify_attributes }}
+        >
+          <blockquote class="press-list__item-content blockquote blockquote--center">
+            <split-lines
+              {% if section.settings.reveal_on_scroll or forloop.first == false %}
+                reveal-visibility
+              {% endif %}
+            >
+              {{- block.settings.content | escape -}}
+            </split-lines>
+          </blockquote>
+        </press-item>
+      {%- endfor -%}
+    </div>
+
+    <div class="press-list__logo-list-wrapper hide-scrollbar">
+      <page-dots align-selected class="press-list__logo-list">
+        {%- for block in section.blocks -%}
+          <button
+            class="press-list__logo-item tap-area"
+            {% if forloop.first %}
+              aria-current="true"
+            {% endif %}
+          >
+            {%- if block.settings.logo != blank -%}
+              <span class="visually-hidden">{{ 'general.accessibility.go_to_slide' | t: num: forloop.index }}</span>
+
+              {%- capture image_widths -%}{{ block.settings.logo_width }}, {{ block.settings.logo_width | times: 2 }}, {{ block.settings.logo_width | times: 3 }}{%- endcapture -%}
+              {%- capture sizes_attribute -%}{{ block.settings.logo_width }}px{%- endcapture -%}
+              {%- capture style_attribute -%}max-width: {{ block.settings.logo_width }}px{%- endcapture -%}
+
+              {{-
+              block.settings.logo
+              | image_url: width: block.settings.logo.width
+              | image_tag:
+              loading: 'lazy',
+              style: style_attribute,
+              sizes: sizes_attribute,
+              widths: image_widths,
+              class: 'press-list__logo-image'
+              -}}
+            {%- else -%}
+              <span class="heading h6">Logo {{ forloop.index }}</span>
+            {%- endif -%}
+          </button>
+        {%- endfor -%}
+      </page-dots>
+    </div>
+  </press-list>
+{%- endcapture -%}
+
+{% render 'section-layout', content: content, module: 'press' %}

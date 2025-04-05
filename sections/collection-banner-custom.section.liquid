@@ -1,0 +1,421 @@
+{%- if section.settings.background_type == 'boxed' -%}
+  {%- assign is_boxed = true -%}
+{%- else -%}
+  {%- assign is_boxed = false -%}
+{%- endif -%}
+
+{% capture breadcrumb_subcollection %}{% render 'collection-breadcrumb-menu', collection: collection %}{% endcapture %}
+
+{% assign breadcrumb_subcollection_data = breadcrumb_subcollection | split: '##' %}
+{% assign breadcrumb_menu = breadcrumb_subcollection_data.first %}
+{% assign subcollection = breadcrumb_subcollection_data.last %}
+
+<style>
+  #shopify-section-{{ section.id }} {
+  {%- if section.settings.text_color == 'rgba(0,0,0,0)' -%}
+  {%- assign heading_color = settings.heading_color -%}
+  {%- assign text_color = settings.text_color -%}
+  {%- else -%}
+  {%- assign heading_color = section.settings.text_color -%}
+  {%- assign text_color = section.settings.text_color -%}
+  {%- endif -%}
+
+
+      --heading-color: {{ heading_color.red }}, {{ heading_color.green }}, {{ heading_color.blue }};
+      --text-color: {{ text_color.red }}, {{ text_color.green }}, {{ text_color.blue }};
+
+      --section-accent-background: {{ section.settings.accent_background.red }} {{ section.settings.accent_background.green }} {{ section.settings.accent_background.blue }} / {{ section.settings.accent_background.alpha }};
+  }
+
+  {%- if section.settings.background_overlap != 'both' -%}
+  /* We have to remove some extra spacing adding in non-overlap mode */
+  @media screen and (max-width: 999px) {
+  {%- if section.settings.background_overlap == 'image' -%}
+  {%- unless is_boxed -%}
+      #shopify-section-{{ section.id }} .section {
+          margin-top: 0;
+      }
+
+      #shopify-section-{{ section.id }} .image-with-text {
+          margin-bottom: calc(-1 * var(--vertical-breather)) !important;
+      }
+  {%- else -%}
+      #shopify-section-{{ section.id }} .image-with-text {
+          margin-bottom: calc(-1 * var(--container-gutter)) !important;
+      }
+  {%- endunless -%}
+  {%- elsif section.settings.background_overlap == 'text' -%}
+  {%- unless is_boxed -%}
+      #shopify-section-{{ section.id }} .section {
+          margin-bottom: 0;
+      }
+
+      #shopify-section-{{ section.id }} .image-with-text {
+          margin-top: calc(-1 * var(--vertical-breather)) !important;
+      }
+  {%- else -%}
+      #shopify-section-{{ section.id }} .image-with-text {
+          margin-top: calc(-1 * var(--container-gutter)) !important;
+      }
+  {%- endunless -%}
+  {%- endif -%}
+  }
+  {%- endif -%}
+</style>
+{% render 'vite-tag' with '@modules/sections/image-with-text' %}
+<section class="{{ section.settings.block_space }}">
+  <div
+    {% if is_boxed %}
+      class="container"
+    {% endif %}
+  >
+    {%- capture breadcrumb_zone -%}
+
+      {%- liquid
+        if section.settings.breadcrumb_show_home_link
+          assign breadcrumb = 'general.breadcrumb.home' | t | append: '||' | append: routes.root_url | append: '[]'
+        endif
+        if breadcrumb_menu != blank
+          assign breadcrumb = breadcrumb | append: breadcrumb_menu
+        elsif collection.handle == 'all'
+          assign translation =  'collection.general.all_products' | t
+          assign breadcrumb = breadcrumb | append: translation | append: '||' | append: 'all'
+        else
+          assign breadcrumb = breadcrumb | append: collection.title | append: '||' | append: collection.url
+        endif
+      -%}
+
+      {% render 'breadcrumb', floating: false, hidden_classes: 'hidden-phone', breadcrumb: breadcrumb %}
+
+    {%- endcapture -%}
+
+    {{- breadcrumb_zone -}}
+
+    <image-with-text
+      {% if section.settings.reveal_on_scroll %}
+        reveal-on-scroll
+      {% endif %}
+      class="image-with-text {% if is_boxed %}image-with-text--boxed{% endif %} {% if section.settings.image_position == 'right' %}image-with-text--reverse{% endif %} image-with-text--overlap-{{ section.settings.background_overlap }}"
+    >
+      <div class="{% unless is_boxed %}container{% endunless %}">
+        <div class="image-with-text__wrapper">
+          {%- assign image_count = 0 -%}
+
+          <div class="image-with-text__image-wrapper">
+            {% if collection.image %}
+              {%- capture id_attribute -%}section-{{ section.id }}-{{ collection.image.id }}{%- endcapture -%}
+
+              {%- if section.settings.reveal_on_scroll -%}
+                {{-
+                  collection.image
+                  | image_url: width: collection.image.width
+                  | image_tag:
+                    id: id_attribute,
+                    loading: 'lazy',
+                    sizes: '(max-width: 740px) calc(100vw - 96px), (max-width: 999px) calc(100vw - 160px), 600px',
+                    widths: '600,700,800,1000,1200,1400',
+                    reveal-visibility: true,
+                    class: 'image-with-text__image'
+                -}}
+
+              {%- else -%}
+                {{-
+                  collection.image
+                  | image_url: width: collection.image.width
+                  | image_tag:
+                    id: id_attribute,
+                    loading: 'lazy',
+                    sizes: '(max-width: 740px) calc(100vw - 96px), (max-width: 999px) calc(100vw - 160px), 600px',
+                    widths: '600,700,800,1000,1200,1400',
+                    class: 'image-with-text__image'
+                -}}
+              {%- endif -%}
+
+            {% else %}
+              {%- if section.settings.reveal_on_scroll -%}
+                {{-
+                  'image'
+                  | placeholder_svg_tag: 'image-with-text__image placeholder-background'
+                  | replace: '<svg', '<svg reveal-visibility'
+                -}}
+              {%- else -%}
+                {{- 'image' | placeholder_svg_tag: 'image-with-text__image placeholder-background' -}}
+              {%- endif -%}
+            {% endif %}
+          </div>
+
+          <div class="image-with-text__content-wrapper">
+            <div class="image-with-text__content-list">
+              <image-with-text-item
+                class="image-with-text__content text-container text--{{ section.settings.text_alignment }}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if section.settings.show_collection_title == true -%}
+                  <h1 class="heading h1">
+                    <split-lines
+                      {% if section.settings.reveal_on_scroll %}
+                        reveal
+                      {% endif %}
+                    >
+                      {{- collection.title | escape -}}
+                    </split-lines>
+                  </h1>
+                {%- endif -%}
+
+                <div
+                  class="image-with-text__text-wrapper"
+                  {% if section.settings.reveal_on_scroll %}
+                    reveal
+                  {% endif %}
+                >
+                  {%- if section.settings.show_collection_description and collection.description != blank -%}
+                    <truncate-content
+                      {% if section.settings.truncate_collection_description != 'none' %}
+                        max-length="{{ section.settings.collection_description_max_length }}"
+                      {% endif %}
+                      {% if section.settings.truncate_collection_description == 'mobile' %}
+                        match-media="screen and (max-width: 740px)"
+                      {% elsif section.settings.truncate_collection_description == 'tablet_mobile' %}
+                        match-media="screen and (max-width: 999px)"
+                      {% endif %}
+                      class="truncate-content collection-description"
+                    >
+                      <div class="collection-description__content truncate-content__content">
+                        {{- collection.description -}}
+                      </div>
+                      <a
+                        href="#showmore"
+                        hidden
+                        class="truncate-content__show-more collection-description__button collection-description__button--show-more link"
+                      >
+                        {{- 'collection.general.read_more' | t -}}
+                      </a>
+                      <a
+                        href="#showless"
+                        hidden
+                        class="truncate-content__show-less collection-description__button collection-description__button--show-less link"
+                      >
+                        {{- 'collection.general.read_less' | t -}}
+                      </a>
+                    </truncate-content>
+                  {%- endif -%}
+                </div>
+              </image-with-text-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </image-with-text>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "/!\\Collection banner cust",
+  "class": "shopify-section--collection-banner-custom",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "DEPRECATED",
+      "info": "This section is now DEPRECATED, please use \"Collection promotion ban\" instead."
+    },
+    {
+      "type": "checkbox",
+      "id": "reveal_on_scroll",
+      "label": "Reveal on scroll",
+      "info": "Show animation when section becomes visible.",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "To change collection descriptions or collection images, [edit your collections](/admin/collections)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_title",
+      "label": "Show collection title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "label": "Show collection description",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "truncate_collection_description",
+      "label": "Truncate collection description",
+      "options": [
+        {
+          "value": "none",
+          "label": "Don't truncate"
+        },
+        {
+          "value": "all",
+          "label": "Truncate on all devices"
+        },
+        {
+          "value": "tablet_mobile",
+          "label": "Truncate only on tablet & mobile"
+        },
+        {
+          "value": "mobile",
+          "label": "Truncate only on mobile"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "number",
+      "id": "collection_description_max_length",
+      "label": "Truncated collection description max length",
+      "default": 400
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "Background",
+      "options": [
+        {
+          "value": "full_width",
+          "label": "Full width"
+        },
+        {
+          "value": "boxed",
+          "label": "Boxed"
+        }
+      ],
+      "default": "full_width"
+    },
+    {
+      "type": "select",
+      "id": "background_overlap",
+      "label": "Background overlap",
+      "info": "Add an accent background color below.",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "text",
+          "label": "Text"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "block_space",
+      "label": "Vertical block space",
+      "options": [
+        {
+          "value": "section--flush",
+          "label": "None"
+        },
+        {
+          "value": "section--tight",
+          "label": "Small"
+        },
+        {
+          "value": "section",
+          "label": "Normal"
+        }
+      ],
+      "default": "section"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "breadcrumb_show_home_link",
+      "label": "Breadcrumb show home link",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subcollections",
+      "label": "Show sub-collections",
+      "info": "You must set a menu in 'settings > Breadcrumb'",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "subcollections_hide_title",
+      "label": "Hide sub collections title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subcollections_title",
+      "label": "Override sub collections parent title"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_background",
+      "label": "Accent background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "rgba(0,0,0,0)"
+    }
+  ]
+}
+{% endschema %}

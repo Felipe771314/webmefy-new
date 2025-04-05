@@ -1,0 +1,381 @@
+<style>
+  #shopify-section-{{ section.id }} .footer {
+    {%- assign border_color = settings.footer_background | color_mix: settings.footer_text_color, 85 -%}
+
+    --background: {{ settings.footer_background.red }}, {{ settings.footer_background.green }}, {{ settings.footer_background.blue }};
+    --heading-color: {{ settings.footer_heading_color.red }}, {{ settings.footer_heading_color.green }}, {{ settings.footer_heading_color.blue }};
+    --text-color: {{ settings.footer_text_color.red }}, {{ settings.footer_text_color.green }}, {{ settings.footer_text_color.blue }};
+    --border-color: {{ border_color.red }}, {{ border_color.green }}, {{ border_color.blue }};
+  }
+</style>
+
+<footer class="footer {% if settings.footer_background == settings.background %}footer--bordered{% endif %}">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__item-list {% if section.settings.menu_tab_toggle %} footer__item-list--tab {% endif %}">
+        {%- for block in section.blocks -%}
+          {%- capture block_content -%}
+            {%- case block.type -%}
+              {%- when 'image' -%}
+                {%- if block.settings.image != blank -%}
+                  {%- capture sizes_attribute -%}{{ block.settings.image_width }}px{%- endcapture -%}
+                  {%- capture style_attribute -%}width: {{ block.settings.image_width }}px{%- endcapture -%}
+                  {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', style: style_attribute, sizes: sizes_attribute, widths: '100,200,300,400,500,600', class: 'footer__image' -}}
+                {%- endif -%}
+
+              {%- when 'text' -%}
+
+          {% capture text_block_content %}
+              {%- if block.settings.title != blank -%}
+                  <p class="footer__item-title heading heading--small">{{ block.settings.title | escape }}</p>
+              {%- endif -%}
+
+              {%- if block.settings.content != blank -%}
+                  <div class="footer__item-content">
+                      {{- block.settings.content -}}
+                  </div>
+              {%- endif -%}
+
+          {% endcapture %}
+
+          {% if section.settings.menu_tab_toggle %}
+
+          {% capture open_tab %}
+          {% if section.settings.tabs_behaviour == 'first_open' and forloop.first %}
+          true
+          {% elsif section.settings.tabs_behaviour == 'all_open' %}
+          true
+          {% endif %}
+          {% endcapture %}
+
+              <div class="hidden-tablet-and-up">
+          <button
+                  is="toggle-button"
+                  class="collapsible-toggle heading heading--small"
+                  aria-controls="tab-{{ section.id }}-{{ forloop.index }}-content"
+                  aria-expanded="{% if open_tab != blank %}true{% else %}false{% endif %}"
+          >
+              {{ block.settings.title | escape }}
+              {%- render 'icon' with 'chevron' -%}
+          </button>
+          <collapsible-content
+                  {% if open_tab != blank %}
+                      open
+                  {% endif %}
+                  id="tab-{{ section.id }}-{{ forloop.index }}-content"
+                  class="collapsible"
+          >
+              <div class="product-tabs__tab-item-content">
+                  {{- block.settings.content -}}
+              </div>
+          </collapsible-content>
+              </div>
+
+              <div class="hidden-phone">
+                  {{ text_block_content }}
+              </div>
+
+          {% else %}
+              {{ text_block_content }}
+          {% endif %}
+
+          {%- when 'links' -%}
+          {%- assign menu = block.settings.menu -%}
+
+          {% capture links_block_content %}
+              {%- if menu != blank -%}
+                  <p class="footer__item-title heading heading--small">{{ menu.title }}</p>
+
+                  <div class="footer__item-content">
+                      <ul class="linklist list--unstyled" role="list">
+                          {%- for link in menu.links -%}
+                              <li class="linklist__item">
+                                  <a href="{{ link.url }}" class="link--faded">{{ link.title }}</a>
+                              </li>
+                          {%- endfor -%}
+                      </ul>
+                  </div>
+              {%- endif -%}
+          {% endcapture %}
+
+          {% if section.settings.menu_tab_toggle %}
+
+              {% capture open_tab %}
+                  {% if section.settings.tabs_behaviour == 'first_open' and forloop.first %}
+                      true
+                  {% elsif section.settings.tabs_behaviour == 'all_open' %}
+                      true
+                  {% endif %}
+              {% endcapture %}
+
+              <div class="hidden-tablet-and-up">
+                  <button
+                          is="toggle-button"
+                          class="collapsible-toggle heading heading--small"
+                          aria-controls="tab-{{ section.id }}-{{ forloop.index }}-content"
+                          aria-expanded="{% if open_tab != blank %}true{% else %}false{% endif %}"
+                  >
+                      {{ menu.title | escape }}
+                      {%- render 'icon' with 'chevron' -%}
+                  </button>
+                  <collapsible-content
+                          {% if open_tab != blank %}
+                              open
+                          {% endif %}
+                          id="tab-{{ section.id }}-{{ forloop.index }}-content"
+                          class="collapsible"
+                  >
+                      <div class="product-tabs__tab-item-content">
+                          <div class="footer__item-content">
+                              <ul class="linklist list--unstyled" role="list">
+                                  {%- for link in menu.links -%}
+                                      <li class="linklist__item">
+                                          <a href="{{ link.url }}" class="link--faded">{{ link.title }}</a>
+                                      </li>
+                                  {%- endfor -%}
+                              </ul>
+                          </div>
+                      </div>
+                  </collapsible-content>
+              </div>
+
+              <div class="hidden-phone">
+                  {{ links_block_content }}
+              </div>
+
+          {% else %}
+              {{ links_block_content }}
+
+
+          {% endif %}
+
+
+
+
+          {%- when 'social_media' -%}
+          {%- if block.settings.title != blank -%}
+          <p class="footer__item-title heading heading--small">{{ block.settings.title | escape }}</p>
+          {%- endif -%}
+
+          <div class="footer__item-content">
+              {%- if block.settings.content != blank -%}
+                  {{- block.settings.content -}}
+              {%- endif -%}
+
+              {%- render 'social-media' -%}
+          </div>
+
+          {%- when 'newsletter' -%}
+          {%- if block.settings.title != blank -%}
+          <p class="footer__item-title heading heading--small">{{ block.settings.title | escape }}</p>
+          {%- endif -%}
+
+          <div class="footer__item-content">
+              {%- if block.settings.content != blank -%}
+                  {{- block.settings.content -}}
+              {%- endif -%}
+
+              {% capture newsletter_content %}
+                <div class="input">
+                  <input type="email" id="footer[contact][email]" name="contact[email]"
+                         class="input__field input__field--text">
+                  <label for="footer[contact][email]"
+                         class="input__label">{{ 'footer.newsletter.email' | t }}</label>
+                  <button type="submit" class="input__submit-icon tap-area"
+                          title="{{ 'footer.newsletter.submit' | t }}">{% render 'icon' with 'nav-arrow-right', direction_aware: true %}</button>
+                </div>
+              {% endcapture %}
+
+              {% render 'newsletter-form', form_class: 'footer__newsletter-form', form_content: newsletter_content, source: 'footer-newsletter' %}
+          </div>
+        {%- endcase -%}
+        {%- endcapture -%}
+
+          {%- if block_content != blank -%}
+            <div
+              class="footer__item footer__item--{{ block.type | replace: '_', '-' }} {% if forloop.first %}is-first{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {{- block_content -}}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {% if section.settings.legal_mentions != blank %}
+        <div class="footer__legal-mentions text--xsmall text--subdued">
+          {{- section.settings.legal_mentions -}}
+        </div>
+      {% endif %}
+
+      <div class="footer__aside">
+        {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+          {%- assign country_selector = true -%}
+        {%- endif -%}
+
+        {%- if section.settings.show_locale_selector and localization.available_languages.size > 1 -%}
+          {%- assign locale_selector = true -%}
+        {%- endif -%}
+
+        {%- if country_selector or locale_selector -%}
+          {%- form 'localization', id: 'localization_form_footer', class: 'footer__cross-border' -%}
+            {%- if country_selector -%}
+              <div class="popover-container">
+                <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+                <span class="visually-hidden">{{ 'footer.general.country' | t }}</span>
+
+                <button
+                  type="button"
+                  is="toggle-button"
+                  class="select select--small {% if locale_selector and settings.button_border_radius > 0 %}select--collapse-end{% endif %} text--xsmall"
+                  aria-expanded="false"
+                  aria-controls="footer-currency-selector"
+                >
+                  {{- localization.country.name }} ({{ localization.country.currency.iso_code }}
+                  {% if localization.country.currency.symbol %}{{ localization.country.currency.symbol }}{%- endif -%}
+                  )
+                  {%- render 'icon' with 'chevron', width: 9, height: 6, inline: true -%}
+                </button>
+
+                <popover-content
+                  id="footer-currency-selector"
+                  class="popover popover--top popover--left popover--small"
+                >
+                  <span class="popover__overlay"></span>
+
+                  <header class="popover__header">
+                    <span class="popover__title heading h6">{{- 'footer.general.country' | t -}}</span>
+
+                    <button
+                      type="button"
+                      class="popover__close-button tap-area tap-area--large"
+                      data-action="close"
+                      title="{{ 'general.accessibility.close' | t | escape }}"
+                    >
+                      {%- render 'icon' with 'close' -%}
+                    </button>
+                  </header>
+
+                  <div class="popover__content popover__content--restrict">
+                    <div class="popover__choice-list">
+                      {%- for country in localization.available_countries -%}
+                        <button
+                          type="submit"
+                          name="country_code"
+                          value="{{ country.iso_code }}"
+                          class="popover__choice-item"
+                        >
+                          <span
+                            class="popover__choice-label"
+                            {% if country.iso_code == localization.country.iso_code %}
+                              aria-current="true"
+                            {% endif %}
+                          >
+                            {{- country.name }} ({{ country.currency.iso_code }}
+                            {% if country.currency.symbol %}{{ country.currency.symbol }}{%- endif -%}
+                            )
+                          </span>
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </popover-content>
+              </div>
+            {%- endif -%}
+
+            {%- if locale_selector -%}
+              <div class="popover-container">
+                <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
+                <span class="visually-hidden">{{ 'footer.general.language' | t }}</span>
+
+                <button
+                  type="button"
+                  is="toggle-button"
+                  class="select select--small {% if country_selector and settings.button_border_radius > 0 %}select--collapse-start{% endif %} text--xsmall"
+                  aria-expanded="false"
+                  aria-controls="footer-locale-selector"
+                >
+                  {{- localization.language.endonym_name | capitalize -}}
+                  {%- render 'icon' with 'chevron', width: 9, height: 6, inline: true -%}
+                </button>
+
+                <popover-content id="footer-locale-selector" class="popover popover--top popover--small">
+                  <span class="popover__overlay"></span>
+
+                  <header class="popover__header">
+                    <span class="popover__title heading h6">{{- 'footer.general.language' | t -}}</span>
+
+                    <button
+                      type="button"
+                      class="popover__close-button tap-area tap-area--large"
+                      data-action="close"
+                      title="{{ 'general.accessibility.close' | t | escape }}"
+                    >
+                      {%- render 'icon' with 'close' -%}
+                    </button>
+                  </header>
+
+                  <div class="popover__content">
+                    <div class="popover__choice-list">
+                      {%- for language in localization.available_languages -%}
+                        <button
+                          type="submit"
+                          name="locale_code"
+                          value="{{ language.iso_code }}"
+                          class="popover__choice-item"
+                        >
+                          <span
+                            class="popover__choice-label"
+                            {% if language.iso_code == localization.language.iso_code %}
+                              aria-current="true"
+                            {% endif %}
+                          >
+                            {{- language.endonym_name | capitalize -}}
+                          </span>
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </popover-content>
+              </div>
+            {%- endif -%}
+          {%- endform -%}
+        {%- endif -%}
+
+        <span class="footer__copyright text--xsmall text--subdued">
+          <a
+            href="{{ routes.root_url }}"
+            class="link--faded"
+            >©&nbsp;
+            {{- shop.name -}}
+          </a>
+          <span class="square-separator square-separator--block square-separator--subdued"></span>
+          <a href="https://www.the-oz.com" target="_blank" class="link--faded">
+            {{- 'footer.general.powered_by_link' | t -}}
+          </a>
+        </span>
+
+        {% assign cookies = section.blocks | where: 'type', 'cookies' %}
+        {% for cookie in cookies %}
+          <div class="footer__cookies">
+            <cookie-link class="footer__cookies-link text--subdued">{{ cookie.settings.cookie_label }}</cookie-link>
+          </div>
+        {% endfor %}
+
+        {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+          <div class="footer__payment-methods">
+            <span class="footer__payment-methods-label text--xsmall text--subdued">
+              {{- 'footer.general.we_accept' | t -}}
+            </span>
+
+            <div class="payment-methods-list payment-methods-list--auto">
+              {% for type in shop.enabled_payment_types %}
+                {{ type | payment_type_svg_tag }}
+              {% endfor %}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</footer>
