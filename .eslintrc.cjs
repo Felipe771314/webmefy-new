@@ -27,6 +27,7 @@ const config = {
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@next/next/google-font-display': 'off',
     'google-font-display': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
   env: {
     browser: true,

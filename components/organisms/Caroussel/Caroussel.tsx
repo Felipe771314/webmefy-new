@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Caroussel.module.scss';
+export type { CarousselProps };
+import Image from 'next/image';
 
 interface CarousselProps {
   title: string;
@@ -86,7 +88,17 @@ const Caroussel: React.FC<CarousselProps> = ({
             className={styles.item + (index === currentIndex ? ' active' : '')}
             style={itemStyle}
           >
-            {item.startsWith('http') ? <img src={item} alt={`item-${index}`} /> : item}
+            {item.startsWith('http') ? (
+              <Image
+                src={item}
+                alt={`item-${index}`}
+                width={800}
+                height={400}
+                style={{ objectFit: 'cover', width: '100%', height: 'auto' }}
+              />
+            ) : (
+              item
+            )}
           </div>
         ))}
       </div>
