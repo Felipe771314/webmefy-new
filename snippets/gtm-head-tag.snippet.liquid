@@ -1,0 +1,46 @@
+{% assign gtm_tags = settings.gtm_tag | split: ',' %}
+
+{% if settings.gtm_ad_sources %}
+  <!-- this is an external librairy provinding source -->
+  <script src="https://cdn.jsdelivr.net/npm/visitdata/dist/visitdata.umd.js"></script>
+{% endif %}
+
+{% if settings.gtm_send_to_pixel != true %}
+  <script>
+    (function (w, l) {
+      w[l] = w[l] || [];
+
+      w[l].push(
+        (function () {
+          return arguments;
+        })('set', 'url_passthrough', true)
+      );
+      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    })(window, 'dataLayer');
+  </script>
+
+  {% for gtm_tag in gtm_tags %}
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        if (window._isLightHouse) {
+          return;
+        }
+        w[l] = w[l] || [];
+
+        const f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s);
+        j.async = true;
+
+        let url = 'https://www.googletagmanager.com/gtm.js?id=#tag_id#';
+
+        const cdn_url = '{{ settings.gtm_tag_cdn | strip }}';
+        if (cdn_url) url = cdn_url;
+        if (/#\s*tag_id\s*#/i.test(url)) j.src = url.replace(/#\s*tag_id\s*#/i, i);
+        else j.src = url + i;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', '{{ gtm_tag | strip }}');
+    </script>
+    <!-- End Google Tag Manager -->
+  {% endfor %}
+{% endif %}

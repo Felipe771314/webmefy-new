@@ -1,0 +1,13 @@
+{% comment %} Script TrustCommander {% endcomment %}
+<script type="text/javascript">
+  var tCPrivacyTagManager = '{{ trust_commander_tag_manager }}';
+  window.caReady = window.caReady || [];
+  window.cact = function () {
+    window.caReady.push(arguments);
+  };
+</script>
+<script
+  type="text/javascript"
+  src="https://cdn.trustcommander.net/privacy/{{ trust_commander_tag_id }}/privacy_{{ trust_commander_tag_version }}.js"
+></script>
+{% render 'vite-tag' with '@modules/snippets/trustCommander' %}

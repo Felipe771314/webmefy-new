@@ -1,0 +1,16 @@
+{% if settings.cart_terms_and_conditions_link %}
+  <cart-terms-conditions-checkbox form="{{ form }}" class="cart-tcc">
+    <div class="cart-tcc__checkbox-container checkbox-container">
+      <input class="cart-tcc__checkbox checkbox" type="checkbox" id="tcs_agree">
+      <label class="cart-tcc__label" for="tcs_agree">
+        {{ 'cart.general.terms_conditions_html' | t: terms_conditions: settings.cart_terms_and_conditions_link }}
+      </label>
+    </div>
+    <div class="cart-tcc__error banner banner--error hidden">
+      <span class="banner__ribbon">{% render 'icon' with 'form-error' %}</span>
+      <div class="banner__content">
+        {{ 'cart.general.terms_conditions_error' | t }}
+      </div>
+    </div>
+  </cart-terms-conditions-checkbox>
+{% endif %}

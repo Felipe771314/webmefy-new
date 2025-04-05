@@ -1,0 +1,80 @@
+{% render 'shopify-consent' %}
+
+{% comment %}  todo : repasser activate_onetrust à false dans les configs une fois la bascule vers axeptio achevée  {% endcomment %}
+{%- if settings.activate_onetrust == true and settings.onetrust_token != blank and request.design_mode != true -%}
+  {% render 'vite-tag' with '@modules/snippets/onetrust' %}
+{%- endif -%}
+
+{%- if settings.enable_didomi == true and request.design_mode != true -%}
+  {% render 'didomi' %}
+{%- endif -%}
+
+{%- if settings.enable_axeptio == true and request.design_mode != true -%}
+  {% render 'axeptio' %}
+{%- endif -%}
+
+{%- if settings.trust_commander_tag_id != blank and request.design_mode != true -%}
+  {% render 'trustcommander',
+    trust_commander_tag_id: settings.trust_commander_tag_id,
+    trust_commander_tag_version: settings.trust_commander_tag_version,
+    trust_commander_tag_manager: settings.trust_commander_tag_manager
+  %}
+{% endif %}
+{%- if settings.contentsquare_tag_id != blank -%}
+  {% render 'contentsquare-tag', contentsquare_tag_id: settings.contentsquare_tag_id %}
+{%- endif -%}
+{%- if settings.gtm_tag != blank and settings.GA4_extension != true -%}
+  {% comment %} IMPORTANT! NE PAS EXECUTER LE BODY de GTM lorsque GA4 est actif {% endcomment %}
+  {%- if checkout != blank -%}
+    {% render 'tagging-checkout-data', checkout: checkout, shop: shop, order: order %}
+    {% render 'gtm-checkout-tag' %}
+  {%- else -%}
+    {% render 'gtm-body-tag' %}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if settings.GA4_extension == true -%}
+  {%- if checkout != blank -%}
+    {% render 'tagging-checkout-data', checkout: checkout, shop: shop, order: order %}
+    {% render 'ga4-checkout-tag' %}
+  {%- else -%}
+    {% render 'ga4-body-tag' %}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if settings.enable_aki_discounts != blank -%}
+  {% render 'aki-discounts' %}
+{%- endif -%}
+
+{%- if settings.inventory_by_markets == true -%}
+  {% render 'inventory-by-markets' %}
+{%- endif -%}
+
+{% if settings.enable_nosto == true %}
+  {% if settings.nosto_with_onetrust == false %}
+    <script>
+      window.shopifyAppsUrls && window.shopifyAppsUrls.push('https://connect.nosto.com/include/shopify-{{ shop.id }}');
+    </script>
+  {% else %}
+    {% render 'vite-tag' with '@modules/snippets/nosto-onetrust' %}
+  {% endif %}
+  {% render 'nosto-tagging-the-oz' %}
+{%- endif -%}
+
+{%- if settings.enable_wishlist != blank -%}
+  {% render 'wishlist' %}
+{%- endif -%}
+
+{%- if settings.enable_smart_wishlist != blank -%}
+  <script>
+    // Hack : disable native script
+    if (window.shopifyAppsUrls) {
+      window.shopifyAppsUrls = window.shopifyAppsUrls.filter((url) => !/smartwishlist/.test(url));
+    }
+  </script>
+  {% render 'smart-wishlist' %}
+{%- endif -%}
+
+{%- if settings.mondial_relay_id != blank and checkout != blank -%}
+  {% render 'mondial-relay' %}
+{%- endif -%}

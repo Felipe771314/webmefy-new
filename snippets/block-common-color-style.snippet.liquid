@@ -1,0 +1,106 @@
+{% assign block_settings = block-common-color-style.settings | default: block-common-color-style %}
+{%- capture style -%}
+ <style>
+  #{{ id }} {
+
+  {%- if block_settings.background == 'rgba(0,0,0,0)' -%}
+  {%- assign section_background = settings.background -%}
+  {%- else -%}
+  {%- assign section_background = block_settings.background -%}
+  {%- endif -%}
+
+  {%- if block_settings.text_color == 'rgba(0,0,0,0)' -%}
+  {%- assign heading_color = settings.heading_color -%}
+  {%- assign text_color = settings.text_color -%}
+  {%- else -%}
+  {%- assign heading_color = block_settings.text_color -%}
+  {%- assign text_color = block_settings.text_color -%}
+  {%- endif -%}
+
+  {%- if block_settings.title_color != 'rgba(0,0,0,0)' and block_settings.title_color != blank -%}
+  {%- assign heading_color = block_settings.title_color -%}
+  {%- endif -%}
+  {%- if block_settings.subheading_color != 'rgba(0,0,0,0)' and block_settings.subheading_color != blank -%}
+  {%- assign subheading_color = block_settings.subheading_color -%}
+  {%- endif -%}
+
+   --text-color: {{ text_color.red }}, {{ text_color.green }}, {{ text_color.blue }};
+
+  {% if heading_color != 'rgba(0,0,0,0)' and heading_color != blank %}
+   --heading-color: {{ heading_color.red }}, {{ heading_color.green }}, {{ heading_color.blue }};
+  {% endif %}
+  {% if subheading_color != 'rgba(0,0,0,0)' and subheading_color != blank %}
+   --heading-small-color: {{ subheading_color.red }}, {{ subheading_color.green }}, {{ subheading_color.blue }};
+  {% endif %}
+
+   --section-background: {{ section_background.red }}, {{ section_background.green }}, {{ section_background.blue }};
+  {%- if block_settings.background_gradiant != blank -%}
+   --section-background-gradiant: {{ block_settings.background_gradiant }};
+  {% endif %}
+  {%- if block_settings.background_image != blank -%}
+   --section-background-image: url({{ block_settings.background_image | image_url: width: block_settings.background_image.width }});
+  {% endif %}
+  {%- if block_settings.background_image_size == 'repeat' -%}
+   --section-background-repeat: repeat;
+  {% endif %}
+  {%- if block_settings.background_image_size == 'cover' -%}
+   --section-background-size: cover;
+  {% endif %}
+
+  {% if block_settings.content_custom_font_size != blank %}
+   --text-custom-font-size: {{ block_settings.content_custom_font_size }};
+  {% endif %}
+
+  {{ extra_block_style }}
+  }
+  {%- capture desktop_vars -%}
+   {% if block_settings.custom_container_size != blank %}
+    --container-max-width: {{ block_settings.custom_container_size }};
+   {% endif %}
+   {% if block_settings.heading_custom_font_size != blank %}
+    --heading-custom-font-size: {{ block_settings.heading_custom_font_size }};
+   {% endif %}
+   {% if block_settings.subheading_custom_font_size != blank %}
+    --heading-small-custom-font-size: {{ block_settings.subheading_custom_font_size }};
+   {% endif %}
+   {% render 'f_render_margin_css_vars', vars: '--section-custom-margin-top, --section-custom-margin-bottom', value: block_settings.custom_section_vertical_margin %}
+   {% render 'f_render_margin_css_vars', vars: '--section-custom-padding-top, --section-custom-padding-bottom', value: block_settings.custom_section_vertical_padding %}
+  {%- endcapture -%}
+
+  {%- capture mobile_vars -%}
+   {% if block_settings.heading_custom_font_size_mobile != blank %}
+    --heading-custom-font-size: {{ block_settings.heading_custom_font_size_mobile }};
+   {% endif %}
+   {% if block_settings.subheading_custom_font_size_mobile != blank %}
+    --heading-small-custom-font-size: {{ block_settings.subheading_custom_font_size_mobile }};
+   {% endif %}
+   {% if block_settings.custom_container_size_mobile != blank %}
+   --container-max-width: {{ block_settings.custom_container_size_mobile }};
+   {% endif %}
+   {% if block_settings.content_custom_font_size_mobile != blank %}
+   --text-custom-font-size: {{ block_settings.content_custom_font_size_mobile }};
+   {% endif %}
+   {% render 'f_render_margin_css_vars', vars: '--section-custom-margin-top, --section-custom-margin-bottom', value: block_settings.custom_section_vertical_margin_mobile %}
+   {% render 'f_render_margin_css_vars', vars: '--section-custom-padding-top, --section-custom-padding-bottom', value: block_settings.custom_section_vertical_padding_mobile %}
+  {%- endcapture -%}
+
+  {% if desktop_vars != blank %}
+    @media screen and (min-width: 741px){
+     #{{ id }}{
+      {{ desktop_vars }}
+     }
+    }
+  {% endif %}
+
+  {% if mobile_vars != blank %}
+   @media screen and (max-width: 740px){
+    #{{ id }}{
+       {{ mobile_vars }}
+      }
+   }
+  {% endif %}
+  {{ extra_style }}
+  </style>
+ {%- endcapture -%}
+
+{% render 'f_minify-style' with style %}

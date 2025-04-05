@@ -1,0 +1,141 @@
+{%- if paginate.pages > 1 -%}
+  {% assign direction = direction | default: 'next' %}
+
+  {% liquid
+    if custom_path_url contains '?'
+      assign custom_path_url = custom_path_url | append: '&'
+    else
+      assign custom_path_url = custom_path_url | append: '?'
+    endif
+    if paginate.previous.url and custom_path_url != blank
+      assign previous_page = paginate.current_page | minus: 1
+      assign previous_url = custom_path_url | append: 'page=' | append: previous_page
+    else
+      assign previous_url = paginate.previous.url
+    endif
+    if paginate.next.url and custom_path_url != blank
+      assign next_page = paginate.current_page | plus: 1
+      assign next_url = custom_path_url | append: 'page=' | append: next_page
+    else
+      assign next_url = paginate.next.url
+    endif
+  %}
+
+  {%- capture pagination_content -%}
+    {% unless infinite %}
+      <nav class="pagination__nav">
+        {%- if previous_url -%}
+          <a
+            class="pagination__nav-item"
+            rel="prev"
+            aria-label="{{ 'general.pagination.previous_page' | t }}"
+            data-page="{{ paginate.current_page | minus: 1 }}"
+            href="{{ previous_url }}{{ hash }}"
+          >
+            {%- render 'icon' with 'nav-arrow-left', direction_aware: true -%}
+          </a>
+        {%- endif -%}
+
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            {% liquid
+              if custom_path_url != blank
+                assign part_url = custom_path_url | append: 'page=' | append: part.title
+              else
+                assign part_url = part.url
+              endif
+            %}
+            <a
+              href="{{ part_url }}{{ hash }}"
+              data-page="{{ part.title }}"
+              class="pagination__nav-item heading heading--small"
+              aria-label="{{ 'general.pagination.go_to_page' | t: page: part.title }}"
+            >
+              {{- part.title -}}
+            </a>
+          {%- else -%}
+            <span
+              class="pagination__nav-item heading heading--small"
+              {% if part.title == paginate.current_page %}
+                aria-current="page"
+              {% endif %}
+            >
+              {{- part.title -}}
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if paginate.next -%}
+          <a
+            class="pagination__nav-item"
+            rel="next"
+            aria-label="{{ 'general.pagination.next_page' | t }}"
+            data-page="{{ paginate.current_page | plus: 1 }}"
+            href="{{ next_url }}{{ hash }}"
+          >
+            {%- render 'icon' with 'nav-arrow-right', direction_aware: true -%}
+          </a>
+        {%- endif -%}
+      </nav>
+    {% endunless %}
+    {%- if infinite and paginate.previous and direction == 'previous' -%}
+      <a
+        class="button button--text {% unless infinite_type == "infinite_scroll" %}button--outline{% endunless %}"
+        is="loader-button-link"
+        data-page="{{ paginate.current_page | minus: 1 }}"
+        href="{{ previous_url }}{{ hash }}"
+        {% if infinite_type == "infinite_scroll" %}
+          aria-busy="true"
+        {% endif %}
+      >{{ previous_page_text | default: 'general.pagination.previous_page' | t }}</a>
+    {%- endif -%}
+    {%- if infinite and direction == 'next' -%}
+      {% assign current_items_count = paginate.current_page | times: paginate.page_size |  at_most: paginate.items %}
+      {% assign progress = current_items_count | times: 100 | divided_by: paginate.items | times: 0.01  %}
+      <div class="pagination__inner">
+        <div>{{ progress_text | default: 'general.pagination.progress' | t: current_items_count: current_items_count, total_items: paginate.items }}</div>
+        <div class="pagination__progress" style="--progress: {{ progress }}"></div>
+        {% if paginate.next %}
+          <a
+            class="button button--text {% unless infinite_type == "infinite_scroll" %}button--outline{% endunless %}"
+            is="loader-button-link"
+            data-page="{{ paginate.current_page | plus: 1 }}"
+            href="{{ next_url }}{{ hash }}"
+            {% if infinite_type == "infinite_scroll" %}
+              aria-busy="true"
+            {% endif %}
+          >{{ next_page_text | default: 'general.pagination.next_page' | t }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endcapture -%}
+
+  {%- if pagination_content != blank -%}
+    <page-pagination
+      {% if use_ajax %}
+        ajax
+      {% endif %}
+      class="pagination {% if infinite %}pagination--infinite{% endif %}"
+      {% if direction %}
+        direction="{{ direction }}"
+      {% endif %}
+      {% if infinite_type == 'infinite_scroll' %}
+        infinite-scroll
+      {% endif %}
+      {% if infinite and paginate.next and direction == 'next' %}
+        next-page="{{ paginate.current_page | plus: 1 }}"
+      {% endif %}
+      {% if infinite and paginate.previous and direction == 'previous' %}
+        next-page="{{ paginate.current_page | minus: 1 }}"
+      {% endif %}
+      {% if infinite and item_position %}
+        item-position="{{ item_position }}"
+      {% endif %}
+      {% if infinite and item_position_mobile %}
+        item-position-mobile="{{ item_position_mobile }}"
+      {% endif %}
+    >
+      {{ pagination_content }}
+    </page-pagination>
+  {%- endif -%}
+{%- endif -%}

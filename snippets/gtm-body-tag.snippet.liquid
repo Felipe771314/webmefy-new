@@ -1,0 +1,43 @@
+{% assign gtm_tags = settings.gtm_tag | split: ',' %}
+{% for gtm_tag in gtm_tags %}
+  <!-- Google Tag Manager (noscript) -->
+  <noscript
+    ><iframe
+      src="https://www.googletagmanager.com/ns.html?id={{ gtm_tag | strip | escape }}"
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"
+    ></iframe
+  ></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+{% endfor %}
+{% render 'vite-tag' with '@modules/snippets/gtm-body-tag' %}
+<gtm-crumb-catcher
+  page-path="{{- request.origin -}}{{- request.path -}}"
+  currency="{{ cart.currency.iso_code }}"
+  page-type="{{ request.page_type  }}"
+  {% if request.page_type == 'product' %}
+    prodid="{{ product.id }}"
+  {% endif %}
+  page-title="{{- page_title | strip -}}"
+  gtm-tags="{{ settings.gtm_tag }}"
+  script-url="{{ 'GTM-extensibility.js' | asset_url }}"
+  gtm_tag_cdn="{{  settings.gtm_tag_cdn | strip }}"
+  {% if settings.gtm_consent_mode %}
+    put-consent-mode
+  {% endif %}
+  {% if settings.gtm_send_asynchronously %}
+    send-async
+  {% endif %}
+  {% if settings.gtm_send_user_id %}
+    send-user-id
+  {% endif %}
+  {% if settings.gtm_send_to_pixel %}
+    send-to-pixel
+  {% endif %}
+  {% if settings.gtm_forced_tag_session_id %}
+    gtm-forced-tag-session-id="{{ settings.gtm_forced_tag_session_id | strip }}"
+  {% endif %}
+  default-consent-analytics="{{- settings.gtm_default_consent_analytics | strip -}}"
+  default-consent-ads="{{- settings. gtm_default_consent_ads | strip -}}"
+></gtm-crumb-catcher>

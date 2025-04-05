@@ -1,0 +1,36 @@
+{% assign metafield_container = metafield_container | default: null %}
+{% assign metafield_name = metafield_name | default: '' %}
+{% assign show_in_new_window = show_in_new_window | default: false %}
+
+{% if metafield_name != blank and metafield_container %}
+  {% assign metafield_ref = metafield_name | strip | split: '.' %}
+  {% assign metafield_namespace = metafield_ref[0] %}
+  {% assign metafield_key = metafield_ref[1] %}
+{% endif %}
+{% assign file_list = metafield_container.metafields[metafield_namespace][metafield_key].value | default: null %}
+
+{% if file_list %}
+  <ul class="linklist list--unstyled file-link__list" role="list">
+    {%- for file_metaobject in file_list -%}
+      {% if file_metaobject.link and file_metaobject.title != blank %}
+        <li class="linklist__item file-link__item">
+          {% assign file_link_attributes = 'download' %}
+          {% if show_in_new_window %}
+            {% assign file_link_attributes = 'target="_blank"' %}
+          {% endif %}
+          <a class="file-link__link" href="{{ file_metaobject.link | file_url }}" {{ file_link_attributes }}>
+            {% if file_metaobject.icon %}
+              <img
+                class="file-link__icon"
+                loading="lazy"
+                srcset="{{ file_metaobject.icon | img_url: '300x' }} 200w, {{ file_metaobject.icon | img_url: '200x' }} 1000w"
+                src="{{ file_metaobject.icon | img_url: '100x' }}"
+              >
+            {% endif %}
+            <span class="file-link__title">{{ file_metaobject.title }}</span>
+          </a>
+        </li>
+      {% endif %}
+    {%- endfor -%}
+  </ul>
+{% endif %}

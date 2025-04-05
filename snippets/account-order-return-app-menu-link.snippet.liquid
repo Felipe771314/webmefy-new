@@ -1,0 +1,21 @@
+{%- liquid
+  case settings.returns_app
+    when 'theoz', 'theoz_cdn'
+      assign text = 'request_returns.account.returns' | t
+      assign links = links | append: routes.account_url | append: '?order_return' | append: ',' | append: 'order_return' | append: ',' | append: text | append: ',' | append: '' | append: '|'
+    when 'baback'
+      assign text = 'request_returns.account.returns' | t
+      assign links = links | append: '/a/return' | append: ',' | append: 'order_return' | append: ',' | append: text | append: ',' | append: '' | append: '|'
+    when 'external_return_app'
+      capture app_link
+        render 'external-return-app-link', link_type: 'menu-link'
+      endcapture
+      if app_link != blank
+        assign text = 'request_returns.account.returns' | t
+        assign links = links | append: app_link | append: ',' | append: 'order_return' | append: ',' | append: text | append: ',' | append: '' | append: '|'
+      else
+        assign links = ''
+      endif
+  endcase
+  echo links
+-%}

@@ -1,0 +1,46 @@
+{% assign default_classes = default_classes | default: '' %}
+{% assign field_prefix = field_prefix | default: 'content' %}
+
+{% assign content_prop = field_prefix %}
+{% assign font_size_prop = field_prefix | append: '_font_size' %}
+{% assign custom_font_size_prop = field_prefix | append: '_custom_font_size' %}
+{% assign custom_font_size_mobile_prop = field_prefix | append: '_custom_font_size_mobile' %}
+{% assign typo_prop = field_prefix | append: '_typo' %}
+{% assign enable_parsing_html_prop = field_prefix | append: '_enable_parsing_html' %}
+{% assign richtext_content = richtext_settings[content_prop] %}
+
+{%- if richtext_content != blank -%}
+  {%- if richtext_content.type == 'rich_text_field' -%}
+    {%- assign richtext_content = richtext_content | metafield_tag -%}
+  {%- endif -%}
+
+  {%- if richtext_settings[enable_parsing_html_prop] -%}
+    {%- assign richtext_content = richtext_content
+      | replace: '&lt;', '<'
+      | replace: '&60;', '<'
+      | replace: '&gt;', '>'
+      | replace: '&62;', '>'
+      | replace: '&quot;', '"'
+    -%}
+  {%- endif -%}
+
+  {% capture content_class %}
+        {{ default_classes }}
+        richtext-content
+        {% if richtext_settings[font_size_prop] != blank %}
+            text--{{ richtext_settings[font_size_prop] }}
+        {% endif %}
+        {% if richtext_settings[custom_font_size_prop] != blank %}
+            text--custom-font-size
+        {% endif %}
+        {% if richtext_settings[custom_font_size_mobile_prop] != blank %}
+            text--custom-font-size-mobile
+        {% endif %}
+        {% if richtext_settings[typo_prop] != 'default' %}
+            text--{{ richtext_settings[typo_prop] }}
+        {% endif %}
+    {% endcapture %}
+  <div class="{% render 'f_format_css_class' with content_class %}">
+    {{ richtext_content }}
+  </div>
+{%- endif -%}

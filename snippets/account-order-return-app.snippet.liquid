@@ -1,0 +1,10 @@
+<div>
+  {%- case settings.returns_app -%}
+    {%- when 'theoz', 'theoz_cdn' -%}
+      {% render 'account-order-return-link', order: order %}
+    {%- when 'baback' -%}
+      {% render 'baback-account-order-return-link', order: order %}
+    {%- when 'external_return_app' -%}
+      {% render 'external-return-app-order-return-link', order: order %}
+  {%- endcase -%}
+</div>

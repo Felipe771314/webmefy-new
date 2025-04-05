@@ -1,0 +1,45 @@
+{{- product.description -}}
+
+<div class="below-description__container {% if settings.below_description_order %}below-description__container--reverse{% endif %}">
+  <div class="product-form__text--below-description">
+    <div class="product-form__text" {{ settings.shopify_attributes }}>
+      {{- settings.extra_text -}}
+    </div>
+  </div>
+
+  {% if settings.show_associated_files %}
+    {% render 'f_render-file-list',
+      metafield_container: product,
+      metafield_name: settings.metafield,
+      show_in_new_window: settings.open_new_window
+    %}
+  {% endif %}
+
+  {%- if settings.show_sku -%}
+    <div class="sku--below-description">
+      {% if settings.sku_metafield_value != blank %}
+        <span
+          class="product-meta__sku text--subdued text--xxsmall"
+        >
+          {{- 'product.general.sku' | t }}
+          <span class="product-meta__sku-number">
+            {{- settings.sku_metafield_value -}}
+          </span>
+        </span>
+      {% else %}
+        <span
+          class="product-meta__sku text--subdued text--xxsmall"
+          {% if product.selected_or_first_available_variant.sku == blank %}
+            style="display: none"
+          {% endif %}
+          data-product-sku-container
+        >
+          {{- 'product.general.sku' | t }}
+          <span class="product-meta__sku-number" data-product-sku-number>
+            {{- product.selected_or_first_available_variant.sku -}}
+          </span>
+        </span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

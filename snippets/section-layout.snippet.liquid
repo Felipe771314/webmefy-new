@@ -1,0 +1,128 @@
+{% if module != blank %}
+  {% assign vite_module_name = '@modules/sections/' | append: module %}
+  {% render 'vite-tag' with vite_module_name %}
+{% endif %}
+
+{% assign section_id = 'shopify-section-' | append: section.id %}
+
+{%- capture extra_section_style -%}
+  {{ extra_section_style }}
+  {% if section.settings.header_width %}
+    --section-header-width: {{ section.settings.header_width }}%;
+  {% endif %}
+  {% if section.settings.header_margin %}
+    --section-header-margin: {{ section.settings.header_margin }}px;
+  {% endif %}
+  {% if section.settings.header_vertical_align %}
+    --section-header-vertical-align: {{ section.settings.header_vertical_align }};
+  {% endif %}
+{%- endcapture -%}
+
+{% render 'block-common-color-style' with section,
+  id: section_id,
+  extra_block_style: extra_section_style,
+  extra_style: extra_style
+%}
+{{ before_content }}
+
+{%- if section.settings.background != 'rgba(0,0,0,0)' and section.settings.background != settings.background -%}
+  {%- assign section_colored = true -%}
+{%- elsif section.settings.background_gradiant != blank or section.settings.background_image != blank -%}
+  {%- assign section_colored = true -%}
+{%- endif -%}
+
+{% capture section_class %}
+  oz-section section
+  {% if section_colored %}
+    section--colored
+  {% endif %}
+  {% if section.settings.section_vertical_margin != blank %}
+    {{ section.settings.section_vertical_margin }}
+  {% endif %}
+  {% if section.settings.header_position != blank and section.settings.header_position != 'top' %}
+    section--header-position-aside section--header-position-aside-{{ section.settings.header_position }}
+  {% endif %}
+  {% if section.settings.custom_section_vertical_margin != blank %}
+    custom-vertical-margin
+  {% endif %}
+  {% if section.settings.custom_section_vertical_margin_mobile != blank %}
+    custom-vertical-margin--mobile
+  {% endif %}
+  {% if section.settings.extra_css_class != blank %}
+    {{ section.settings.extra_css_class | strip }}
+  {% endif %}
+{% endcapture %}
+
+{% capture container_class %}
+  section__inner
+  {% if section.settings.section_width == 'boxed' %}
+    container
+    {% if section.settings.container_size != blank %}
+      container--{{ section.settings.container_size }}
+    {% endif %}
+  {% endif %}
+  {% if section.settings.section_width == 'fullwidth-gutter' %}
+    container container--fullwidth
+  {% endif %}
+  {% if section.settings.container_flush_left %}
+    container--flush-left
+  {% endif %}
+  {% if section.settings.container_flush_right %}
+    container--flush-right
+  {% endif %}
+  {% if section.settings.container_flush_mobile %}
+    container--flush
+  {% endif %}
+  {% if section.settings.section_vertical_padding != blank %}
+    {{ section.settings.section_vertical_padding }}
+  {% endif %}
+  {% if section.settings.custom_section_vertical_padding != blank %}
+    custom-vertical-padding
+  {% endif %}
+  {% if section.settings.custom_section_vertical_padding_mobile != blank %}
+    custom-vertical-padding--mobile
+  {% endif %}
+{% endcapture %}
+
+{% comment %}Remove extra spaces{% endcomment %}
+{% assign container_class = container_class | split: ' ' | join: ' ' %}
+
+{% if section.settings.background_image != blank %}
+  {% assign section_wrapper_class = 'section__bg-image-wrapper' %}
+{% elsif section.settings.background_gradiant != blank %}
+  {% assign section_wrapper_class = 'section__color-gradiant-wrapper' %}
+{% else %}
+  {% assign section_wrapper_class = 'section__color-wrapper' %}
+{% endif %}
+
+{% assign section_attributes_values = section_attributes | split: '[]' %}
+
+{% for attribute in section_attributes_values %}
+  {% assign attribute_values = attribute | split: '||' %}
+  {% assign section_attributes_html = section_attributes_html
+    | append: attribute_values[0]
+    | append: '="'
+    | append: attribute_value[1]
+    | append: '" '
+  %}
+{% endfor %}
+
+<section
+  class="{% render 'f_format_css_class' with section_class %}"
+  {% if section_attributes_html != blank %}
+    {{- section_attributes_html | strip -}}
+  {% endif %}
+>
+  <div class="oz-section__wrapper {{ section_wrapper_class }}">
+    <div
+      {% if container_class != blank %}
+        class="oz-section__inner {{ container_class }}"
+      {% endif %}
+    >
+      {% unless hide_headings %}
+        {% render 'heading' %}
+      {% endunless %}
+      {{ content }}
+    </div>
+  </div>
+</section>

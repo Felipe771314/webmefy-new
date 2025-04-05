@@ -1,0 +1,112 @@
+{% liquid
+  assign versions = settings.axeptio_cookie_version | split: ','
+  for version in versions
+    if version contains ':'
+      assign version_trimmed = version | strip
+      assign lang_version = version_trimmed | split: ':'
+      assign lang = lang_version[0] | downcase
+      if lang == localization.language.iso_code
+        assign axeptio_cookie_version = lang_version[1]
+        break
+      endif
+    else
+      assign axeptio_cookie_version = version
+      break
+    endif
+  endfor
+%}
+
+<script type="text/javascript">
+  (function () {
+
+
+    {% if axeptio_cookie_version != blank %}
+
+
+    window.axeptioSettings = {
+      clientId: '{{ settings.axeptio_tag_id }}',
+      cookiesVersion: '{{ axeptio_cookie_version }}',
+    };
+
+    (function (d, s) {
+      const t = d.getElementsByTagName(s)[0],
+        e = d.createElement(s);
+      e.async = true;
+      e.src = '//static.axept.io/sdk.js';
+      t.parentNode.insertBefore(e, t);
+    })(document, 'script');
+
+    window._axcb = window._axcb || [];
+    window._axcb.push(function (sdk) {
+
+
+      sdk.on('cookies:complete', function (choices) {
+
+        if (!choices || !choices.$$googleConsentMode)
+          return;
+
+        const {ad_storage, analytics_storage, ad_user_data, ad_personalization} = choices.$$googleConsentMode;
+
+        if (/axeptio_cookies/i.test(document.cookie)) {
+
+          document.body.dispatchEvent(
+            new CustomEvent('google-consent', {
+              bubbles: true,
+              detail: {
+                ad_storage,
+                analytics_storage,
+                ad_user_data,
+                ad_personalization,
+                disable_datalayer_event: true,
+              },
+            })
+          );
+        }
+      else {
+
+        document.body.dispatchEvent(
+          new CustomEvent('google-consent', {
+            bubbles: true,
+            detail: {
+              disable_datalayer_event: true,
+            },
+          })
+        );
+        }
+
+        // Gère le consent Shopify
+        window.dispatchEvent(
+          new CustomEvent('shopify:consent:change', {
+            bubbles: true,
+            detail: {
+              analytics: analytics_storage === 'granted',
+              preferences: ad_personalization === 'granted',
+              marketing: ad_storage === 'granted' && ad_user_data === 'granted',
+              sale_of_data: false,
+            },
+          })
+        );
+      });
+
+      document.addEventListener('cookie:relaunch', () => {
+        sdk.openCookiesSpecialStep();
+      });
+
+      window.dispatchEvent(
+        new CustomEvent('oz-consent:ready', {
+          bubbles: true,
+          detail: {
+            provider: "axeptio"
+          },
+        })
+      );
+    });
+
+    {% else %}
+
+    console.log('AXEPTIO ERROR : no cookie version found for language', '{{ localization.language.iso_code }}');
+
+    {% endif %}
+
+  })();
+</script>

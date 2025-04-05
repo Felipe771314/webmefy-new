@@ -1,4 +1,6 @@
 #!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
 set -e  # Detener el script en el primer error
 
 echo "🚀 Ejecutando pruebas antes del push..."
@@ -20,7 +22,17 @@ if [ -f "./coverage/coverage-summary.json" ]; then
     exit 1
   fi
 
-  echo "✅ Cobertura aceptable ($ACTUAL_COVERAGE%). Procediendo con el push..."
+  echo "✅ Cobertura aceptable ($ACTUAL_COVERAGE%)."
 else
-  echo "No se encontró coverage/coverage-summary.json. Saltando verificación de cobertura."
+  echo "⚠️  No se encontró coverage/coverage-summary.json. Saltando verificación de cobertura."
+fi
+
+echo "🔄 Ejecutando sincronización de archivos Liquid..."
+
+# Ejecuta el script de sincronización
+if npm run sync:liquid; then
+  echo "✅ Sincronización de archivos Liquid completada."
+else
+  echo "❌ Error durante la sincronización de archivos Liquid."
+  exit 1
 fi

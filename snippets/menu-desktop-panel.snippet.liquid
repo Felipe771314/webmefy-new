@@ -1,0 +1,217 @@
+{%- assign mega_menu_images = '' -%}
+{%- if mega_menu_block != '' -%}
+  {%- assign images_count = 0 -%}
+
+  {%- capture mega_menu_images -%}
+        {%- for i in (1..6) -%}
+
+            {%- capture image_setting -%}image_{{ i }}{%- endcapture -%}
+
+            {%- if mega_menu_block.settings[image_setting] != blank -%}
+                {%- assign images_count = images_count | plus: 1 -%}
+
+                {%- capture image_heading_setting -%}image_{{ i }}_heading{%- endcapture -%}
+                {%- capture image_text_setting -%}image_{{ i }}_text{%- endcapture -%}
+                {%- capture image_link_setting -%}image_{{ i }}_link{%- endcapture -%}
+
+                {%- capture image_push -%}
+                    <div class="mega-menu__image-wrapper">
+                        <img class="mega-menu__image" loading="lazy"
+                             sizes="240px" {% render 'image-attributes', image: mega_menu_block.settings[image_setting], sizes: '240,480,720' %}>
+                    </div>
+
+                    {%- if mega_menu_block.settings[image_heading_setting] != '' -%}
+                        <p class="mega-menu__heading heading heading--small">{{ mega_menu_block.settings[image_heading_setting] }}</p>
+                    {%- endif -%}
+
+                    {%- if mega_menu_block.settings[image_text_setting] != '' -%}
+                        <span class="mega-menu__text">{{ mega_menu_block.settings[image_text_setting] }}</span>
+                    {%- endif -%}
+                {%- endcapture -%}
+
+                {%- if mega_menu_block.settings[image_link_setting] != blank -%}
+                    <a href="{{ mega_menu_block.settings[image_link_setting] }}"
+                       class="mega-menu__image-push image-zoom">
+                        {{- image_push -}}
+                    </a>
+                {%- else -%}
+                    <div class="mega-menu__image-push image-zoom">
+                        {{- image_push -}}
+                    </div>
+                {%- endif -%}
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endcapture -%}
+  {%- comment -%} Dans le cas d'un lenu asynchrone, on ne peut être que dans ce cas là {%- endcomment -%}
+  {%- if link.links.size > 0 or mega_menu_block != blank -%}
+    <div
+      hidden
+      id="desktop-menu-{{ menu_id }}"
+      class="mega-menu"
+      {{ mega_menu_block.shopify_attributes }}
+    >
+      <div desktop-loader-target class="container">
+        <div class="mega-menu__inner">
+          {%- if mega_menu_block.settings.images_position == 'left' and mega_menu_images != blank -%}
+            <div class="mega-menu__images-wrapper {% if images_count >= 3 %}mega-menu__images-wrapper--tight{% endif %}">
+              {{- mega_menu_images -}}
+            </div>
+          {%- endif -%}
+          {%- capture no_children_column -%}
+              {% if mega_menu_block.settings.no_children_column %}
+              {%- for sub_link in link.links -%}
+                  {%- capture sub_sublink_style -%}
+                      {% render 'f_subnav_color', subnav_colors_blocks: subnav_colors_blocks, link: sub_link %}
+                  {%- endcapture -%}
+
+                  {% if sub_link.levels == 0 %}
+                  <a
+                    href="{{ sub_link.url }}"
+                    class="mega-menu__title heading heading--small {% if sub_sublink_style != blank %}subnav-color {% endif %}" {% if sub_sublink_style != blank %}
+                      style="{{ sub_sublink_style }}"
+                  {% endif %}
+
+                  >
+                    {{- sub_link.title -}}
+                  </a>
+                {% endif %}
+              {%- endfor -%}
+						{% endif %}
+					{%- endcapture -%}
+          {%- if link.links.size > 0 -%}
+            <div class="mega-menu__columns-wrapper">
+              {% if no_children_column != blank %}
+                <div class="mega-menu__column mega-menu__column--no-children">
+                  {{ no_children_column }}
+                </div>
+              {% endif %}
+              {%- for sub_link in link.links -%}
+                {%- capture sub_sublink_style -%}
+                      {% render 'f_subnav_color', subnav_colors_blocks: subnav_colors_blocks, link: sub_link %}
+                  {%- endcapture -%}
+                {% if sub_link.levels == 0 and mega_menu_block.settings.no_children_column %}
+                  {% continue %}
+                {% endif %}
+                <div class="mega-menu__column">
+                  {%- if sub_link.url == '#' -%}
+                    <span
+                      class="mega-menu__title heading heading--small {% if sub_sublink_style != blank %}subnav-color {% endif %}"
+                      {% if sub_sublink_style != blank %}
+                        style="{{ sub_sublink_style }}"
+                      {% endif %}
+                    >
+                      {{- sub_link.title -}}
+                    </span>
+                  {%- else -%}
+                    <a
+                      href="{{ sub_link.url }}"
+                      class="mega-menu__title heading heading--small {% if sub_sublink_style != blank %}subnav-color {% endif %}"
+                      {% if sub_sublink_style != blank %}
+                        style="{{ sub_sublink_style }}"
+                      {% endif %}
+                    >
+                      {{- sub_link.title -}}
+                    </a>
+                  {%- endif -%}
+
+                  {%- if sub_link.links.size > 0 -%}
+                    <ul class="linklist list--unstyled" role="list">
+                      {%- for sub_sub_link in sub_link.links -%}
+                        {%- capture sub_sublink_style -%}
+                              {% render 'f_subnav_color', subnav_colors_blocks: subnav_colors_blocks, link: sub_sub_link %}
+                        {%- endcapture -%}
+
+                        <li
+                          class="linklist__item {% if sub_sublink_style != blank %}subnav-color {% endif %}"
+                          {% if sub_sublink_style != blank %}
+                            style="{{ sub_sublink_style }}"
+                          {% endif %}
+                        >
+                          <a
+                            href="{{ sub_sub_link.url }}"
+                            class="link--faded"
+                          >
+                            {{- sub_sub_link.title -}}
+                            {% render 'menu-label', link: sub_sub_link %}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if mega_menu_block.settings.images_position == 'right' and mega_menu_images != blank -%}
+            <div class="mega-menu__images-wrapper {% if images_count >= 3 %}mega-menu__images-wrapper--tight{% endif %}">
+              {{- mega_menu_images -}}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{%- elsif link.links.size > 0 -%}
+  <ul
+    hidden
+    id="desktop-menu-{{ menu_id }}"
+    class="nav-dropdown {% if link.levels == 1 %}nav-dropdown--restrict{% endif %} list--unstyled"
+    role="list"
+  >
+    {%- for sub_link in link.links -%}
+      {%- capture sub_sublink_style -%}
+            {% render 'f_subnav_color', subnav_colors_blocks: subnav_colors_blocks, link: sub_link %}
+        {%- endcapture -%}
+
+      <li
+        class="nav-dropdown__item {% if sub_sublink_style != blank %}subnav-color {% endif %}{% if sub_link.links.size > 0 %}has-dropdown{% endif %}"
+        {% if sub_sublink_style != blank %}
+          style="{{ sub_sublink_style }}"
+        {% endif %}
+      >
+        <a
+          class="nav-dropdown__link link--faded"
+          href="{{ sub_link.url }}"
+          {% if sub_link.links.size > 0 %}
+            aria-controls="desktop-menu-{{ menu_id }}-{{ forloop.index }}" aria-expanded="false"
+          {% endif %}
+        >
+          {{- sub_link.title -}}
+
+          {%- if sub_link.links.size > 0 -%}
+            {% render 'icon' with 'dropdown-arrow-right', direction_aware: true %}
+          {%- endif -%}
+        </a>
+
+        {%- if sub_link.links.size > 0 -%}
+          <ul
+            hidden
+            id="desktop-menu-{{ menu_id }}-{{ forloop.index }}"
+            class="nav-dropdown list--unstyled"
+            role="list"
+          >
+            {%- for sub_sub_link in sub_link.links -%}
+              {%- capture sub_sublink_style -%}
+                    {% render 'f_subnav_color', subnav_colors_blocks: subnav_colors_blocks, link: sub_sub_link %}
+                {%- endcapture -%}
+              <li
+                class="nav-dropdown__item {% if sub_sublink_style != blank %}subnav-color {% endif %}"
+                {% if sub_sublink_style != blank %}
+                  style="{{ sub_sublink_style }}"
+                {% endif %}
+              >
+                <a
+                  class="nav-dropdown__link link--faded"
+                  href="{{ sub_sub_link.url }}"
+                >
+                  {{- sub_sub_link.title -}}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

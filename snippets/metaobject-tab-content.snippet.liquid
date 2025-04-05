@@ -1,0 +1,96 @@
+{% assign block_id = block_id | default: 'tab' %}
+
+{%- capture item_list -%}
+  {%- for item in items -%}
+    {% assign popover_id = 'popover-icon-label-' | append: section.id | append: '-' | append: block_id | append: '-' | append: forloop.index %}
+    {% assign show_description = false %}
+
+    {% if block_settings.show_description == true and item.description != blank %}
+      {% assign show_description = true %}
+    {% endif %}
+
+    {% assign icon = '' %}
+    {% if item.icon != blank %}
+      {% capture icon %}
+        {%- if block_settings.display == 'row' -%}
+          {{ item.icon | image_url: height: 40 | image_tag }}
+        {%- else -%}
+          {{ item.icon | image_url: width: 30 | image_tag }}
+        {%- endif -%}
+      {% endcapture %}
+    {% endif %}
+
+    <div class="product-form__custom-metaobject-item">
+      {% if block_settings.display == 'grid' %}
+        <button
+          class="product-form__custom-metaobject-item__picto"
+          is="toggle-button"
+          trigger="hover"
+          aria-expanded="false"
+          aria-controls="{{ popover_id }}"
+        >
+          {{ icon }}
+        </button>
+      {% else %}
+        <div class="product-form__custom-metaobject-item__picto">
+          {{ icon }}
+        </div>
+        <div class="product-form__custom-metaobject-item__title">
+          {{ item.label }}
+          {% if show_description %}
+            <button
+              class="product-form__custom-metaobject-item__info-trigger bubble-count"
+              is="toggle-button"
+              trigger="hover"
+              aria-expanded="false"
+              aria-controls="{{ popover_id }}"
+            >
+              ?
+            </button>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if show_description or block_settings.display == 'grid' %}
+        <popover-content id="{{ popover_id }}" class="product-form__custom-metaobject-item__popover popover popover--left">
+          <span class="popover__overlay"></span>
+          <header class="popover__header hidden-desk">
+            <span class="popover__title heading h6">{{ item.label }}</span>
+            <span
+              type="button"
+              class="popover__close-button tap-area tap-area--large"
+              data-action="close"
+              title="{{ 'general.accessibility.close' | t | escape }}"
+            >
+            {%- render 'icon', icon: 'close' -%}
+          </span>
+          </header>
+          <div class="popover__content text--small">
+            {% if block_settings.display == 'grid' %}
+              <div class="popover__title hidden-phone text--strong">{{ item.label }}</div>
+            {% endif %}
+            {% if show_description %}
+              {{ item.description | metafield_tag }}
+            {% endif %}
+          </div>
+        </popover-content>
+      {% endif %}
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{% if item_list != blank %}
+  {% if block_settings.content_before != blank %}
+    <div class="product-form__custom-metaobject__content-before">
+      {{ block_settings.content_before }}
+    </div>
+  {% endif %}
+  <div class="product-form__custom-metaobject product-form__custom-metaobject--{{ block_settings.display }}">
+    {{ item_list }}
+  </div>
+  {% if block_settings.content_after != blank %}
+    <div class="product-form__custom-metaobject__content-after">
+      {{ block_settings.content_after }}
+    </div>
+  {% endif %}
+{% endif %}

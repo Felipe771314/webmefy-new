@@ -1,0 +1,98 @@
+{% assign labels_type = settings.labels_type %}
+{%- case labels_type -%}
+  {%- when 'tags' -%}
+    {% liquid
+      assign label_tags = ''
+      assign label_count = 0
+      for tag in product.tags
+        if tag contains '__label'
+          if label_count > 0
+            assign label_tags = label_tags | append: '||'
+          endif
+          assign label_count = label_count | plus: 1
+          assign split_tag = tag | split: ':'
+          assign index = split_tag[0] | strip | replace_first: '__label', ''
+          assign label_tags = label_tags | append: split_tag[1] | append: ':' | append: index
+          assign index_default = index | default: '1'
+          assign all_index = all_index | append: index_default | append: ','
+        endif
+      endfor
+    %}
+    {% assign all_index = all_index | split: ',' | uniq | sort %}
+    {% if label_count > 0 %}
+      <div class="label-list__custom {% if settings.labels_orientation == "row" %}label-list__custom--inline {% endif %}">
+        {% assign array_tags = label_tags | split: '||' %}
+        {% if settings.labels_group_by %}
+          {% for index in all_index %}
+            <div class="label-group label-group--{{ index | default: 1 }}">
+              {% for tag_pair in array_tags %}
+                {% assign tag_array = tag_pair | split: ':' %}
+                {% assign tag_index = tag_array[1] %}
+                {% assign tag_index_default = tag_index | default: '1' %}
+                {% assign tag_name = tag_array[0] %}
+
+                {% unless tag_index_default == index %}
+                  {% continue %}
+                {% endunless %}
+
+                {% capture tag_name %}{% render 'translation-renderer', namespace: "stickers", label : tag_array[0] %}{% endcapture %}
+                <span class="label label--custom{{- tag_index -}}">{{ tag_name }}</span>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% for tag_pair in array_tags %}
+            {% assign tag_array = tag_pair | split: ':' %}
+            {% assign tag_index = tag_array[1] %}
+            {% assign tag_name = tag_array[0] %}
+
+            {% capture tag_name %}{% render 'translation-renderer', namespace: "stickers", label : tag_array[0] %}{% endcapture %}
+            <span class="label label--custom{{- tag_index -}}">{{ tag_name }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {%- when 'metafields' -%}
+    {% assign metafields = settings['meta-product-value'] | split: ',' %}
+    {% assign tag_index = 0 %}
+    {% for metafield in metafields %}
+      {% assign tag_index = tag_index | plus: 1 %}
+      {% assign title_metafield = metafield | split: '.' %}
+
+      {% assign metafield_key = product.metafields[title_metafield[0]][title_metafield[1]] %}
+
+      <div class="label-list__custom {% if settings.labels_orientation == "row" %}label-list__custom--inline {% endif %}">
+        {% if metafield_key.type == 'single_line_text_field' or metafield_key.type == 'multi_line_text_field' %}
+          {% capture tag_name %}{% render 'translation-renderer', namespace: "stickers", label :metafield_key.value %}{% endcapture %}
+          <span class="label label--primary label--{{- title_metafield[1] -}}">{{ tag_name }}</span>
+        {% else %}
+          {% if settings.labels_group_by %}
+            {% assign style_array = '' %}
+            {% for metafield_style in metafield_key.value %}
+              {% assign style_array = style_array | append: metafield_style.style %}
+              {% assign style_array = style_array | append: '||' %}
+            {% endfor %}
+            {% assign style_array = style_array | split: '||' | uniq %}
+
+            {% for style in style_array %}
+              {% for custom-label in metafield_key.value %}
+                {% capture tag_name %}{% render 'translation-renderer', namespace: "stickers", label : custom-label.text %}{% endcapture %}
+                {% unless style == custom-label.style %}
+                  {% continue %}
+                {% endunless %}
+
+                {% render 'label' with custom-label, text: tag_name %}
+              {% endfor %}
+            {% endfor %}
+
+          {% else %}
+            {% for custom-label in metafield_key.value %}
+              {% capture tag_name %}{% render 'translation-renderer', namespace: "stickers", label : custom-label.text %}{% endcapture %}
+              {% render 'label' with custom-label, text: tag_name %}
+            {% endfor %}
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endfor %}
+{%- endcase -%}

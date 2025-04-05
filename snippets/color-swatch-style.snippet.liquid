@@ -1,0 +1,93 @@
+{%- capture snippet_output -%}
+  {%- comment -%}
+    Extract a style from the color swatch config. You must pass one parameter to this snippet:
+
+    - value: the actual color
+  {%- endcomment -%}
+
+  {% assign color_hex = null %}
+  {% assign color_image = null %}
+  {% assign color_base64 = null %}
+
+  {% comment %} if a native swatch is available use it {% endcomment %}
+  {%- liquid
+    if value.swatch
+      assign swatch_focal_point = null
+      if value.swatch.image
+        assign color_image = value.swatch.image
+      elsif value.swatch.color
+        assign color_hex = value.swatch.color
+      else
+        assign color_swatch_style = null
+      endif
+    endif
+  -%}
+
+  {% comment %} else fallback to the old scheme {% endcomment %}
+  {%- unless color_swatch_style -%}
+    {% comment %} Set default value for color_swatch_style {% endcomment %}
+    {%- assign color_value_downcase = value.label | default: value | downcase -%}
+    {%- assign color_swatch_style = 'background-color: ' | append: color_value_downcase -%}
+    {% comment %} Check the color in a settings.color_swatch_config first {% endcomment %}
+    {% assign fallback_to_color_metaobjects = true %}
+    {%- assign color_swatch_config = settings.color_swatch_config | newline_to_br | split: '<br />' -%}
+
+    {%- for color_swatch_item in color_swatch_config -%}
+      {%- assign color_swatch_parts = color_swatch_item | split: ':' -%}
+      {%- assign color_swatch_name = color_swatch_parts.first | downcase | strip -%}
+
+      {%- if color_value_downcase == color_swatch_name -%}
+        {%- assign color_swatch_value = color_swatch_parts.last | strip -%}
+
+        {%- if color_swatch_value contains '#' -%}
+          {%- assign color_hex = color_swatch_value -%}
+        {%- elsif images[color_swatch_value] != blank -%}
+          {%- assign color_image = images[color_swatch_value] -%}
+        {%- endif -%}
+
+        {% assign fallback_to_color_metaobjects = false %}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {% comment %}
+      If we find nothing then fallback to color metaobjects (either native or custom)
+    {% endcomment %}
+
+    {% if fallback_to_color_metaobjects %}
+      {% assign color_metaobject_type = settings.color_metaobject_type | strip | default: 'shopify--color-pattern' %}
+      {% assign metaobject_color_values = shop.metaobjects[color_metaobject_type].values %}
+      {% paginate metaobject_color_values by 250 %}
+        {% for color_obj in metaobject_color_values %}
+          {%- assign color_name_downcase = color_obj.label | downcase -%}
+
+          {%- if color_value_downcase == color_name_downcase -%}
+            {%- assign color_image = color_obj.image -%}
+            {%- assign color_base64 = color_obj.base64_image -%}
+            {%- assign color_hex = color_obj.color -%}
+
+            {%- break -%}
+          {%- endif -%}
+        {% endfor %}
+      {% endpaginate %}
+    {% endif %}
+  {%- endunless -%}
+
+  {% comment %} img > base64 > hex {% endcomment %}
+  {%- if color_image -%}
+    {%- assign color_swatch_image = color_image | img_url: '72x72' -%}
+    {%- assign color_swatch_style = 'background-image: url(' | append: color_swatch_image | append: ')' -%}
+  {%- elsif color_base64 -%}
+    {%- assign color_swatch_style = 'background-image: url('
+      | append: "'"
+      | append: 'data:image/png;base64,'
+      | append: color_base64
+      | append: "'"
+      | append: ')'
+    -%}
+  {%- elsif color_hex -%}
+    {%- assign color_swatch_style = 'background-color: ' | append: color_hex -%}
+  {%- endif -%}
+
+  {{- color_swatch_style -}}
+{%- endcapture -%}
+{{- snippet_output | strip -}}

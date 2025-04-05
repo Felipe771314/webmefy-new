@@ -1,0 +1,42 @@
+{%- liquid
+  comment
+    Permet de récupérer un label parmi un tableau de traduction
+    Deux methodes d'appel :
+    translation_array + label
+    namespace + label
+  endcomment
+
+  assign translation = label
+
+  unless request.locale.primary == true and settings.disable_on_main_language == true
+    comment
+      Le translation_array peut être passé par soucis d'optimlsiaiton, ou calculé depuis le namespace
+    endcomment
+    if translation_array == blank and namespace != blank
+      assign translations = ''
+      assign occurences = 0
+      for translation in shop.metaobjects.translations.values
+        if translation.zone.value == namespace
+          if occurences > 0
+            assign translations = translations | append: '<br />'
+          endif
+          assign occurences = occurences | plus: 1
+          assign text_with_br = translation.labels.value | newline_to_br
+          assign translations = translations | append: text_with_br
+        endif
+      endfor
+      assign translation_array = translations | split: '<br />'
+    endif
+
+    assign translation_key = label | strip | downcase
+    for text_pair in translation_array
+      assign split_text = text_pair |  remove_first: "{{" | split: "}}"
+      assign label_key = split_text[0] | strip | downcase
+      if translation_key == label_key
+        assign translation = split_text[1] | strip
+        break
+      endif
+    endfor
+  endunless
+-%}
+{{- translation -}}

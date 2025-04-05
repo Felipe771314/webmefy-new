@@ -1,0 +1,66 @@
+{% assign soclozId = product.selected_or_first_available_variant.sku %}
+
+{% assign urlLang = request.path | slice: 1, 2 %}
+{% for locale in shop.published_locales %}
+  {% if locale.root_url contains urlLang %}
+    {% assign soclozLocale = locale.iso_code %}
+  {% else %}
+    {% if locale.primary and soclozLocale == blank %}
+      {% assign soclozLocale = locale.iso_code %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign soclozCity = shop.address.city %}
+{% if customer and customer.default_address %}
+  {% assign soclozCity = customer.default_address.city %}
+{% endif %}
+
+{% assign so_cloz_button_disabled_mobile_quick_buy_popover = false %}
+{% if settings.so_cloz_disabled_mobile_quick_buy_popover and template.suffix == 'quick-buy-popover' %}
+  {% assign so_cloz_button_disabled_mobile_quick_buy_popover = true %}
+{% endif %}
+
+{% assign so_cloz_button_disabled_desktop_quick_buy_drawer = false %}
+{% if settings.so_cloz_disabled_desktop_quick_buy_drawer and template.suffix == 'quick-buy-drawer' %}
+  {% assign so_cloz_button_disabled_desktop_quick_buy_drawer = true %}
+{% endif %}
+
+{% unless so_cloz_button_disabled_mobile_quick_buy_popover or so_cloz_button_disabled_desktop_quick_buy_drawer %}
+  {% unless product.tags contains 'no_eresa' %}
+    {%- assign so_cloz_product_attributes_config = settings.so_cloz_product_attributes
+      | newline_to_br
+      | strip_newlines
+      | split: '<br />'
+      | join: ','
+    -%}
+    <socloz-button
+      class="button button--full socloz button--ternary"
+      data-socloz-locale="{{ soclozLocale }}"
+      data-socloz-country="{{ localization.country.iso_code }}"
+      data-socloz-product-id="{{ soclozId }}"
+      {% if so_cloz_product_attributes_config != blank %}
+        product-attributes-config="{{ so_cloz_product_attributes_config }}"
+      {% endif %}
+    >
+      {{ 'product.form.socloz_text' | t }}
+    </socloz-button>
+    <script>
+      (function () {
+        var _scs = [];
+        _scs.push(['app_key', '{{ api_key }}']);
+        (function (d, s, id, _scs) {
+          if (d.getElementById(id)) return;
+          var i,
+            sc = d.createElement(s),
+            sj = d.getElementsByTagName(s)[0];
+          sc.id = id;
+          sc.async = true;
+          sc.src = '//api.socloz.com/v4/js/popup.js';
+          for (i = 0; i < _scs.length; i++) sc.setAttribute('data-socloz-' + _scs[i][0], _scs[i][1]);
+          sj.parentNode.insertBefore(sc, sj);
+        })(document, 'script', 'soclozjs', _scs);
+      })();
+    </script>
+  {% endunless %}
+{% endunless %}

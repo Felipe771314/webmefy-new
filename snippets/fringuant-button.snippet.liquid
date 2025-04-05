@@ -1,0 +1,63 @@
+{% assign locale_iso_code = request.locale.iso_code | split: '-' | first %}
+{% comment %} Check api_key and FRINGUANT ID {% endcomment %}
+<fringuant-button></fringuant-button>
+<script src="https://assets.fringuant.com/shopify/fringuant-sdk.js" defer></script>
+
+<script>
+  
+  
+
+
+  ( () => {
+
+    const hidden = localStorage.getItem("fringuant-hidden");
+    const expired = hidden && JSON.parse(hidden).expires < Date.now();
+    if (hidden === null || expired) {
+      const random = Math.random();
+      // Get the visibility & expiration by an API call
+      const apiUrl = "https://app.fringuant.com/api/visibility";
+      const apiKey = "{{ settings.fringuant_api_key }}";
+
+      fetch(`${apiUrl}?apiKey=${apiKey}`, { method: "GET" }).then(response => response.json()).then(data => {
+        const visibility = data.visibility;
+        const expiration = data.expiration;
+        const content = {
+          value: random > visibility,
+          expires: Date.now() + expiration,
+          visibility: visibility
+        };
+        localStorage.setItem("fringuant-hidden", JSON.stringify(content));
+      });
+    }
+    const abgroup = localStorage.getItem("fringuant-ab-testing-grp");
+    if (abgroup === null) {
+      let abTestingGroup = Math.random() < 0.5 ? "A" : "B";
+      localStorage.setItem("fringuant-ab-testing-grp", abTestingGroup);
+    }
+
+    let hiddenConf = localStorage.getItem("fringuant-hidden") || "{\"value\": false, \"expires\": 0}";
+    const variants = {{ product.variants | json }};
+    const has_variants = variants.filter((variant) => variant.available).length;
+    let abTestingGroup = localStorage.getItem("fringuant-ab-testinggrp") || "A";
+    window.FringuantConfig = {
+      apiKey: "{{ settings.fringuant_api_key }}",
+      className: "fringuant-widget",
+      productId: "{{ product.id | json }}",
+	    text_button: {
+        {{ locale_iso_code }}:"{{ 'product.form.fringuant_text_button' | t }}"
+      },
+      {% if product.images %} productImg: "{{ product.images[0] | img_url: 'master' }}", {% endif %}
+      hidden: JSON.parse(hiddenConf).value || !has_variants,
+      abTestingGroup: abTestingGroup,
+      display_button:  {{ product_display }},
+      variants,
+      options: {{ product.options | json }},
+      {% if settings.fringuant_logo != blank %}logo: "{{ settings.fringuant_logo | img_url }}",{% endif %}
+
+    };
+
+  })()
+
+
+</script>
+{% render 'vite-tag' with '@modules/snippets/fringuant' %}

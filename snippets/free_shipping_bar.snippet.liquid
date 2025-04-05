@@ -1,0 +1,14 @@
+<free-shipping-bar
+  {% if settings.cart_show_free_shipping_threshold %}
+    show_threshold
+  {% endif %}
+  {% if settings.cart_show_free_shipping_progress_bar %}
+    show_progress_bar
+  {% endif %}
+  threshold="{{ settings.cart_free_shipping_threshold  }}"
+  currency_code="{{ currency_code }}"
+  free_message="{{ 'cart.general.free_shipping' | t }}"
+  remaining_message="{{  'cart.general.free_shipping_remaining_html' | t }}"
+  class="shipping-bar"
+>
+</free-shipping-bar>

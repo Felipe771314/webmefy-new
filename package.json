@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
@@ -34,7 +33,9 @@
     "changeset": "changeset",
     "shopify:dev": "shopify theme dev --store=TU_TIENDA --path=shopify",
     "shopify:pull": "shopify theme pull --store=TU_TIENDA --path=shopify --only 'templates/*.json' --only 'sections/*.json' --only 'config/settings_data.json' --only 'locales/*.json'",
-    "shopify:push": "shopify theme push --store=TU_TIENDA --path=shopify"
+    "shopify:push": "shopify theme push --store=TU_TIENDA --path=shopify",
+    "sync:liquid": "node scripts/sync-liquid.cjs",
+    "build": "npm run sync:liquid && next build"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.15.1",

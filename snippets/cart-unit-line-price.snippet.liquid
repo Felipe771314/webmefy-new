@@ -1,0 +1,25 @@
+<cart-unit-line-price item-id="{{ item_id }}">
+  {% if settings.activate_price_placeholder %}
+  {% else %}
+    {%- if line_item and line_item.unit_price_measurement -%}
+      <div class="price text--subdued">
+        <div class="unit-price-measurement">
+          <span class="unit-price-measurement__price">
+            {% render 'f_format_money' with line_item.unit_price %}
+          </span>
+          <span class="unit-price-measurement__separator">/</span>
+
+          {%- if line_item.unit_price_measurement.reference_value != 1 -%}
+            <span class="unit-price-measurement__reference-value">
+              {{- line_item.unit_price_measurement.reference_value -}}
+            </span>
+          {%- endif -%}
+
+          <span class="unit-price-measurement__reference-unit">
+            {{- line_item.unit_price_measurement.reference_unit -}}
+          </span>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</cart-unit-line-price>

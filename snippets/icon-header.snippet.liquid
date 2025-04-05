@@ -1,0 +1,37 @@
+{% liquid
+  assign url = icon.settings.icon_link
+  if icon.type == 'header_wishlist' and url == blank
+    assign root = routes.root_url
+    if routes.root_url == '/'
+      assign root = ''
+    endif
+    assign url = root | append: '/pages/wishlist'
+  endif
+%}
+<a
+  href="{{ url }}"
+  class="{{ class_anchor }} {% if icon.type == 'header_wishlist' %}header__icon--wishlist {% else %}header__{{ icon.settings.icon_picto }} {% endif %}"
+  aria-label="{{ icon.settings.icon_text | escape }}"
+  {% if icon.type == 'header_wishlist' %}
+    is="header-wishlist"
+    icon-width="18"
+    icon-height="18"
+  {% endif %}
+>
+  {% case icon.type %}
+    {% when 'header_icon' %}
+      {% if icon.settings.icon_image == blank %}
+        {%- render 'icon', icon: icon.settings.icon_picto, width: 18, height: 18, inline: true -%}
+      {% else %}
+        <img
+          class=""
+          src="{{ icon.settings.icon_image | img_url: 32 }}"
+          alt="{{ icon.settings.icon_image.alt | escape }}"
+        >
+      {% endif %}
+    {% when 'header_wishlist' %}
+      {%- render 'icon' with 'picto-love', width: 18, height: 18 -%}
+  {% endcase %}
+
+  <span class="{{ class_label }}">{{- icon.settings.icon_text | escape -}}</span>
+</a>

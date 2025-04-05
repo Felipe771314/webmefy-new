@@ -1,0 +1,61 @@
+{% liquid
+  assign desktop_products_per_row = 4
+  assign mobile_products_per_row = 2
+%}
+
+<style>
+  .container--default.wishlist .wishlist__selection {
+      --section-products-per-row: {{ mobile_products_per_row | times: 1 }};
+  }
+
+  @media screen and (min-width: 1200px) {
+      .container--default.wishlist  .wishlist__selection{
+          --section-products-per-row: {{ desktop_products_per_row }};
+      }
+  }
+</style>
+<div class="account account--wishlist account--info-block">
+  <div
+    class="container container--default wishlist"
+  >
+    <div class="page-header page-header--small">
+      <div class="page-header__text-wrapper text-container">
+        <h1 class="heading h4">
+          {{ 'wishlist.title' | t }}
+        </h1>
+      </div>
+    </div>
+    <div class="wishlist__header-actions">
+      <button
+        id="ClearWishlist"
+        is="clear-wishlist"
+        class="wishlist__clear-button link"
+      >
+        {% render 'icon' with 'trash-can' %}
+        <span>{{ 'wishlist.clear_list' | t }}</span>
+      </button>
+    </div>
+    <wishlist-selection
+      desktop-products-per-row="{{ settings.desktop_products_per_row }}"
+      mobile-products-per-row="{{ settings.mobile_products_per_row }}"
+      class="wishlist__selection"
+    >
+      <div class="spinner">
+        <svg focusable="false" width="24" height="24" class="icon icon--spinner" viewBox="25 25 50 50">
+          <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="5"></circle>
+        </svg>
+      </div>
+      <template class="empty-wishlist">
+        <div class="wishlist__empty-selection">
+          <p>{{ 'wishlist.empty_list' | t }}</p>
+
+          <div class="button-wrapper">
+            <a href="{{ settings.empty_button_link }}" class="button button--primary">
+              {{- 'cart.general.start_shopping' | t -}}
+            </a>
+          </div>
+        </div>
+      </template>
+    </wishlist-selection>
+  </div>
+</div>
