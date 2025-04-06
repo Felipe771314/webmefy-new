@@ -96,323 +96,89 @@
 │       │   ├── Caroussel.tsx
 │       │   ├── placeHolder.webp
 │       │   └── test
-│       ├── Navbar
-│       │   ├── Navbar.module.scss
-│       │   ├── Navbar.stories.tsx
-│       │   ├── Navbar.tsx
-│       │   └── test
-│       ├── UannouncementUbar
-│       │   ├── UannouncementUbar.mock.ts
-│       │   ├── UannouncementUbar.module.scss
-│       │   ├── UannouncementUbar.stories.tsx
-│       │   ├── UannouncementUbar.tsx
-│       │   └── test
-│       ├── Uapps
-│       │   ├── Uapps.mock.ts
-│       │   ├── Uapps.module.scss
-│       │   ├── Uapps.stories.tsx
-│       │   ├── Uapps.tsx
-│       │   └── test
-│       ├── UbulkUquickUorderUlist
-│       │   ├── UbulkUquickUorderUlist.mock.ts
-│       │   ├── UbulkUquickUorderUlist.module.scss
-│       │   ├── UbulkUquickUorderUlist.stories.tsx
-│       │   ├── UbulkUquickUorderUlist.tsx
-│       │   └── test
-│       ├── UcartUdrawer
-│       │   ├── UcartUdrawer.mock.ts
-│       │   ├── UcartUdrawer.module.scss
-│       │   ├── UcartUdrawer.stories.tsx
-│       │   ├── UcartUdrawer.tsx
-│       │   └── test
-│       ├── UcartUiconUbubble
-│       │   ├── UcartUiconUbubble.mock.ts
-│       │   ├── UcartUiconUbubble.module.scss
-│       │   ├── UcartUiconUbubble.stories.tsx
-│       │   ├── UcartUiconUbubble.tsx
-│       │   └── test
-│       ├── UcartUliveUregionUtext
-│       │   ├── UcartUliveUregionUtext.mock.ts
-│       │   ├── UcartUliveUregionUtext.module.scss
-│       │   ├── UcartUliveUregionUtext.stories.tsx
-│       │   ├── UcartUliveUregionUtext.tsx
-│       │   └── test
-│       ├── UcartUnotificationUbutton
-│       │   ├── UcartUnotificationUbutton.mock.ts
-│       │   ├── UcartUnotificationUbutton.module.scss
-│       │   ├── UcartUnotificationUbutton.stories.tsx
-│       │   ├── UcartUnotificationUbutton.tsx
-│       │   └── test
-│       ├── UcartUnotificationUproduct
-│       │   ├── UcartUnotificationUproduct.mock.ts
-│       │   ├── UcartUnotificationUproduct.module.scss
-│       │   ├── UcartUnotificationUproduct.stories.tsx
-│       │   ├── UcartUnotificationUproduct.tsx
-│       │   └── test
-│       ├── Ucollage
-│       │   ├── Ucollage.mock.ts
-│       │   ├── Ucollage.module.scss
-│       │   ├── Ucollage.stories.tsx
-│       │   ├── Ucollage.tsx
-│       │   └── test
-│       ├── UcollapsibleUcontent
-│       │   ├── UcollapsibleUcontent.mock.ts
-│       │   ├── UcollapsibleUcontent.module.scss
-│       │   ├── UcollapsibleUcontent.stories.tsx
-│       │   ├── UcollapsibleUcontent.tsx
-│       │   └── test
-│       ├── UcollectionUlist
-│       │   ├── UcollectionUlist.mock.ts
-│       │   ├── UcollectionUlist.module.scss
-│       │   ├── UcollectionUlist.stories.tsx
-│       │   ├── UcollectionUlist.tsx
-│       │   └── test
-│       ├── UcontactUform
-│       │   ├── UcontactUform.mock.ts
-│       │   ├── UcontactUform.module.scss
-│       │   ├── UcontactUform.stories.tsx
-│       │   ├── UcontactUform.tsx
-│       │   └── test
-│       ├── UcustomUliquid
-│       │   ├── UcustomUliquid.mock.ts
-│       │   ├── UcustomUliquid.module.scss
-│       │   ├── UcustomUliquid.stories.tsx
-│       │   ├── UcustomUliquid.tsx
-│       │   └── test
-│       ├── UemailUsignupUbanner
-│       │   ├── UemailUsignupUbanner.mock.ts
-│       │   ├── UemailUsignupUbanner.module.scss
-│       │   ├── UemailUsignupUbanner.stories.tsx
-│       │   ├── UemailUsignupUbanner.tsx
-│       │   └── test
-│       ├── UfeaturedUblog
-│       │   ├── UfeaturedUblog.mock.ts
-│       │   ├── UfeaturedUblog.module.scss
-│       │   ├── UfeaturedUblog.stories.tsx
-│       │   ├── UfeaturedUblog.tsx
-│       │   └── test
-│       ├── UfeaturedUcollection
-│       │   ├── UfeaturedUcollection.mock.ts
-│       │   ├── UfeaturedUcollection.module.scss
-│       │   ├── UfeaturedUcollection.stories.tsx
-│       │   ├── UfeaturedUcollection.tsx
-│       │   └── test
-│       ├── UfeaturedUproduct
-│       │   ├── UfeaturedUproduct.mock.ts
-│       │   ├── UfeaturedUproduct.module.scss
-│       │   ├── UfeaturedUproduct.stories.tsx
-│       │   ├── UfeaturedUproduct.tsx
-│       │   └── test
-│       ├── Ufooter
-│       │   ├── Ufooter.mock.ts
-│       │   ├── Ufooter.module.scss
-│       │   ├── Ufooter.stories.tsx
-│       │   ├── Ufooter.tsx
-│       │   └── test
-│       ├── Uheader
-│       │   ├── Uheader.mock.ts
-│       │   ├── Uheader.module.scss
-│       │   ├── Uheader.stories.tsx
-│       │   ├── Uheader.tsx
-│       │   └── test
-│       ├── UimageUbanner
-│       │   ├── UimageUbanner.mock.ts
-│       │   ├── UimageUbanner.module.scss
-│       │   ├── UimageUbanner.stories.tsx
-│       │   ├── UimageUbanner.tsx
-│       │   └── test
-│       ├── UimageUwithUtext
-│       │   ├── UimageUwithUtext.mock.ts
-│       │   ├── UimageUwithUtext.module.scss
-│       │   ├── UimageUwithUtext.stories.tsx
-│       │   ├── UimageUwithUtext.tsx
-│       │   └── test
-│       ├── Umain-404
-│       │   ├── Umain-404.mock.ts
-│       │   ├── Umain-404.module.scss
-│       │   ├── Umain-404.stories.tsx
-│       │   ├── Umain-404.tsx
-│       │   └── test
-│       ├── UmainUaccount
-│       │   ├── UmainUaccount.mock.ts
-│       │   ├── UmainUaccount.module.scss
-│       │   ├── UmainUaccount.stories.tsx
-│       │   ├── UmainUaccount.tsx
-│       │   └── test
-│       ├── UmainUactivateUaccount
-│       │   ├── UmainUactivateUaccount.mock.ts
-│       │   ├── UmainUactivateUaccount.module.scss
-│       │   ├── UmainUactivateUaccount.stories.tsx
-│       │   ├── UmainUactivateUaccount.tsx
-│       │   └── test
-│       ├── UmainUaddresses
-│       │   ├── UmainUaddresses.mock.ts
-│       │   ├── UmainUaddresses.module.scss
-│       │   ├── UmainUaddresses.stories.tsx
-│       │   ├── UmainUaddresses.tsx
-│       │   └── test
-│       ├── UmainUarticle
-│       │   ├── UmainUarticle.mock.ts
-│       │   ├── UmainUarticle.module.scss
-│       │   ├── UmainUarticle.stories.tsx
-│       │   ├── UmainUarticle.tsx
-│       │   └── test
-│       ├── UmainUblog
-│       │   ├── UmainUblog.mock.ts
-│       │   ├── UmainUblog.module.scss
-│       │   ├── UmainUblog.stories.tsx
-│       │   ├── UmainUblog.tsx
-│       │   └── test
-│       ├── UmainUcartUfooter
-│       │   ├── UmainUcartUfooter.mock.ts
-│       │   ├── UmainUcartUfooter.module.scss
-│       │   ├── UmainUcartUfooter.stories.tsx
-│       │   ├── UmainUcartUfooter.tsx
-│       │   └── test
-│       ├── UmainUcartUitems
-│       │   ├── UmainUcartUitems.mock.ts
-│       │   ├── UmainUcartUitems.module.scss
-│       │   ├── UmainUcartUitems.stories.tsx
-│       │   ├── UmainUcartUitems.tsx
-│       │   └── test
-│       ├── UmainUcollectionUbanner
-│       │   ├── UmainUcollectionUbanner.mock.ts
-│       │   ├── UmainUcollectionUbanner.module.scss
-│       │   ├── UmainUcollectionUbanner.stories.tsx
-│       │   ├── UmainUcollectionUbanner.tsx
-│       │   └── test
-│       ├── UmainUcollectionUproductUgrid
-│       │   ├── UmainUcollectionUproductUgrid.mock.ts
-│       │   ├── UmainUcollectionUproductUgrid.module.scss
-│       │   ├── UmainUcollectionUproductUgrid.stories.tsx
-│       │   ├── UmainUcollectionUproductUgrid.tsx
-│       │   └── test
-│       ├── UmainUlistUcollections
-│       │   ├── UmainUlistUcollections.mock.ts
-│       │   ├── UmainUlistUcollections.module.scss
-│       │   ├── UmainUlistUcollections.stories.tsx
-│       │   ├── UmainUlistUcollections.tsx
-│       │   └── test
-│       ├── UmainUlogin
-│       │   ├── UmainUlogin.mock.ts
-│       │   ├── UmainUlogin.module.scss
-│       │   ├── UmainUlogin.stories.tsx
-│       │   ├── UmainUlogin.tsx
-│       │   └── test
-│       ├── UmainUorder
-│       │   ├── UmainUorder.mock.ts
-│       │   ├── UmainUorder.module.scss
-│       │   ├── UmainUorder.stories.tsx
-│       │   ├── UmainUorder.tsx
-│       │   └── test
-│       ├── UmainUpage
-│       │   ├── UmainUpage.mock.ts
-│       │   ├── UmainUpage.module.scss
-│       │   ├── UmainUpage.stories.tsx
-│       │   ├── UmainUpage.tsx
-│       │   └── test
-│       ├── UmainUpasswordUfooter
-│       │   ├── UmainUpasswordUfooter.mock.ts
-│       │   ├── UmainUpasswordUfooter.module.scss
-│       │   ├── UmainUpasswordUfooter.stories.tsx
-│       │   ├── UmainUpasswordUfooter.tsx
-│       │   └── test
-│       ├── UmainUpasswordUheader
-│       │   ├── UmainUpasswordUheader.mock.ts
-│       │   ├── UmainUpasswordUheader.module.scss
-│       │   ├── UmainUpasswordUheader.stories.tsx
-│       │   ├── UmainUpasswordUheader.tsx
-│       │   └── test
-│       ├── UmainUproduct
-│       │   ├── UmainUproduct.mock.ts
-│       │   ├── UmainUproduct.module.scss
-│       │   ├── UmainUproduct.stories.tsx
-│       │   ├── UmainUproduct.tsx
-│       │   └── test
-│       ├── UmainUregister
-│       │   ├── UmainUregister.mock.ts
-│       │   ├── UmainUregister.module.scss
-│       │   ├── UmainUregister.stories.tsx
-│       │   ├── UmainUregister.tsx
-│       │   └── test
-│       ├── UmainUresetUpassword
-│       │   ├── UmainUresetUpassword.mock.ts
-│       │   ├── UmainUresetUpassword.module.scss
-│       │   ├── UmainUresetUpassword.stories.tsx
-│       │   ├── UmainUresetUpassword.tsx
-│       │   └── test
-│       ├── UmainUsearch
-│       │   ├── UmainUsearch.mock.ts
-│       │   ├── UmainUsearch.module.scss
-│       │   ├── UmainUsearch.stories.tsx
-│       │   ├── UmainUsearch.tsx
-│       │   └── test
-│       ├── Umulticolumn
-│       │   ├── Umulticolumn.mock.ts
-│       │   ├── Umulticolumn.module.scss
-│       │   ├── Umulticolumn.stories.tsx
-│       │   ├── Umulticolumn.tsx
-│       │   └── test
-│       ├── Umultirow
-│       │   ├── Umultirow.mock.ts
-│       │   ├── Umultirow.module.scss
-│       │   ├── Umultirow.stories.tsx
-│       │   ├── Umultirow.tsx
-│       │   └── test
-│       ├── Unewsletter
-│       │   ├── Unewsletter.mock.ts
-│       │   ├── Unewsletter.module.scss
-│       │   ├── Unewsletter.stories.tsx
-│       │   ├── Unewsletter.tsx
-│       │   └── test
-│       ├── Upage
-│       │   ├── Upage.mock.ts
-│       │   ├── Upage.module.scss
-│       │   ├── Upage.stories.tsx
-│       │   ├── Upage.tsx
-│       │   └── test
-│       ├── UpickupUavailability
-│       │   ├── UpickupUavailability.mock.ts
-│       │   ├── UpickupUavailability.module.scss
-│       │   ├── UpickupUavailability.stories.tsx
-│       │   ├── UpickupUavailability.tsx
-│       │   └── test
-│       ├── UpredictiveUsearch
-│       │   ├── UpredictiveUsearch.mock.ts
-│       │   ├── UpredictiveUsearch.module.scss
-│       │   ├── UpredictiveUsearch.stories.tsx
-│       │   ├── UpredictiveUsearch.tsx
-│       │   └── test
-│       ├── UquickUorderUlist
-│       │   ├── UquickUorderUlist.mock.ts
-│       │   ├── UquickUorderUlist.module.scss
-│       │   ├── UquickUorderUlist.stories.tsx
-│       │   ├── UquickUorderUlist.tsx
-│       │   └── test
-│       ├── UrelatedUproducts
-│       │   ├── UrelatedUproducts.mock.ts
-│       │   ├── UrelatedUproducts.module.scss
-│       │   ├── UrelatedUproducts.stories.tsx
-│       │   ├── UrelatedUproducts.tsx
-│       │   └── test
-│       ├── UrichUtext
-│       │   ├── UrichUtext.mock.ts
-│       │   ├── UrichUtext.module.scss
-│       │   ├── UrichUtext.stories.tsx
-│       │   ├── UrichUtext.tsx
-│       │   └── test
-│       ├── Uslideshow
-│       │   ├── Uslideshow.mock.ts
-│       │   ├── Uslideshow.module.scss
-│       │   ├── Uslideshow.stories.tsx
-│       │   ├── Uslideshow.tsx
-│       │   └── test
-│       └── Uvideo
-│           ├── Uvideo.mock.ts
-│           ├── Uvideo.module.scss
-│           ├── Uvideo.stories.tsx
-│           ├── Uvideo.tsx
+│       └── Navbar
+│           ├── Navbar.module.scss
+│           ├── Navbar.stories.tsx
+│           ├── Navbar.tsx
 │           └── test
+├── coverage
+│   ├── coverage-final.json
+│   ├── coverage-summary.json
+│   ├── lcov-report
+│   │   ├── atoms
+│   │   │   ├── Badge
+│   │   │   ├── Button
+│   │   │   ├── Checkbox
+│   │   │   ├── Spinner
+│   │   │   └── TextInput
+│   │   ├── base.css
+│   │   ├── block-navigation.js
+│   │   ├── favicon.png
+│   │   ├── index.html
+│   │   ├── molecules
+│   │   │   ├── AlertMessage
+│   │   │   ├── Card
+│   │   │   ├── FormInputGroup
+│   │   │   └── ModalDialog
+│   │   ├── organisms
+│   │   │   ├── Caroussel
+│   │   │   ├── Navbar
+│   │   │   ├── UannouncementUbar
+│   │   │   ├── Uapps
+│   │   │   ├── UbulkUquickUorderUlist
+│   │   │   ├── UcartUdrawer
+│   │   │   ├── UcartUiconUbubble
+│   │   │   ├── UcartUliveUregionUtext
+│   │   │   ├── UcartUnotificationUbutton
+│   │   │   ├── UcartUnotificationUproduct
+│   │   │   ├── Ucollage
+│   │   │   ├── UcollapsibleUcontent
+│   │   │   ├── UcollectionUlist
+│   │   │   ├── UcontactUform
+│   │   │   ├── UcustomUliquid
+│   │   │   ├── UemailUsignupUbanner
+│   │   │   ├── UfeaturedUblog
+│   │   │   ├── UfeaturedUcollection
+│   │   │   ├── UfeaturedUproduct
+│   │   │   ├── Ufooter
+│   │   │   ├── Uheader
+│   │   │   ├── UimageUbanner
+│   │   │   ├── UimageUwithUtext
+│   │   │   ├── UmainUaccount
+│   │   │   ├── UmainUactivateUaccount
+│   │   │   ├── UmainUaddresses
+│   │   │   ├── UmainUarticle
+│   │   │   ├── UmainUblog
+│   │   │   ├── UmainUcartUfooter
+│   │   │   ├── UmainUcartUitems
+│   │   │   ├── UmainUcollectionUbanner
+│   │   │   ├── UmainUcollectionUproductUgrid
+│   │   │   ├── UmainUlistUcollections
+│   │   │   ├── UmainUlogin
+│   │   │   ├── UmainUorder
+│   │   │   ├── UmainUpage
+│   │   │   ├── UmainUpasswordUfooter
+│   │   │   ├── UmainUpasswordUheader
+│   │   │   ├── UmainUproduct
+│   │   │   ├── UmainUregister
+│   │   │   ├── UmainUresetUpassword
+│   │   │   ├── UmainUsearch
+│   │   │   ├── Umulticolumn
+│   │   │   ├── Umultirow
+│   │   │   ├── Unewsletter
+│   │   │   ├── Upage
+│   │   │   ├── UpickupUavailability
+│   │   │   ├── UpredictiveUsearch
+│   │   │   ├── UquickUorderUlist
+│   │   │   ├── UrelatedUproducts
+│   │   │   ├── UrichUtext
+│   │   │   ├── Uslideshow
+│   │   │   └── Uvideo
+│   │   ├── prettify.css
+│   │   ├── prettify.js
+│   │   ├── sort-arrow-sprite.png
+│   │   └── sorter.js
+│   └── lcov.info
 ├── docker-compose.yml
 ├── estructura-proyecto.txt
 ├── estructura-simple.txt
@@ -439,6 +205,7 @@
 │   ├── next.svg
 │   ├── vercel.svg
 │   └── window.svg
+├── publish-shopify-theme.sh
 ├── reorganize-project.sh
 ├── reset-to-dawn.sh
 ├── scripts
@@ -1043,4 +810,4 @@
 ├── sync-sections-to-components.sh
 └── tsconfig.json
 
-169 directories, 875 files
+132 directories, 679 files
