@@ -1,4 +1,3 @@
-
 {{ 'caroussel.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
@@ -21,9 +20,9 @@
 
 {% schema %}
 {
-  "name": "Caroussel",
-  "class": "section-caroussel",
+  "name": " Caroussel",
   "tag": "section",
+  "class": "section-caroussel",
   "settings": [
     {
       "type": "text",
@@ -34,13 +33,13 @@
     {
       "type": "checkbox",
       "id": "autoPlay",
-      "label": "AutoPlay",
+      "label": "Auto Play",
       "default": ""
     },
     {
       "type": "checkbox",
       "id": "showArrows",
-      "label": "ShowArrows",
+      "label": "Show Arrows",
       "default": ""
     },
     {
@@ -52,25 +51,25 @@
     {
       "type": "text",
       "id": "transitionType",
-      "label": "TransitionType",
+      "label": "Transition Type",
       "default": ""
     },
     {
       "type": "text",
       "id": "itemStyle",
-      "label": "ItemStyle",
+      "label": "Item Style",
       "default": ""
     },
     {
       "type": "text",
       "id": "containerStyle",
-      "label": "ContainerStyle",
+      "label": "Container Style",
       "default": ""
     },
     {
       "type": "text",
       "id": "arrowsPosition",
-      "label": "ArrowsPosition",
+      "label": "Arrows Position",
       "default": ""
     }
   ],
@@ -82,30 +81,22 @@
         {
           "type": "text",
           "id": "value",
-          "label": "Value"
+          "label": "Value",
+          "default": ""
         }
       ]
     }
   ],
   "presets": [
-  {
-    "name": "Caroussel",
-    "category": "Custom",
-    "blocks": [
-      {
-        "type": "items",
-        "settings": {
-          "value": "Item 1"
+    {
+      "name": " Caroussel",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "items"
         }
-      },
-      {
-        "type": "items",
-        "settings": {
-          "value": "Item 2"
-        }
-      }
-    ]
-  }
-]
+      ]
+    }
+  ]
 }
 {% endschema %}

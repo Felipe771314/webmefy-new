@@ -1,8 +1,9 @@
+// generate-shopify-schema.js
 const fs = require('fs');
 const path = require('path');
 const { Project } = require('ts-morph');
 
-// Shopify Types
+// Mapea tipos TypeScript a campos de Shopify
 function mapTsTypeToShopifyType(tsType) {
   if (tsType.includes('boolean')) return 'checkbox';
   if (tsType.includes('number')) return 'number';
@@ -10,7 +11,12 @@ function mapTsTypeToShopifyType(tsType) {
   return 'text';
 }
 
-// Detecta props
+// Convierte nombres a formato legible para Shopify
+function formatLabel(str) {
+  return str.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+}
+
+// Extrae props desde archivo .tsx
 function parsePropsFromFile(tsxPath, interfaceName) {
   const project = new Project();
   const sourceFile = project.addSourceFileAtPath(tsxPath);
@@ -27,57 +33,58 @@ function parsePropsFromFile(tsxPath, interfaceName) {
   });
 }
 
-// Mapea props a schema de Shopify
+// Crea el schema Shopify a partir de props
 function mapPropsToShopifySchema(componentName, props) {
   const settings = [];
   const blocks = [];
 
   props.forEach((prop) => {
+    const label = formatLabel(prop.name);
     if (prop.shopifyType === 'blockArray') {
       blocks.push({
         type: prop.name,
-        name: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
+        name: label,
         settings: [
           {
             type: 'text',
             id: 'value',
             label: 'Value',
-          },
-        ],
+            default: ''
+          }
+        ]
       });
     } else {
       settings.push({
         type: prop.shopifyType,
         id: prop.name,
-        label: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
-        default: '',
+        label,
+        default: ''
       });
     }
   });
 
   return {
-    name: componentName,
-    class: `section-${componentName.toLowerCase()}`,
+    name: formatLabel(componentName),
     tag: 'section',
+    class: `section-${componentName.toLowerCase()}`,
     settings,
     blocks,
     presets: [
       {
-        name: componentName,
+        name: formatLabel(componentName),
         category: 'Custom',
-        blocks: blocks.map((b) => ({ type: b.type })),
-      },
-    ],
+        blocks: blocks.map((b) => ({ type: b.type }))
+      }
+    ]
   };
 }
 
-// Estructura Liquid con SCSS, lógica y loop
+// Crea el contenido del archivo .liquid
 function createLiquidFile(componentName, schemaObj, isSection) {
   const lower = componentName.toLowerCase();
   const scssAsset = `${lower}.scss`;
 
-  const conditionalCSS = `
-{{ '${scssAsset}' | asset_url | stylesheet_tag }}`;
+  const cssInclude = `{{ '${scssAsset}' | asset_url | stylesheet_tag }}`;
 
   const blockLoop = schemaObj.blocks.length > 0
     ? `
@@ -93,7 +100,7 @@ function createLiquidFile(componentName, schemaObj, isSection) {
 }
 {%- endstyle -%}`;
 
-  const logicLiquid = `
+  const logic = `
 {%- liquid
   assign title = section.settings.title
 -%}`;
@@ -109,54 +116,61 @@ function createLiquidFile(componentName, schemaObj, isSection) {
 ${JSON.stringify(schemaObj, null, 2)}
 {% endschema %}`;
 
-  return `${conditionalCSS}
+  return `${cssInclude}
 ${styleBlock}
-${logicLiquid}
+${logic}
 ${html}
 ${schema}`;
 }
 
-// Genera archivos de componente
-function generateComponentFiles(category, name, props) {
+// Crea los archivos físicos del componente
+function generateComponentFiles(category, componentName, props) {
   const isSection = category !== 'atoms';
   const folder = isSection ? 'sections' : 'snippets';
-  const lower = name.toLowerCase();
+  const lower = componentName.toLowerCase();
 
-  const schema = mapPropsToShopifySchema(name, props);
-  const liquid = createLiquidFile(name, schema, isSection);
+  const schema = mapPropsToShopifySchema(componentName, props);
+  const liquid = createLiquidFile(componentName, schema, isSection);
 
   const liquidPath = path.resolve(__dirname, `../${folder}/${lower}.liquid`);
   const scssPath = path.resolve(__dirname, `../assets/${lower}.scss`);
-  const sourceScss = path.resolve(__dirname, `../components/${category}/${name}/${name}.module.scss`);
+  const sourceScss = path.resolve(__dirname, `../components/${category}/${componentName}/${componentName}.module.scss`);
 
   fs.writeFileSync(liquidPath, liquid, 'utf8');
 
   if (!fs.existsSync(scssPath)) {
     const fallbackStyle = fs.existsSync(sourceScss)
       ? fs.readFileSync(sourceScss, 'utf8')
-      : `.${lower} { }\n`;
+      : `.${lower} {
+  // styles for ${componentName}
+}
+`;
     fs.writeFileSync(scssPath, fallbackStyle, 'utf8');
   }
 
-  console.log(`✅ ${name} generado como ${folder}`);
+  console.log(`✅ ${componentName} generado correctamente en ${folder}/`);
 }
 
-// Procesa componentes
+// Procesa cada categoría
 function processCategory(categoryDir) {
   const category = path.basename(categoryDir);
-  const components = fs
-    .readdirSync(categoryDir)
-    .filter((f) => fs.lstatSync(path.join(categoryDir, f)).isDirectory());
+  const components = fs.readdirSync(categoryDir).filter(f =>
+    fs.lstatSync(path.join(categoryDir, f)).isDirectory()
+  );
 
-  components.forEach((name) => {
-    const tsxPath = path.join(categoryDir, name, `${name}.tsx`);
-    const interfaceName = `${name}Props`;
+  components.forEach((componentName) => {
+    const tsxPath = path.join(categoryDir, componentName, `${componentName}.tsx`);
+    const interfaceName = `${componentName}Props`;
 
     if (fs.existsSync(tsxPath)) {
-      const props = parsePropsFromFile(tsxPath, interfaceName);
-      generateComponentFiles(category, name, props);
+      try {
+        const props = parsePropsFromFile(tsxPath, interfaceName);
+        generateComponentFiles(category, componentName, props);
+      } catch (err) {
+        console.error(`❌ Error en ${componentName}:`, err.message);
+      }
     } else {
-      console.warn(`⚠️ No se encontró archivo TSX para ${name}`);
+      console.warn(`⚠️ No se encontró archivo: ${tsxPath}`);
     }
   });
 }
