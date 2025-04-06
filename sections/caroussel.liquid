@@ -19,84 +19,85 @@
 </div>
 
 {% schema %}
-{
-  "name": "Caroussel",
-  "tag": "section",
-  "class": "section-caroussel",
-  "settings": [
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": ""
-    },
-    {
-      "type": "checkbox",
-      "id": "autoPlay",
-      "label": "Auto Play",
-      "default": ""
-    },
-    {
-      "type": "checkbox",
-      "id": "showArrows",
-      "label": "Show Arrows",
-      "default": ""
-    },
-    {
-      "type": "checkbox",
-      "id": "loop",
-      "label": "Loop",
-      "default": ""
-    },
-    {
-      "type": "text",
-      "id": "transitionType",
-      "label": "Transition Type",
-      "default": ""
-    },
-    {
-      "type": "text",
-      "id": "itemStyle",
-      "label": "Item Style",
-      "default": ""
-    },
-    {
-      "type": "text",
-      "id": "containerStyle",
-      "label": "Container Style",
-      "default": ""
-    },
-    {
-      "type": "text",
-      "id": "arrowsPosition",
-      "label": "Arrows Position",
-      "default": ""
-    }
-  ],
-  "blocks": [
-    {
-      "type": "items",
-      "name": "Items",
-      "settings": [
-        {
-          "type": "text",
-          "id": "value",
-          "label": "Value",
-          "default": ""
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Caroussel",
-      "category": "Custom",
-      "blocks": [
-        {
-          "type": "items"
-        }
-      ]
-    }
-  ]
-}
-{% endschema %}
+  {
+    "name": "Caroussel",
+    "tag": "section",
+    "class": "section-caroussel",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Título del carrusel"
+      },
+      {
+        "type": "checkbox",
+        "id": "autoPlay",
+        "label": "Auto Play",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "showArrows",
+        "label": "Show Arrows",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "loop",
+        "label": "Loop",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "transitionType",
+        "label": "Transition Type",
+        "default": "fade"
+      },
+      {
+        "type": "text",
+        "id": "itemStyle",
+        "label": "Item Style",
+        "default": "style-1"
+      },
+      {
+        "type": "text",
+        "id": "containerStyle",
+        "label": "Container Style",
+        "default": "container-fluid"
+      },
+      {
+        "type": "text",
+        "id": "arrowsPosition",
+        "label": "Arrows Position",
+        "default": "left"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "items",
+        "name": "Items",
+        "settings": [
+          {
+            "type": "text",
+            "id": "value",
+            "label": "Value",
+            "default": "Slide 1"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Caroussel",
+        "category": "Custom",
+        "blocks": [
+          {
+            "type": "items"
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+  
