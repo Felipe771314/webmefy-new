@@ -1,0 +1,61 @@
+{
+  "type": "footer",
+  "name": "Footer Group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "97a52c1a-bb20-4917-a2e5-a2d52461a8b0": {
+          "type": "social_media",
+          "settings": {
+            "title": "Nous suivre",
+            "content": ""
+          }
+        },
+        "06fd0e8b-6c81-490c-b8e4-b4c2205521bc": {
+          "type": "text",
+          "settings": {
+            "title": "Accès rapide",
+            "content": "<p><a href=\"/pages/page-demo-studio\" title=\"Page demo studio\">Demo studio</a></p><p><a href=\"/pages/look-book-galerie\" title=\"Look Book - Galerie\">Look Book</a></p><p><a href=\"/pages/demo-promotion-block\" title=\"Démo Promotion Block\">Démo Promotion Block</a></p>"
+          }
+        },
+        "dad1ca23-8ee5-4d8a-be1e-10afe0935c3c": {
+          "type": "newsletter",
+          "settings": {
+            "title": "Newsletter",
+            "content": "<p>Pour ne rien manquer de notre actualité et profiter de nos promotions exclusives.</p>"
+          }
+        },
+        "6470f798-f80e-400e-9345-31755075c46a": {
+          "type": "cookies",
+          "settings": {
+            "cookie_label": "Gérer les cookies"
+          }
+        },
+        "891c58d1-16a9-4837-9d95-9c7f5d7943f1": {
+          "type": "text",
+          "settings": {
+            "title": "About our store",
+            "content": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme editor.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "97a52c1a-bb20-4917-a2e5-a2d52461a8b0",
+        "06fd0e8b-6c81-490c-b8e4-b4c2205521bc",
+        "dad1ca23-8ee5-4d8a-be1e-10afe0935c3c",
+        "6470f798-f80e-400e-9345-31755075c46a",
+        "891c58d1-16a9-4837-9d95-9c7f5d7943f1"
+      ],
+      "settings": {
+        "menu_tab_toggle": true,
+        "tabs_behaviour": "none_open",
+        "show_payment_icons": true,
+        "show_country_selector": false,
+        "show_locale_selector": false,
+        "legal_mentions": ""
+      }
+    }
+  },
+  "order": ["footer"]
+}
