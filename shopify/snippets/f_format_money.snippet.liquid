@@ -1,6 +1,0 @@
-{% assign price = price | default: f_format_money %}
-{%- if settings.money_without_trailing_zeros -%}
-  {{- price | money_without_trailing_zeros -}}
-{%- else -%}
-  {{- price | money -}}
-{%- endif -%}

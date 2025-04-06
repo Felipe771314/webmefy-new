@@ -1,1 +1,0 @@
-import './components/contentsquare-catcher';

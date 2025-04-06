@@ -1,9 +1,0 @@
-{%- capture content -%}
-  {%- if section.settings.liquid != blank -%}
-    <div class="liquid">
-      {{- section.settings.liquid -}}
-    </div>
-  {%- endif -%}
-{%- endcapture -%}
-
-{% render 'section-layout', content: content %}

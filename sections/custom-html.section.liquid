@@ -1,9 +1,0 @@
-{%- capture content -%}
-  {%- if section.settings.html != blank -%}
-    <div class="html">
-      {{- section.settings.html -}}
-    </div>
-  {%- endif -%}
-{%- endcapture -%}
-
-{% render 'section-layout', content: content %}

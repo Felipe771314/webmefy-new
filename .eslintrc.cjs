@@ -39,6 +39,7 @@ const config = {
       files: ['**/*.stories.{js,jsx,ts,tsx}'],
       rules: {
         '@typescript-eslint/no-unused-vars': 'off',
+         "@typescript-eslint/no-empty-object-type": "off"
       },
     },
     // Desactiva el uso de require() en archivos que usan CommonJS
