@@ -1,4 +1,6 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# -------------------------------------
+# EXISTENTES (tu configuración original)
+# -------------------------------------
 
 # dependencies
 /node_modules
@@ -39,3 +41,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# -------------------------------------
+# NUEVO: Ignorar TODO lo que no sea Shopify (solo si lo necesitás)
+# -------------------------------------
+# OJO: Solo usar si querés que Git ignore todo menos lo que se deployea a Shopify
+
+# Ignorar todo excepto carpetas Shopify (opcional si usás deploy con .shopifyignore)
+!/assets/
+!/config/
+!/layout/
+!/locales/
+!/sections/
+!/snippets/
+!/templates/

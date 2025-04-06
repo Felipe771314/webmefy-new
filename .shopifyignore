@@ -1,0 +1,19 @@
+# Ignora todo por defecto
+*
+
+# Incluye sólo carpetas necesarias
+!/assets/
+!/config/
+!/layout/
+!/locales/
+!/sections/
+!/snippets/
+!/templates/
+
+# Ignora algunos archivos comunes innecesarios
+*.log
+*.DS_Store
+node_modules/
+.next/
+dist/
+build/

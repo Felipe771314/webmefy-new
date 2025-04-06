@@ -122,58 +122,7 @@
 │   │   │   └── ModalDialog
 │   │   ├── organisms
 │   │   │   ├── Caroussel
-│   │   │   ├── Navbar
-│   │   │   ├── UannouncementUbar
-│   │   │   ├── Uapps
-│   │   │   ├── UbulkUquickUorderUlist
-│   │   │   ├── UcartUdrawer
-│   │   │   ├── UcartUiconUbubble
-│   │   │   ├── UcartUliveUregionUtext
-│   │   │   ├── UcartUnotificationUbutton
-│   │   │   ├── UcartUnotificationUproduct
-│   │   │   ├── Ucollage
-│   │   │   ├── UcollapsibleUcontent
-│   │   │   ├── UcollectionUlist
-│   │   │   ├── UcontactUform
-│   │   │   ├── UcustomUliquid
-│   │   │   ├── UemailUsignupUbanner
-│   │   │   ├── UfeaturedUblog
-│   │   │   ├── UfeaturedUcollection
-│   │   │   ├── UfeaturedUproduct
-│   │   │   ├── Ufooter
-│   │   │   ├── Uheader
-│   │   │   ├── UimageUbanner
-│   │   │   ├── UimageUwithUtext
-│   │   │   ├── UmainUaccount
-│   │   │   ├── UmainUactivateUaccount
-│   │   │   ├── UmainUaddresses
-│   │   │   ├── UmainUarticle
-│   │   │   ├── UmainUblog
-│   │   │   ├── UmainUcartUfooter
-│   │   │   ├── UmainUcartUitems
-│   │   │   ├── UmainUcollectionUbanner
-│   │   │   ├── UmainUcollectionUproductUgrid
-│   │   │   ├── UmainUlistUcollections
-│   │   │   ├── UmainUlogin
-│   │   │   ├── UmainUorder
-│   │   │   ├── UmainUpage
-│   │   │   ├── UmainUpasswordUfooter
-│   │   │   ├── UmainUpasswordUheader
-│   │   │   ├── UmainUproduct
-│   │   │   ├── UmainUregister
-│   │   │   ├── UmainUresetUpassword
-│   │   │   ├── UmainUsearch
-│   │   │   ├── Umulticolumn
-│   │   │   ├── Umultirow
-│   │   │   ├── Unewsletter
-│   │   │   ├── Upage
-│   │   │   ├── UpickupUavailability
-│   │   │   ├── UpredictiveUsearch
-│   │   │   ├── UquickUorderUlist
-│   │   │   ├── UrelatedUproducts
-│   │   │   ├── UrichUtext
-│   │   │   ├── Uslideshow
-│   │   │   └── Uvideo
+│   │   │   └── Navbar
 │   │   ├── prettify.css
 │   │   ├── prettify.js
 │   │   ├── sort-arrow-sprite.png
@@ -184,7 +133,6 @@
 ├── estructura-simple.txt
 ├── integrate-dawn.sh
 ├── jest.config.cjs
-├── next-env.d.ts
 ├── next.config.ts
 ├── organize-theme.sh
 ├── package-lock.json
@@ -628,6 +576,7 @@
 │   ├── styles
 │   │   ├── _styles.scss
 │   │   ├── _tokens.scss
+│   │   ├── _variables.scss
 │   │   ├── bootstrap.scss
 │   │   ├── bug-fix.scss
 │   │   ├── components
@@ -765,7 +714,6 @@
 │   │   │   ├── no-js-reveal.scss
 │   │   │   ├── tabbing-management.scss
 │   │   │   └── tap-area.scss
-│   │   ├── variables.scss
 │   │   └── vendors
 │   │       ├── _vendors.scss
 │   │       ├── flickity.scss
@@ -810,4 +758,4 @@
 ├── sync-sections-to-components.sh
 └── tsconfig.json
 
-132 directories, 679 files
+81 directories, 678 files

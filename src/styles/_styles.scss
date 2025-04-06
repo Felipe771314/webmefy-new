@@ -1,12 +1,8 @@
-/**
- * NOTE: most of the CSS variables used are defined in the "css-variables.liquid" snippet file
- */
-@import "mixins/_mixins";
-@import "reset";
-@import "utils/utils";
-@import "vendors/vendors";
-@import "global/global";
-@import "components/components";
-@import "layouts/layouts";
-@import "sections/sections";
-@import "bug-fix";
+// _styles.scss
+@use 'mixins/mixins';
+@use 'reset';
+@use 'utils/utils';
+@use 'vendors/vendors';
+@use 'global/global';
+@use 'layouts/layouts';
+@use 'variables' as *;

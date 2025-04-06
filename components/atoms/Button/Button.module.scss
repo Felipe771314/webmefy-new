@@ -1,5 +1,5 @@
 @use 'sass:map';
-@import '../../../styles/variables.scss'; // Importa el archivo de variables globales
+@use '../../../src/styles/variables' as *;
 
 .button {
   display: inline-flex;

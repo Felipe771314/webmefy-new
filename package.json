@@ -36,9 +36,9 @@
     "shopify:push": "shopify theme push --store=TU_TIENDA --path=shopify",
     "sync:liquid": "node scripts/sync-liquid.cjs",
     "build": "npm run sync:liquid && next build",
-    "text:scaffold":"tree -a -I 'node_modules|.next|.git|dist|build' -L 4 > estructura-proyecto.txt",
+    "text:scaffold": "tree -a -I 'node_modules|.next|.git|dist|build' -L 4 > estructura-proyecto.txt",
     "build:theme": "./sync-sections-to-components.sh",
-  "deploy:shopify": "npm run build:theme && shopify theme push --path shopify-theme"
+    "deploy:shopify": "npm run build:theme && shopify theme push --path shopify-theme"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.15.1",
@@ -73,6 +73,8 @@
     "@chromatic-com/storybook": "^3.2.6",
     "@commitlint/config-conventional": "^19.8.0",
     "@eslint/eslintrc": "^3",
+    "@shopify/cli": "^3.47.0",
+    "@shopify/theme": "^3.58.2",
     "@storybook/addon-docs": "^8.6.7",
     "@storybook/addon-essentials": "^8.6.7",
     "@storybook/addon-interactions": "^8.6.7",
@@ -107,8 +109,8 @@
     "nyc": "^17.1.0",
     "plop": "^4.0.1",
     "prettier": "^2.8.0",
-    "sass": "^1.85.1",
-    "sass-loader": "^16.0.5",
+    "sass": "^1.86.3",
+    "sass-loader": "^13.3.3",
     "serve": "^14.2.4",
     "sonarqube-scanner": "^4.2.8",
     "style-loader": "^4.0.0",
