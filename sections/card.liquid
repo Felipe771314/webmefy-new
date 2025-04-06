@@ -1,14 +1,16 @@
 
-{{ 'card.css' | asset_url | stylesheet_tag }}
+{{ 'card.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .card {
   padding: 20px;
 }
 {%- endstyle -%}
+
 {%- liquid
   assign title = section.settings.title
 -%}
+
 
 <!-- Card -->
 <div class="card section-{{ section.id }}">
@@ -19,6 +21,8 @@
 {% schema %}
 {
   "name": "Card",
+  "class": "section-card",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

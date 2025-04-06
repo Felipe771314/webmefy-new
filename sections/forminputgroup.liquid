@@ -1,14 +1,16 @@
 
-{{ 'forminputgroup.css' | asset_url | stylesheet_tag }}
+{{ 'forminputgroup.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .forminputgroup {
   padding: 20px;
 }
 {%- endstyle -%}
+
 {%- liquid
   assign title = section.settings.title
 -%}
+
 
 <!-- FormInputGroup -->
 <div class="forminputgroup section-{{ section.id }}">
@@ -19,6 +21,8 @@
 {% schema %}
 {
   "name": "FormInputGroup",
+  "class": "section-forminputgroup",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

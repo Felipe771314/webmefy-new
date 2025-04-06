@@ -1,5 +1,5 @@
 
-{{ 'textinput.css' | asset_url | stylesheet_tag }}
+{{ 'textinput.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .textinput {
@@ -8,15 +8,18 @@
 {%- endstyle -%}
 
 
+
 <!-- TextInput -->
-<div class="textinput">
-  
+<div class="textinput section-{{ section.id }}">
+  {{ title }}
   
 </div>
 
 {% schema %}
 {
   "name": "TextInput",
+  "class": "section-textinput",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

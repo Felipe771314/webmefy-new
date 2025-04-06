@@ -1,5 +1,5 @@
 
-{{ 'spinner.css' | asset_url | stylesheet_tag }}
+{{ 'spinner.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .spinner {
@@ -8,15 +8,18 @@
 {%- endstyle -%}
 
 
+
 <!-- Spinner -->
-<div class="spinner">
-  
+<div class="spinner section-{{ section.id }}">
+  {{ title }}
   
 </div>
 
 {% schema %}
 {
   "name": "Spinner",
+  "class": "section-spinner",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

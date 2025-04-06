@@ -1,14 +1,16 @@
 
-{{ 'alertmessage.css' | asset_url | stylesheet_tag }}
+{{ 'alertmessage.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .alertmessage {
   padding: 20px;
 }
 {%- endstyle -%}
+
 {%- liquid
   assign title = section.settings.title
 -%}
+
 
 <!-- AlertMessage -->
 <div class="alertmessage section-{{ section.id }}">
@@ -19,6 +21,8 @@
 {% schema %}
 {
   "name": "AlertMessage",
+  "class": "section-alertmessage",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

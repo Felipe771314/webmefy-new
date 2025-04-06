@@ -1,17 +1,21 @@
-
+// generate-shopify-sections.js
 const fs = require('fs');
 const path = require('path');
 const { Project } = require('ts-morph');
 
-// Mapea tipos TypeScript a tipos de campos Shopify
-function mapTsTypeToShopifyType(tsType) {
+// 1. Mapeo de tipos TypeScript a tipos de campos Shopify
+function mapTsTypeToShopifyType(tsType, comment = '') {
+  if (comment.includes('@color') || tsType === 'Color') return 'color';
+  if (comment.includes('@range')) return 'range';
+  if (comment.includes('@select')) return 'select';
   if (tsType.includes('boolean')) return 'checkbox';
   if (tsType.includes('number')) return 'number';
+  if (tsType.includes('string[]')) return 'blockArray';
   if (tsType.includes('string')) return 'text';
   return 'text';
 }
 
-// Extrae las props de una interfaz
+// 2. Parsear las props desde una interfaz .tsx
 function parsePropsFromFile(tsxPath, interfaceName) {
   const project = new Project();
   const sourceFile = project.addSourceFileAtPath(tsxPath);
@@ -21,31 +25,31 @@ function parsePropsFromFile(tsxPath, interfaceName) {
   return interfaceDec.getProperties().map((prop) => {
     const name = prop.getName();
     const tsType = prop.getType().getText();
-    const isArray = tsType.endsWith('[]');
-    const baseType = isArray ? tsType.replace('[]', '') : tsType;
+    const comment = prop.getJsDocs().map((doc) => doc.getComment()).join(' ') || '';
     return {
       name,
       type: tsType,
-      shopifyType: mapTsTypeToShopifyType(baseType),
-      isArray,
-      defaultValue: '',
+      shopifyType: mapTsTypeToShopifyType(tsType, comment),
+      label: name.charAt(0).toUpperCase() + name.slice(1),
+      default: '',
+      comment
     };
   });
 }
 
-// Estructura Shopify schema
-function mapPropsToShopifySchema(componentName, propsArray) {
+// 3. Construir el schema de Shopify completo
+function mapPropsToShopifySchema(componentName, props) {
   const settings = [];
   const blocks = [];
 
-  propsArray.forEach((prop) => {
-    if (prop.isArray) {
+  props.forEach((prop) => {
+    if (prop.shopifyType === 'blockArray') {
       blocks.push({
         type: prop.name,
-        name: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
+        name: prop.label,
         settings: [
           {
-            type: prop.shopifyType,
+            type: 'text',
             id: 'value',
             label: 'Value'
           }
@@ -55,14 +59,16 @@ function mapPropsToShopifySchema(componentName, propsArray) {
       settings.push({
         type: prop.shopifyType,
         id: prop.name,
-        label: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
-        default: prop.defaultValue
+        label: prop.label,
+        default: prop.default
       });
     }
   });
 
   return {
     name: componentName,
+    class: `section-${componentName.toLowerCase()}`,
+    tag: 'section',
     settings,
     blocks,
     presets: [
@@ -75,22 +81,26 @@ function mapPropsToShopifySchema(componentName, propsArray) {
   };
 }
 
-// Genera contenido Liquid + schema
+// 4. Crear el archivo Liquid con estructura válida
 function createLiquidFile(componentName, schemaObj, isSection) {
-  const cssFile = `${componentName.toLowerCase()}.css`;
+  const lower = componentName.toLowerCase();
+  const scssFile = `${lower}.scss`;
+
+  const assets = `{{ '${scssFile}' | asset_url | stylesheet_tag }}`;
 
   const styleBlock = `
 {%- style -%}
-.${componentName.toLowerCase()} {
+.${lower} {
   padding: 20px;
 }
 {%- endstyle -%}`;
 
-  const liquidLogic = isSection ? `{%- liquid
+  const logicBlock = `
+{%- liquid
   assign title = section.settings.title
--%}` : '';
+-%}`;
 
-  const blockHtml = schemaObj.blocks.length > 0
+  const blocksHTML = schemaObj.blocks.length > 0
     ? `{% for block in section.blocks %}
   <p>{{ block.settings.value }}</p>
 {% endfor %}`
@@ -98,15 +108,16 @@ function createLiquidFile(componentName, schemaObj, isSection) {
 
   const html = `
 <!-- ${componentName} -->
-${isSection ? `<div class="${componentName.toLowerCase()} section-{{ section.id }}">` : `<div class="${componentName.toLowerCase()}">`}
-  ${isSection ? '{{ title }}' : ''}
-  ${blockHtml}
+<div class="${lower} section-{{ section.id }}">
+  {{ title }}
+  ${blocksHTML}
 </div>`;
 
   return `
-{{ '${cssFile}' | asset_url | stylesheet_tag }}
+${assets}
 ${styleBlock}
-${liquidLogic}
+${isSection ? logicBlock : ''}
+
 ${html}
 
 {% schema %}
@@ -115,60 +126,52 @@ ${JSON.stringify(schemaObj, null, 2)}
 `;
 }
 
-// Crea archivos para un componente
-function generateComponentFiles(category, componentName, propsArray) {
+// 5. Generar archivos necesarios (Liquid + SCSS)
+function generateComponentFiles(category, name, props) {
   const isSection = category !== 'atoms';
-  const shopifyFolder = isSection ? 'sections' : 'snippets';
-  const componentLower = componentName.toLowerCase();
-  const schemaObj = mapPropsToShopifySchema(componentName, propsArray);
-  const liquidContent = createLiquidFile(componentName, schemaObj, isSection);
+  const folder = isSection ? 'sections' : 'snippets';
+  const lower = name.toLowerCase();
 
-  const liquidPath = path.resolve(__dirname, `../${shopifyFolder}/${componentLower}.liquid`);
-  const scssPath = path.resolve(__dirname, `../assets/${componentLower}.css`);
+  const schema = mapPropsToShopifySchema(name, props);
+  const liquid = createLiquidFile(name, schema, isSection);
 
-  fs.writeFileSync(liquidPath, liquidContent, 'utf8');
+  const liquidPath = path.resolve(__dirname, `../${folder}/${lower}.liquid`);
+  const scssSource = path.resolve(__dirname, `../components/${category}/${name}/${name}.module.scss`);
+  const scssTarget = path.resolve(__dirname, `../assets/${lower}.scss`);
 
-  if (!fs.existsSync(scssPath)) {
-    fs.writeFileSync(scssPath, `.${componentLower} {
-  /* estilos base para ${componentName} */
-}
-`, 'utf8');
+  fs.writeFileSync(liquidPath, liquid, 'utf8');
+
+  if (!fs.existsSync(scssTarget)) {
+    const base = fs.existsSync(scssSource) ? fs.readFileSync(scssSource, 'utf8') : '';
+    fs.writeFileSync(scssTarget, base || `.${lower} {\n  /* estilos para ${name} */\n}\n`, 'utf8');
   }
 
-  console.log(`✅ ${componentName} generado en ${shopifyFolder}`);
+  console.log(`✅ ${name} generado como ${folder}`);
 }
 
-// Recorre cada categoría (atoms, molecules, organisms)
+// 6. Procesar categoría (atoms, molecules, organisms)
 function processCategory(categoryDir) {
   const category = path.basename(categoryDir);
-  const components = fs.readdirSync(categoryDir, { withFileTypes: true }).filter((item) => item.isDirectory()).map((dir) => dir.name);
+  const components = fs.readdirSync(categoryDir).filter(c =>
+    fs.lstatSync(path.join(categoryDir, c)).isDirectory()
+  );
 
-  components.forEach((componentName) => {
-    const tsxPath = path.join(categoryDir, componentName, `${componentName}.tsx`);
-    const interfaceName = `${componentName}Props`;
+  components.forEach((name) => {
+    const tsxPath = path.join(categoryDir, name, `${name}.tsx`);
+    const interfaceName = `${name}Props`;
 
     if (fs.existsSync(tsxPath)) {
-      try {
-        const propsArray = parsePropsFromFile(tsxPath, interfaceName);
-        generateComponentFiles(category, componentName, propsArray);
-      } catch (error) {
-        console.error(`❌ Error en ${componentName}: ${error.message}`);
-      }
+      const props = parsePropsFromFile(tsxPath, interfaceName);
+      generateComponentFiles(category, name, props);
     } else {
-      console.warn(`⚠️ No se encontró ${componentName}.tsx en ${categoryDir}`);
+      console.warn(`⚠️ No se encontró ${tsxPath}`);
     }
   });
 }
 
-// MAIN
+// 7. Ejecutar script
 const componentsDir = path.resolve(__dirname, '../components');
-const categoriesToProcess = ['atoms', 'molecules', 'organisms'];
-
-categoriesToProcess.forEach((category) => {
-  const categoryDir = path.join(componentsDir, category);
-  if (fs.existsSync(categoryDir)) {
-    processCategory(categoryDir);
-  } else {
-    console.warn(`⚠️ No existe la categoría: ${category}`);
-  }
+['atoms', 'molecules', 'organisms'].forEach((cat) => {
+  const dir = path.join(componentsDir, cat);
+  if (fs.existsSync(dir)) processCategory(dir);
 });

@@ -1,14 +1,16 @@
 
-{{ 'modaldialog.css' | asset_url | stylesheet_tag }}
+{{ 'modaldialog.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .modaldialog {
   padding: 20px;
 }
 {%- endstyle -%}
+
 {%- liquid
   assign title = section.settings.title
 -%}
+
 
 <!-- ModalDialog -->
 <div class="modaldialog section-{{ section.id }}">
@@ -19,6 +21,8 @@
 {% schema %}
 {
   "name": "ModalDialog",
+  "class": "section-modaldialog",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

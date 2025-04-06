@@ -1,5 +1,5 @@
 
-{{ 'checkbox.css' | asset_url | stylesheet_tag }}
+{{ 'checkbox.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .checkbox {
@@ -8,15 +8,18 @@
 {%- endstyle -%}
 
 
+
 <!-- Checkbox -->
-<div class="checkbox">
-  
+<div class="checkbox section-{{ section.id }}">
+  {{ title }}
   
 </div>
 
 {% schema %}
 {
   "name": "Checkbox",
+  "class": "section-checkbox",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

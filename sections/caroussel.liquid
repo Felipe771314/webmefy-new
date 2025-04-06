@@ -1,14 +1,16 @@
 
-{{ 'caroussel.css' | asset_url | stylesheet_tag }}
+{{ 'caroussel.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .caroussel {
   padding: 20px;
 }
 {%- endstyle -%}
+
 {%- liquid
   assign title = section.settings.title
 -%}
+
 
 <!-- Caroussel -->
 <div class="caroussel section-{{ section.id }}">
@@ -21,6 +23,8 @@
 {% schema %}
 {
   "name": "Caroussel",
+  "class": "section-caroussel",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

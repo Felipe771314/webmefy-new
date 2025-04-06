@@ -1,5 +1,5 @@
 
-{{ 'button.css' | asset_url | stylesheet_tag }}
+{{ 'button.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .button {
@@ -8,15 +8,18 @@
 {%- endstyle -%}
 
 
+
 <!-- Button -->
-<div class="button">
-  
+<div class="button section-{{ section.id }}">
+  {{ title }}
   
 </div>
 
 {% schema %}
 {
   "name": "Button",
+  "class": "section-button",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

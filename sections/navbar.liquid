@@ -1,14 +1,16 @@
 
-{{ 'navbar.css' | asset_url | stylesheet_tag }}
+{{ 'navbar.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .navbar {
   padding: 20px;
 }
 {%- endstyle -%}
+
 {%- liquid
   assign title = section.settings.title
 -%}
+
 
 <!-- Navbar -->
 <div class="navbar section-{{ section.id }}">
@@ -19,6 +21,8 @@
 {% schema %}
 {
   "name": "Navbar",
+  "class": "section-navbar",
+  "tag": "section",
   "settings": [],
   "blocks": [],
   "presets": [

@@ -1,5 +1,5 @@
 
-{{ 'badge.css' | asset_url | stylesheet_tag }}
+{{ 'badge.scss' | asset_url | stylesheet_tag }}
 
 {%- style -%}
 .badge {
@@ -8,15 +8,18 @@
 {%- endstyle -%}
 
 
+
 <!-- Badge -->
-<div class="badge">
-  
+<div class="badge section-{{ section.id }}">
+  {{ title }}
   
 </div>
 
 {% schema %}
 {
   "name": "Badge",
+  "class": "section-badge",
+  "tag": "section",
   "settings": [
     {
       "type": "text",
