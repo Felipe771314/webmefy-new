@@ -4,100 +4,167 @@
 .caroussel {
   padding: 20px;
 }
+.caroussel .arrows {
+  display: flex;
+  justify-content: space-between;
+}
 {%- endstyle -%}
 
-{%- liquid
-  assign title = section.settings.title
--%}
-
 <!-- Caroussel -->
-<div class="caroussel section-{{ section.id }}">
-  {{ title }}
-  {% for block in section.blocks %}
-    <p>{{ block.settings.value }}</p>
-  {% endfor %}
-</div>
+<section class="caroussel section-{{ section.id }}">
+  <h2>{{ section.settings.title }}</h2>
+
+  <div
+    class="caroussel-track"
+    data-transition="{{ section.settings.transitionType }}"
+  >
+    {% for block in section.blocks %}
+      {% assign val = block.settings.value %}
+      <div class="caroussel-item">
+        {% if val contains 'http' %}
+          <img src="{{ val }}" alt="slide-{{ forloop.index0 }}" width="100%" />
+        {% else %}
+          <p>{{ val }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.settings.showArrows %}
+    <div class="arrows arrows-{{ section.settings.arrowsPosition }}">
+      <button aria-label="Prev">{% raw %}&lt;{% endraw %}</button>
+      <button aria-label="Next">{% raw %}&gt;{% endraw %}</button>
+    </div>
+  {% endif %}
+</section>
 
 {% schema %}
-  {
-    "name": "Caroussel",
-    "tag": "section",
-    "class": "section-caroussel",
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Title",
-        "default": "Título del carrusel"
+{
+  "name": "Caroussel",
+  "tag": "section",
+  "class": "section-caroussel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Título del carrusel"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoPlay",
+      "label": "Auto Play",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "showArrows",
+      "label": "Show Arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "transitionType",
+      "label": "Transition Type",
+      "default": "slide",
+      "options": [
+        { "value": "slide", "label": "Slide" },
+        { "value": "fade", "label": "Fade" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "itemStyle",
+      "label": "Item Style",
+      "default": "style-1"
+    },
+    {
+      "type": "text",
+      "id": "containerStyle",
+      "label": "Container Style",
+      "default": "container-fluid"
+    },
+    {
+      "type": "select",
+      "id": "arrowsPosition",
+      "label": "Arrows Position",
+      "default": "inside",
+      "options": [
+        { "value": "inside", "label": "Inside" },
+        { "value": "outside", "label": "Outside" },
+        { "value": "bottom", "label": "Bottom" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "items",
+      "name": "Items",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Slide content",
+          "default": "https://picsum.photos/id/1031/800/400"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flechas dentro (default)",
+      "category": "Custom",
+      "settings": {
+        "title": "Flechas dentro (default)",
+        "arrowsPosition": "inside"
       },
-      {
-        "type": "checkbox",
-        "id": "autoPlay",
-        "label": "Auto Play",
-        "default": true
+      "blocks": [{ "type": "items" }, { "type": "items" }, { "type": "items" }]
+    },
+    {
+      "name": "Flechas afuera",
+      "category": "Custom",
+      "settings": {
+        "title": "Flechas afuera",
+        "arrowsPosition": "outside"
       },
-      {
-        "type": "checkbox",
-        "id": "showArrows",
-        "label": "Show Arrows",
-        "default": true
+      "blocks": [{ "type": "items" }, { "type": "items" }, { "type": "items" }]
+    },
+    {
+      "name": "Sin flechas",
+      "category": "Custom",
+      "settings": {
+        "title": "Sin flechas",
+        "showArrows": false
       },
-      {
-        "type": "checkbox",
-        "id": "loop",
-        "label": "Loop",
-        "default": false
+      "blocks": [{ "type": "items" }, { "type": "items" }]
+    },
+    {
+      "name": "Autoplay + loop",
+      "category": "Custom",
+      "settings": {
+        "title": "Autoplay + loop",
+        "autoPlay": true,
+        "loop": true,
+        "arrowsPosition": "bottom"
       },
-      {
-        "type": "text",
-        "id": "transitionType",
-        "label": "Transition Type",
-        "default": "fade"
+      "blocks": [{ "type": "items" }, { "type": "items" }]
+    },
+    {
+      "name": "Fade + flechas abajo",
+      "category": "Custom",
+      "settings": {
+        "title": "Fade",
+        "transitionType": "fade",
+        "arrowsPosition": "bottom"
       },
-      {
-        "type": "text",
-        "id": "itemStyle",
-        "label": "Item Style",
-        "default": "style-1"
-      },
-      {
-        "type": "text",
-        "id": "containerStyle",
-        "label": "Container Style",
-        "default": "container-fluid"
-      },
-      {
-        "type": "text",
-        "id": "arrowsPosition",
-        "label": "Arrows Position",
-        "default": "left"
-      }
-    ],
-    "blocks": [
-      {
-        "type": "items",
-        "name": "Items",
-        "settings": [
-          {
-            "type": "text",
-            "id": "value",
-            "label": "Value",
-            "default": "Slide 1"
-          }
-        ]
-      }
-    ],
-    "presets": [
-      {
-        "name": "Caroussel",
-        "category": "Custom",
-        "blocks": [
-          {
-            "type": "items"
-          }
-        ]
-      }
-    ]
-  }
-  {% endschema %}
-  
+      "blocks": [{ "type": "items" }, { "type": "items" }]
+    }
+  ]
+}
+{% endschema %}
