@@ -1,0 +1,19 @@
+/* AlertMessage.module.scss */
+
+/* Personaliza la alerta si deseas modificar su espaciado u otros atributos */
+.alert {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Estilo opcional para el botón de cierre dentro de la alerta */
+.close-button {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+}

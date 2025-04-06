@@ -1,38 +1,31 @@
-// generate-all-shopify-schema.js
 const fs = require('fs');
 const path = require('path');
 const { Project } = require('ts-morph');
 
-// Función para mapear tipos TypeScript a tipos de Shopify
+// Mapea tipos TypeScript a tipos de campos Shopify
 function mapTsTypeToShopifyType(tsType) {
   if (tsType.includes('boolean')) return 'checkbox';
   if (tsType.includes('number')) return 'number';
-  // Puedes extender con más reglas según convenga
+  if (tsType.includes('string')) return 'text';
   return 'text';
 }
 
-// Función para parsear las props desde un archivo TSX, dada la interfaz de props
+// Extrae las props de una interfaz
 function parsePropsFromFile(tsxPath, interfaceName) {
   const project = new Project();
-  project.addSourceFileAtPath(tsxPath);
-  const sourceFile = project.getSourceFileOrThrow(tsxPath);
-
+  const sourceFile = project.addSourceFileAtPath(tsxPath);
   const interfaceDec = sourceFile.getInterface(interfaceName);
   if (!interfaceDec) return [];
 
-  return interfaceDec.getProperties().map((prop) => {
-    const propName = prop.getName();
-    const propType = prop.getType().getText();
-    return {
-      name: propName,
-      type: propType,
-      shopifyType: mapTsTypeToShopifyType(propType),
-      defaultValue: '', // Aquí podrías implementar lógica para detectar valores por defecto
-    };
-  });
+  return interfaceDec.getProperties().map((prop) => ({
+    name: prop.getName(),
+    type: prop.getType().getText(),
+    shopifyType: mapTsTypeToShopifyType(prop.getType().getText()),
+    defaultValue: '',
+  }));
 }
 
-// Función para mapear las props a un schema de Shopify
+// Estructura Shopify schema
 function mapPropsToShopifySchema(componentName, propsArray) {
   return {
     name: componentName,
@@ -42,22 +35,82 @@ function mapPropsToShopifySchema(componentName, propsArray) {
       label: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
       default: prop.defaultValue,
     })),
+    blocks: [],
+    presets: [
+      {
+        name: componentName,
+        category: 'Custom',
+        blocks: [],
+      },
+    ],
   };
 }
 
-// Directorios base
-const componentsDir = path.resolve(__dirname, '../components');
-const shopifyDir = path.resolve(__dirname, '../shopify');
-// Define en qué carpeta de Shopify quieres colocar los schemas (puede ser "snippets" o "sections")
-const shopifyTypeFolder = 'snippets';
+// Genera contenido Liquid + schema
+function createLiquidFile(componentName, schemaObj, isSection) {
+  const cssFile = `${componentName.toLowerCase()}.css`;
 
-// Función que recorre un directorio de categoría (atoms, molecules, organisms, etc.)
+  const styleBlock = `
+{%- style -%}
+.${componentName.toLowerCase()} {
+  padding: 20px;
+}
+{%- endstyle -%}`;
+
+  const liquidLogic = isSection
+    ? `{%- liquid
+  assign title = section.settings.title
+-%}`
+    : '';
+
+  const html = `
+<!-- ${componentName} -->
+${isSection ? `<div class="${componentName.toLowerCase()} section-{{ section.id }}">` : `<div class="${componentName.toLowerCase()}">`}
+  ${isSection ? '{{ title }}' : ''}
+</div>`;
+
+  return `
+{{ '${cssFile}' | asset_url | stylesheet_tag }}
+${styleBlock}
+${liquidLogic}
+${html}
+
+{% schema %}
+${JSON.stringify(schemaObj, null, 2)}
+{% endschema %}
+`;
+}
+
+// Crea archivos para un componente
+function generateComponentFiles(category, componentName, propsArray) {
+  const isSection = category !== 'atoms';
+  const shopifyFolder = isSection ? 'sections' : 'snippets';
+  const componentLower = componentName.toLowerCase();
+  const schemaObj = mapPropsToShopifySchema(componentName, propsArray);
+
+  const liquidContent = createLiquidFile(componentName, schemaObj, isSection);
+
+  const liquidPath = path.resolve(__dirname, `../${shopifyFolder}/${componentLower}.liquid`);
+  const scssPath = path.resolve(__dirname, `../assets/${componentLower}.css`);
+
+  // Liquid
+  fs.writeFileSync(liquidPath, liquidContent, 'utf8');
+
+  // CSS
+  if (!fs.existsSync(scssPath)) {
+    fs.writeFileSync(
+      scssPath,
+      `.${componentLower} {\n  /* estilos base para ${componentName} */\n}\n`,
+      'utf8'
+    );
+  }
+
+  console.log(`✅ ${componentName} generado en ${shopifyFolder}`);
+}
+
+// Recorre cada categoría (atoms, molecules, organisms)
 function processCategory(categoryDir) {
-  const category = path.basename(categoryDir); // 'atoms', 'molecules', etc.
-
-  // Determina el destino en función de la categoría
-  const shopifyTypeFolder = category === 'atoms' ? 'snippets' : 'sections';
-
+  const category = path.basename(categoryDir);
   const components = fs
     .readdirSync(categoryDir, { withFileTypes: true })
     .filter((item) => item.isDirectory())
@@ -65,52 +118,23 @@ function processCategory(categoryDir) {
 
   components.forEach((componentName) => {
     const tsxPath = path.join(categoryDir, componentName, `${componentName}.tsx`);
+    const interfaceName = `${componentName}Props`;
+
     if (fs.existsSync(tsxPath)) {
-      const interfaceName = `${componentName}Props`;
       try {
         const propsArray = parsePropsFromFile(tsxPath, interfaceName);
-        const schemaObj = mapPropsToShopifySchema(componentName, propsArray);
-
-        const shopifyComponentDir = path.join(
-          shopifyDir,
-          shopifyTypeFolder,
-          componentName.toLowerCase()
-        );
-        if (!fs.existsSync(shopifyComponentDir)) {
-          fs.mkdirSync(shopifyComponentDir, { recursive: true });
-        }
-
-        const jsonPath = path.join(shopifyComponentDir, `${componentName.toLowerCase()}.json`);
-        fs.writeFileSync(jsonPath, JSON.stringify(schemaObj, null, 2), 'utf-8');
-
-        const liquidTemplate = `
-{% schema %}
-${JSON.stringify(schemaObj, null, 2)}
-{% endschema %}
-
-<!-- Plantilla Liquid para ${componentName} -->
-<div class="${componentName.toLowerCase()}">
-  {%- for setting in section.settings -%}
-    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
-  {%- endfor -%}
-</div>
-`;
-        const liquidPath = path.join(shopifyComponentDir, `${componentName.toLowerCase()}.liquid`);
-        fs.writeFileSync(liquidPath, liquidTemplate, 'utf-8');
-
-        console.log(`✅ Shopify schema generated for ${componentName} in ${shopifyTypeFolder}`);
+        generateComponentFiles(category, componentName, propsArray);
       } catch (error) {
-        console.error(`❌ Error processing ${componentName}: ${error}`);
+        console.error(`❌ Error en ${componentName}: ${error.message}`);
       }
     } else {
-      console.warn(`⚠️ No se encontró archivo TSX para ${componentName} en ${categoryDir}`);
+      console.warn(`⚠️ No se encontró ${componentName}.tsx en ${categoryDir}`);
     }
   });
 }
 
-
-// Procesar todas las categorías (atoms, molecules, organisms)
-// Puedes definir las carpetas que quieras procesar.
+// MAIN
+const componentsDir = path.resolve(__dirname, '../components');
 const categoriesToProcess = ['atoms', 'molecules', 'organisms'];
 
 categoriesToProcess.forEach((category) => {
@@ -118,6 +142,6 @@ categoriesToProcess.forEach((category) => {
   if (fs.existsSync(categoryDir)) {
     processCategory(categoryDir);
   } else {
-    console.warn(`No se encontró la carpeta de la categoría: ${category}`);
+    console.warn(`⚠️ No existe la categoría: ${category}`);
   }
 });

@@ -1,4 +1,18 @@
 
+{{ 'badge.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.badge {
+  padding: 20px;
+}
+{%- endstyle -%}
+
+
+<!-- Badge -->
+<div class="badge">
+  
+</div>
+
 {% schema %}
 {
   "name": "Badge",
@@ -15,13 +29,14 @@
       "label": "Variant",
       "default": ""
     }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Badge",
+      "category": "Custom",
+      "blocks": []
+    }
   ]
 }
 {% endschema %}
-
-<!-- Plantilla Liquid para Badge -->
-<div class="badge">
-  {%- for setting in section.settings -%}
-    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
-  {%- endfor -%}
-</div>

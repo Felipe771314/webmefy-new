@@ -1,4 +1,18 @@
 
+{{ 'textinput.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.textinput {
+  padding: 20px;
+}
+{%- endstyle -%}
+
+
+<!-- TextInput -->
+<div class="textinput">
+  
+</div>
+
 {% schema %}
 {
   "name": "TextInput",
@@ -45,13 +59,14 @@
       "label": "Type",
       "default": ""
     }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "TextInput",
+      "category": "Custom",
+      "blocks": []
+    }
   ]
 }
 {% endschema %}
-
-<!-- Plantilla Liquid para TextInput -->
-<div class="textinput">
-  {%- for setting in section.settings -%}
-    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
-  {%- endfor -%}
-</div>

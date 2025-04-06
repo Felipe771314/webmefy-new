@@ -1,4 +1,20 @@
 
+{{ 'alertmessage.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.alertmessage {
+  padding: 20px;
+}
+{%- endstyle -%}
+{%- liquid
+  assign title = section.settings.title
+-%}
+
+<!-- AlertMessage -->
+<div class="alertmessage section-{{ section.id }}">
+  {{ title }}
+</div>
+
 {% schema %}
 {
   "name": "AlertMessage",
@@ -15,13 +31,14 @@
       "label": "Variant",
       "default": ""
     }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "AlertMessage",
+      "category": "Custom",
+      "blocks": []
+    }
   ]
 }
 {% endschema %}
-
-<!-- Plantilla Liquid para AlertMessage -->
-<div class="alertmessage">
-  {%- for setting in section.settings -%}
-    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
-  {%- endfor -%}
-</div>

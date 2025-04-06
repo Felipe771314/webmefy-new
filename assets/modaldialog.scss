@@ -1,0 +1,27 @@
+/* ModalDialog.module.scss */
+
+/* Estilo para el contenedor del modal personalizado */
+.modal {
+  /* Si deseas sobrescribir el estilo predeterminado del modal en Bootstrap */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+}
+
+/* Personaliza el contenido del modal */
+.modal-content {
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+/* Opcional: estilos para el encabezado del modal */
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Opcional: estilos para el pie del modal */
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

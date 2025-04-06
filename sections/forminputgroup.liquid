@@ -1,4 +1,20 @@
 
+{{ 'forminputgroup.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.forminputgroup {
+  padding: 20px;
+}
+{%- endstyle -%}
+{%- liquid
+  assign title = section.settings.title
+-%}
+
+<!-- FormInputGroup -->
+<div class="forminputgroup section-{{ section.id }}">
+  {{ title }}
+</div>
+
 {% schema %}
 {
   "name": "FormInputGroup",
@@ -21,13 +37,14 @@
       "label": "ContainerClassName",
       "default": ""
     }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "FormInputGroup",
+      "category": "Custom",
+      "blocks": []
+    }
   ]
 }
 {% endschema %}
-
-<!-- Plantilla Liquid para FormInputGroup -->
-<div class="forminputgroup">
-  {%- for setting in section.settings -%}
-    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
-  {%- endfor -%}
-</div>

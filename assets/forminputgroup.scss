@@ -1,0 +1,18 @@
+/* FormInputGroup.module.scss */
+
+/* Personaliza el contenedor del grupo de formulario */
+.container {
+  margin-bottom: 1rem;
+}
+
+/* Estilo opcional para la etiqueta */
+.label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+/* Ajustes opcionales para el input, en caso de querer personalizar aparte del Bootstrap */
+.input {
+  margin-bottom: 0.5rem;
+}

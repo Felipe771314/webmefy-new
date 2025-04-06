@@ -1,4 +1,18 @@
 
+{{ 'button.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.button {
+  padding: 20px;
+}
+{%- endstyle -%}
+
+
+<!-- Button -->
+<div class="button">
+  
+</div>
+
 {% schema %}
 {
   "name": "Button",
@@ -75,13 +89,14 @@
       "label": "Alignment",
       "default": ""
     }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Button",
+      "category": "Custom",
+      "blocks": []
+    }
   ]
 }
 {% endschema %}
-
-<!-- Plantilla Liquid para Button -->
-<div class="button">
-  {%- for setting in section.settings -%}
-    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
-  {%- endfor -%}
-</div>

@@ -1,4 +1,18 @@
 
+{{ 'checkbox.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.checkbox {
+  padding: 20px;
+}
+{%- endstyle -%}
+
+
+<!-- Checkbox -->
+<div class="checkbox">
+  
+</div>
+
 {% schema %}
 {
   "name": "Checkbox",
@@ -33,13 +47,14 @@
       "label": "Disabled",
       "default": ""
     }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Checkbox",
+      "category": "Custom",
+      "blocks": []
+    }
   ]
 }
 {% endschema %}
-
-<!-- Plantilla Liquid para Checkbox -->
-<div class="checkbox">
-  {%- for setting in section.settings -%}
-    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
-  {%- endfor -%}
-</div>
