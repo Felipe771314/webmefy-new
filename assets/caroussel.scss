@@ -57,4 +57,20 @@
       }
     }
   }
+  .caroussel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  .caroussel-item {
+    flex: 0 0 100%;
+  }
+  .caroussel-item img {
+    width: 100%;
+    height: auto;
+  }
+  .arrows {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
   
