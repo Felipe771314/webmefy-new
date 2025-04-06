@@ -1,5 +1,7 @@
 {
   "name": "Caroussel",
+  "tag": "section",
+  "class": "caroussel",
   "settings": [
     {
       "type": "text",
@@ -8,21 +10,15 @@
       "default": ""
     },
     {
-      "type": "text",
-      "id": "items",
-      "label": "Items",
-      "default": ""
-    },
-    {
       "type": "checkbox",
       "id": "autoPlay",
-      "label": "AutoPlay",
+      "label": "Autoplay",
       "default": ""
     },
     {
       "type": "checkbox",
       "id": "showArrows",
-      "label": "ShowArrows",
+      "label": "Showarrows",
       "default": ""
     },
     {
@@ -34,26 +30,46 @@
     {
       "type": "text",
       "id": "transitionType",
-      "label": "TransitionType",
+      "label": "Transitiontype",
       "default": ""
     },
     {
       "type": "text",
       "id": "itemStyle",
-      "label": "ItemStyle",
+      "label": "Itemstyle",
       "default": ""
     },
     {
       "type": "text",
       "id": "containerStyle",
-      "label": "ContainerStyle",
+      "label": "Containerstyle",
       "default": ""
     },
     {
       "type": "text",
       "id": "arrowsPosition",
-      "label": "ArrowsPosition",
+      "label": "Arrowsposition",
       "default": ""
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Caroussel",
+      "category": "Custom",
+      "blocks": [{ "type": "item" }, { "type": "item" }]
     }
   ]
 }
