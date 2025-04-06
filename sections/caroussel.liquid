@@ -1,85 +1,50 @@
+{{ 'caroussel.scss' | asset_url | stylesheet_tag }}
 
-{{ 'caroussel.css' | asset_url | stylesheet_tag }}
-
-{%- style -%}
-.caroussel {
-  padding: 20px;
-}
-{%- endstyle -%}
-{%- liquid
-  assign title = section.settings.title
--%}
-
-<!-- Caroussel -->
 <div class="caroussel section-{{ section.id }}">
-  {{ title }}
+  {%- if section.settings.title != blank -%}
+    <h2>{{ section.settings.title }}</h2>
+  {%- endif -%}
 </div>
 
 {% schema %}
 {
   "name": "Caroussel",
+  "tag": "section",
+  "class": "caroussel",
   "settings": [
     {
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": ""
-    },
-    {
-      "type": "text",
-      "id": "items",
-      "label": "Items",
-      "default": ""
+      "default": "Example title"
     },
     {
       "type": "checkbox",
       "id": "autoPlay",
-      "label": "AutoPlay",
-      "default": ""
-    },
-    {
-      "type": "checkbox",
-      "id": "showArrows",
-      "label": "ShowArrows",
-      "default": ""
+      "label": "Autoplay",
+      "default": true
     },
     {
       "type": "checkbox",
       "id": "loop",
       "label": "Loop",
-      "default": ""
+      "default": true
     },
     {
-      "type": "text",
-      "id": "transitionType",
-      "label": "TransitionType",
-      "default": ""
-    },
-    {
-      "type": "text",
-      "id": "itemStyle",
-      "label": "ItemStyle",
-      "default": ""
-    },
-    {
-      "type": "text",
-      "id": "containerStyle",
-      "label": "ContainerStyle",
-      "default": ""
-    },
-    {
-      "type": "text",
+      "type": "select",
       "id": "arrowsPosition",
-      "label": "ArrowsPosition",
-      "default": ""
+      "label": "Arrow Position",
+      "options": [
+        { "value": "inside", "label": "Inside" },
+        { "value": "outside", "label": "Outside" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "inside"
     }
   ],
-  "blocks": [],
   "presets": [
     {
-      "name": "Caroussel",
-      "category": "Custom",
-      "blocks": []
+      "name": "Caroussel"
     }
   ]
 }
