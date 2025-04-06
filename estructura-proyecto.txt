@@ -1,0 +1,1341 @@
+.
+├──  .babelrc
+├── .eslintignore
+├── .eslintrc.cjs
+├── .gitignore
+├── .husky
+│   ├── _
+│   │   ├── .gitignore
+│   │   ├── applypatch-msg
+│   │   ├── commit-msg
+│   │   ├── h
+│   │   ├── husky.sh
+│   │   ├── post-applypatch
+│   │   ├── post-checkout
+│   │   ├── post-commit
+│   │   ├── post-merge
+│   │   ├── post-rewrite
+│   │   ├── pre-applypatch
+│   │   ├── pre-auto-gc
+│   │   ├── pre-commit
+│   │   ├── pre-merge-commit
+│   │   ├── pre-push
+│   │   ├── pre-rebase
+│   │   └── prepare-commit-msg
+│   ├── commit-msg
+│   ├── pre-commit
+│   └── pre-push
+├── .lintstagedrc.json
+├── .prettierignore
+├── .prettierrc
+├── .storybook
+│   ├── main.ts
+│   └── preview.ts
+├── README.md
+├── __mocks__
+│   └── styleMock.js
+├── app
+│   └── hello.js
+├── assets
+│   ├── animations.js
+│   ├── base.css
+│   ├── cart-drawer.js
+│   ├── cart-notification.js
+│   ├── cart.js
+│   ├── collage.css
+│   ├── collapsible-content.css
+│   ├── component-accordion.css
+│   ├── component-article-card.css
+│   ├── component-card.css
+│   ├── component-cart-drawer.css
+│   ├── component-cart-items.css
+│   ├── component-cart-notification.css
+│   ├── component-cart.css
+│   ├── component-collection-hero.css
+│   ├── component-complementary-products.css
+│   ├── component-deferred-media.css
+│   ├── component-discounts.css
+│   ├── component-facets.css
+│   ├── component-image-with-text.css
+│   ├── component-list-menu.css
+│   ├── component-list-payment.css
+│   ├── component-list-social.css
+│   ├── component-localization-form.css
+│   ├── component-mega-menu.css
+│   ├── component-menu-drawer.css
+│   ├── component-modal-video.css
+│   ├── component-model-viewer-ui.css
+│   ├── component-newsletter.css
+│   ├── component-pagination.css
+│   ├── component-pickup-availability.css
+│   ├── component-predictive-search.css
+│   ├── component-price.css
+│   ├── component-product-model.css
+│   ├── component-product-variant-picker.css
+│   ├── component-progress-bar.css
+│   ├── component-rating.css
+│   ├── component-search.css
+│   ├── component-show-more.css
+│   ├── component-slider.css
+│   ├── component-slideshow.css
+│   ├── component-swatch-input.css
+│   ├── component-swatch.css
+│   ├── component-totals.css
+│   ├── component-volume-pricing.css
+│   ├── constants.js
+│   ├── customer.css
+│   ├── customer.js
+│   ├── details-disclosure.js
+│   ├── details-modal.js
+│   ├── email-signup-banner-background-mobile.svg
+│   ├── email-signup-banner-background.svg
+│   ├── facets.js
+│   ├── global.js
+│   ├── icon-3d-model.svg
+│   ├── icon-account.svg
+│   ├── icon-apple.svg
+│   ├── icon-arrow.svg
+│   ├── icon-banana.svg
+│   ├── icon-bottle.svg
+│   ├── icon-box.svg
+│   ├── icon-caret.svg
+│   ├── icon-carrot.svg
+│   ├── icon-cart-empty.svg
+│   ├── icon-cart.svg
+│   ├── icon-chat-bubble.svg
+│   ├── icon-check-mark.svg
+│   ├── icon-checkmark.svg
+│   ├── icon-clipboard.svg
+│   ├── icon-close-small.svg
+│   ├── icon-close.svg
+│   ├── icon-copy.svg
+│   ├── icon-dairy-free.svg
+│   ├── icon-dairy.svg
+│   ├── icon-discount.svg
+│   ├── icon-dryer.svg
+│   ├── icon-error.svg
+│   ├── icon-eye.svg
+│   ├── icon-facebook.svg
+│   ├── icon-filter.svg
+│   ├── icon-fire.svg
+│   ├── icon-gluten-free.svg
+│   ├── icon-hamburger.svg
+│   ├── icon-heart.svg
+│   ├── icon-info.svg
+│   ├── icon-instagram.svg
+│   ├── icon-inventory-status.svg
+│   ├── icon-iron.svg
+│   ├── icon-leaf.svg
+│   ├── icon-leather.svg
+│   ├── icon-lightning-bolt.svg
+│   ├── icon-lipstick.svg
+│   ├── icon-lock.svg
+│   ├── icon-map-pin.svg
+│   ├── icon-minus.svg
+│   ├── icon-nut-free.svg
+│   ├── icon-padlock.svg
+│   ├── icon-pants.svg
+│   ├── icon-pause.svg
+│   ├── icon-paw-print.svg
+│   ├── icon-pepper.svg
+│   ├── icon-perfume.svg
+│   ├── icon-pinterest.svg
+│   ├── icon-plane.svg
+│   ├── icon-plant.svg
+│   ├── icon-play.svg
+│   ├── icon-plus.svg
+│   ├── icon-price-tag.svg
+│   ├── icon-question-mark.svg
+│   ├── icon-recycle.svg
+│   ├── icon-remove.svg
+│   ├── icon-reset.svg
+│   ├── icon-return.svg
+│   ├── icon-ruler.svg
+│   ├── icon-search.svg
+│   ├── icon-serving-dish.svg
+│   ├── icon-share.svg
+│   ├── icon-shirt.svg
+│   ├── icon-shoe.svg
+│   ├── icon-shopify.svg
+│   ├── icon-silhouette.svg
+│   ├── icon-snapchat.svg
+│   ├── icon-snowflake.svg
+│   ├── icon-star.svg
+│   ├── icon-stopwatch.svg
+│   ├── icon-success.svg
+│   ├── icon-tick.svg
+│   ├── icon-tiktok.svg
+│   ├── icon-truck.svg
+│   ├── icon-tumblr.svg
+│   ├── icon-twitter.svg
+│   ├── icon-unavailable.svg
+│   ├── icon-vimeo.svg
+│   ├── icon-washing.svg
+│   ├── icon-youtube.svg
+│   ├── icon-zoom.svg
+│   ├── loading-spinner.svg
+│   ├── localization-form.js
+│   ├── magnify.js
+│   ├── main-search.js
+│   ├── mask-arch.svg
+│   ├── mask-blobs.css
+│   ├── media-gallery.js
+│   ├── newsletter-section.css
+│   ├── password-modal.js
+│   ├── pickup-availability.js
+│   ├── placeHolder.webp
+│   ├── predictive-search.js
+│   ├── price-per-item.js
+│   ├── product-form.js
+│   ├── product-info.js
+│   ├── product-modal.js
+│   ├── product-model.js
+│   ├── pubsub.js
+│   ├── quantity-popover.css
+│   ├── quantity-popover.js
+│   ├── quick-add-bulk.js
+│   ├── quick-add.css
+│   ├── quick-add.js
+│   ├── quick-order-list.css
+│   ├── quick-order-list.js
+│   ├── recipient-form.js
+│   ├── search-form.js
+│   ├── section-blog-post.css
+│   ├── section-collection-list.css
+│   ├── section-contact-form.css
+│   ├── section-email-signup-banner.css
+│   ├── section-featured-blog.css
+│   ├── section-featured-product.css
+│   ├── section-footer.css
+│   ├── section-image-banner.css
+│   ├── section-main-blog.css
+│   ├── section-main-page.css
+│   ├── section-main-product.css
+│   ├── section-multicolumn.css
+│   ├── section-password.css
+│   ├── section-related-products.css
+│   ├── section-rich-text.css
+│   ├── share.js
+│   ├── show-more.js
+│   ├── sparkle.gif
+│   ├── square.svg
+│   ├── template-collection.css
+│   ├── template-giftcard.css
+│   ├── theme-editor.js
+│   └── video-section.css
+├── babel.config.json
+├── commitlint.config.cjs
+├── components
+│   ├── Cart.tsx
+│   ├── Navbar.tsx
+│   ├── ProductCard.tsx
+│   ├── atoms
+│   │   ├── Badge
+│   │   │   ├── Badge.module.scss
+│   │   │   ├── Badge.stories.tsx
+│   │   │   ├── Badge.tsx
+│   │   │   └── test
+│   │   ├── Button
+│   │   │   ├── Button.module.scss
+│   │   │   ├── Button.stories.tsx
+│   │   │   ├── Button.tsx
+│   │   │   └── test
+│   │   ├── Checkbox
+│   │   │   ├── Checkbox.module.scss
+│   │   │   ├── Checkbox.stories.tsx
+│   │   │   ├── Checkbox.tsx
+│   │   │   └── test
+│   │   ├── Spinner
+│   │   │   ├── Spinner.module.scss
+│   │   │   ├── Spinner.stories.tsx
+│   │   │   ├── Spinner.tsx
+│   │   │   └── test
+│   │   └── TextInput
+│   │       ├── TextInput.module.scss
+│   │       ├── TextInput.stories.tsx
+│   │       ├── TextInput.tsx
+│   │       └── test
+│   ├── molecules
+│   │   ├── AlertMessage
+│   │   │   ├── AlertMessage.module.scss
+│   │   │   ├── AlertMessage.stories.tsx
+│   │   │   ├── AlertMessage.tsx
+│   │   │   └── test
+│   │   ├── Card
+│   │   │   ├── Card.module.scss
+│   │   │   ├── Card.stories.tsx
+│   │   │   ├── Card.tsx
+│   │   │   └── test
+│   │   ├── FormInputGroup
+│   │   │   ├── FormInputGroup.module.scss
+│   │   │   ├── FormInputGroup.stories.tsx
+│   │   │   ├── FormInputGroup.tsx
+│   │   │   └── test
+│   │   └── ModalDialog
+│   │       ├── ModalDialog.module.scss
+│   │       ├── ModalDialog.stories.tsx
+│   │       ├── ModalDialog.tsx
+│   │       └── test
+│   └── organisms
+│       ├── Caroussel
+│       │   ├── Caroussel.module.scss
+│       │   ├── Caroussel.stories.tsx
+│       │   ├── Caroussel.tsx
+│       │   ├── placeHolder.webp
+│       │   └── test
+│       └── Navbar
+│           ├── Navbar.module.scss
+│           ├── Navbar.stories.tsx
+│           ├── Navbar.tsx
+│           └── test
+├── config
+│   ├── settings_data.json
+│   └── settings_schema.json
+├── coverage
+│   ├── coverage-final.json
+│   ├── coverage-summary.json
+│   ├── lcov-report
+│   │   ├── atoms
+│   │   │   ├── Badge
+│   │   │   ├── Button
+│   │   │   ├── Checkbox
+│   │   │   ├── Spinner
+│   │   │   └── TextInput
+│   │   ├── base.css
+│   │   ├── block-navigation.js
+│   │   ├── favicon.png
+│   │   ├── index.html
+│   │   ├── molecules
+│   │   │   ├── AlertMessage
+│   │   │   ├── Card
+│   │   │   ├── FormInputGroup
+│   │   │   └── ModalDialog
+│   │   ├── organisms
+│   │   │   ├── Caroussel
+│   │   │   └── Navbar
+│   │   ├── prettify.css
+│   │   ├── prettify.js
+│   │   ├── sort-arrow-sprite.png
+│   │   └── sorter.js
+│   └── lcov.info
+├── docker-compose.yml
+├── doctor-storybook.log
+├── estructura-proyecto.txt
+├── estructura-simple.txt
+├── jest.config.cjs
+├── layout
+│   ├── checkout.layout.liquid
+│   ├── minimal.layout.liquid
+│   ├── password.liquid
+│   ├── theme.layout.liquid
+│   └── theme.liquid
+├── locales
+│   ├── ar.json
+│   ├── bg.json
+│   ├── cs.json
+│   ├── cs.schema.json
+│   ├── da.json
+│   ├── da.schema.json
+│   ├── de.json
+│   ├── de.schema.json
+│   ├── el.json
+│   ├── en.default.json
+│   ├── en.default.schema.json
+│   ├── es.json
+│   ├── es.schema.json
+│   ├── fi.json
+│   ├── fi.schema.json
+│   ├── fr.json
+│   ├── fr.schema.json
+│   ├── hr.json
+│   ├── hu.json
+│   ├── id.json
+│   ├── it.json
+│   ├── it.schema.json
+│   ├── ja.json
+│   ├── ja.schema.json
+│   ├── ko.json
+│   ├── ko.schema.json
+│   ├── lt.json
+│   ├── nb.json
+│   ├── nb.schema.json
+│   ├── nl.json
+│   ├── nl.schema.json
+│   ├── pl.json
+│   ├── pl.schema.json
+│   ├── pt-BR.schema.json
+│   ├── pt-PT.json
+│   ├── pt-PT.schema.json
+│   ├── pt-br.json
+│   ├── ro.json
+│   ├── ru.json
+│   ├── sk.json
+│   ├── sl.json
+│   ├── sv.json
+│   ├── sv.schema.json
+│   ├── th.json
+│   ├── th.schema.json
+│   ├── tr.json
+│   ├── tr.schema.json
+│   ├── vi.json
+│   ├── zh-CN.json
+│   ├── zh-CN.schema.json
+│   ├── zh-TW.json
+│   └── zh-TW.schema.json
+├── migration-storybook.log
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── parse-props.js
+├── plop-templates
+│   ├── component.hbs
+│   ├── shopify-config.hbs
+│   ├── shopify-liquid.hbs
+│   ├── storybook.hbs
+│   ├── styles.hbs
+│   └── test.hbs
+├── plopfile.cjs
+├── plopfile.js
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── reorganize-project.sh
+├── scripts
+│   ├── fix-schema-imports.sh
+│   ├── generate-shopify-schema.cjs
+│   └── sync-liquid.cjs
+├── sections
+│   ├── 404-section.liquid
+│   ├── ajax-handles-from-product_ids.section.liquid
+│   ├── ajax-mini-cart-recommendations.section.liquid
+│   ├── ajax-product-list-scroller.section.liquid
+│   ├── ajax-product-list.section.liquid
+│   ├── ajax-search-product-list.section.liquid
+│   ├── alertmessage.liquid
+│   ├── announcement-bar.section.liquid
+│   ├── apps.section.liquid
+│   ├── badge.liquid
+│   ├── blog-post-banner.section.liquid
+│   ├── blog-post-comments.section.liquid
+│   ├── blog-post-prev-next.section.liquid
+│   ├── blog-posts.section.liquid
+│   ├── button.liquid
+│   ├── card.liquid
+│   ├── caroussel.liquid
+│   ├── cart-complement-json.section.liquid
+│   ├── cart-line-custom-item.section.liquid
+│   ├── cart-line-item.section.liquid
+│   ├── cart-recommendations.section.liquid
+│   ├── checkbox.liquid
+│   ├── collection-banner-custom.section.liquid
+│   ├── collection-banner.section.liquid
+│   ├── collection-description.section.liquid
+│   ├── collection-list.section.liquid
+│   ├── collection-promotion-ban.section.liquid
+│   ├── contact-form.section.liquid
+│   ├── custom-html.section.liquid
+│   ├── custom-liquid.section.liquid
+│   ├── faq.section.liquid
+│   ├── feat-collections-aside.section.liquid
+│   ├── featured-collections.section.liquid
+│   ├── featured-product.section.liquid
+│   ├── footer.section.liquid
+│   ├── forminputgroup.liquid
+│   ├── gallery.section.liquid
+│   ├── gift_card.liquid
+│   ├── header.section.liquid
+│   ├── hidavid.liquid
+│   ├── hola.liquid
+│   ├── holafran.liquid
+│   ├── image-with-text-block.section.liquid
+│   ├── image-with-text-overlay.section.liquid
+│   ├── image-with-text.section.liquid
+│   ├── index.liquid
+│   ├── instafeed-theoz.section.liquid
+│   ├── logo-list.section.liquid
+│   ├── main-advanced-collection.section.liquid
+│   ├── main-article.section.liquid
+│   ├── main-blog.section.liquid
+│   ├── main-cart.section.liquid
+│   ├── main-collection.section.liquid
+│   ├── main-customers-account.section.liquid
+│   ├── main-customers-activate-account.section.liquid
+│   ├── main-customers-addresses.section.liquid
+│   ├── main-customers-login.section.liquid
+│   ├── main-customers-order.section.liquid
+│   ├── main-customers-register.section.liquid
+│   ├── main-customers-reset-password.section.liquid
+│   ├── main-gift-card.section.liquid
+│   ├── main-list-collections.section.liquid
+│   ├── main-not-found.section.liquid
+│   ├── main-order-return.section.liquid
+│   ├── main-page.section.liquid
+│   ├── main-password.section.liquid
+│   ├── main-product.section.liquid
+│   ├── main-search.section.liquid
+│   ├── main-wishlist.section.liquid
+│   ├── map-place-list.section.liquid
+│   ├── mini-cart-recommendations.section.liquid
+│   ├── mini-cart.section.liquid
+│   ├── modaldialog.liquid
+│   ├── multi-column.section.liquid
+│   ├── my-section.section.liquid
+│   ├── navbar.liquid
+│   ├── newsletter-popup.section.liquid
+│   ├── newsletter-social.section.liquid
+│   ├── newsletter.section.liquid
+│   ├── nosto-recommandations-the-oz.section.liquid
+│   ├── popup.section.liquid
+│   ├── predictive-search-compatibility.section.liquid
+│   ├── predictive-search.section.liquid
+│   ├── press.section.liquid
+│   ├── privacy-banner.section.liquid
+│   ├── product-complement-json.section.liquid
+│   ├── product-content.section.liquid
+│   ├── product-item.section.liquid
+│   ├── product-price.section.liquid
+│   ├── product-recommendations.section.liquid
+│   ├── promotion-blocks.section.liquid
+│   ├── recently-viewed-products.section.liquid
+│   ├── rich-text.section.liquid
+│   ├── shop-the-look.section.liquid
+│   ├── slideshow.section.liquid
+│   ├── spacer.section.liquid
+│   ├── spinner.liquid
+│   ├── static-newsletter.section.liquid
+│   ├── static-text-with-icons.section.liquid
+│   ├── store-availability.section.liquid
+│   ├── sub-collection-list.section.liquid
+│   ├── testimonials.section.liquid
+│   ├── text-timeline.section.liquid
+│   ├── text-with-icons.section.liquid
+│   ├── textinput.liquid
+│   ├── timeline.section.liquid
+│   ├── user-complement-json.section.liquid
+│   ├── variant-metafields-json.section.liquid
+│   └── video.section.liquid
+├── setupTests.js
+├── shopify
+│   ├── .changeset
+│   │   ├── README.md
+│   │   └── config.json
+│   ├── package.json
+│   ├── sections
+│   │   ├── alertmessage
+│   │   │   ├── alertmessage.json
+│   │   │   ├── alertmessage.liquid
+│   │   │   └── alertmessage.module.scss
+│   │   ├── alertmessage.json
+│   │   ├── alertmessage.module.scss
+│   │   ├── badge
+│   │   │   ├── badge.json
+│   │   │   ├── badge.liquid
+│   │   │   └── badge.module.scss
+│   │   ├── badge.json
+│   │   ├── badge.module.scss
+│   │   ├── button
+│   │   │   ├── button.json
+│   │   │   ├── button.liquid
+│   │   │   └── button.module.scss
+│   │   ├── button.json
+│   │   ├── button.module.scss
+│   │   ├── card
+│   │   │   ├── card.json
+│   │   │   ├── card.liquid
+│   │   │   └── card.module.scss
+│   │   ├── card.json
+│   │   ├── card.module.scss
+│   │   ├── caroussel
+│   │   │   ├── caroussel.json
+│   │   │   ├── caroussel.liquid
+│   │   │   └── caroussel.module.scss
+│   │   ├── caroussel.json
+│   │   ├── caroussel.module.scss
+│   │   ├── checkbox
+│   │   │   ├── checkbox.json
+│   │   │   ├── checkbox.liquid
+│   │   │   └── checkbox.module.scss
+│   │   ├── checkbox.json
+│   │   ├── checkbox.module.scss
+│   │   ├── footer-group.context.b2b.json
+│   │   ├── footer-group.context.fr.json
+│   │   ├── footer-group.context.mexico.json
+│   │   ├── footer-group.json
+│   │   ├── footer-page-group.context.fr.json
+│   │   ├── footer-page-group.json
+│   │   ├── forminputgroup
+│   │   │   ├── forminputgroup.json
+│   │   │   ├── forminputgroup.liquid
+│   │   │   └── forminputgroup.module.scss
+│   │   ├── forminputgroup.json
+│   │   ├── forminputgroup.module.scss
+│   │   ├── header-group.context.b2b.json
+│   │   ├── header-group.context.fr.json
+│   │   ├── header-group.context.mexico.json
+│   │   ├── header-group.json
+│   │   ├── hidavid
+│   │   │   ├── hidavid.json
+│   │   │   ├── hidavid.liquid
+│   │   │   └── hidavid.module.scss
+│   │   ├── hidavid.json
+│   │   ├── hidavid.module.scss
+│   │   ├── hola
+│   │   │   ├── hola.json
+│   │   │   ├── hola.liquid
+│   │   │   └── hola.module.scss
+│   │   ├── hola.json
+│   │   ├── hola.module.scss
+│   │   ├── holafran
+│   │   │   ├── holafran.json
+│   │   │   ├── holafran.liquid
+│   │   │   └── holafran.module.scss
+│   │   ├── holafran.json
+│   │   ├── holafran.module.scss
+│   │   ├── modaldialog
+│   │   │   ├── modaldialog.json
+│   │   │   ├── modaldialog.liquid
+│   │   │   └── modaldialog.module.scss
+│   │   ├── modaldialog.json
+│   │   ├── modaldialog.module.scss
+│   │   ├── navbar
+│   │   │   ├── navbar.json
+│   │   │   ├── navbar.liquid
+│   │   │   └── navbar.module.scss
+│   │   ├── navbar.json
+│   │   ├── navbar.module.scss
+│   │   ├── overlay-group.context.b2b.json
+│   │   ├── overlay-group.context.fr.json
+│   │   ├── overlay-group.context.mexico.json
+│   │   ├── overlay-group.json
+│   │   ├── spinner
+│   │   │   ├── spinner.json
+│   │   │   ├── spinner.liquid
+│   │   │   └── spinner.module.scss
+│   │   ├── spinner.json
+│   │   ├── spinner.module.scss
+│   │   ├── textinput
+│   │   │   ├── textinput.json
+│   │   │   ├── textinput.liquid
+│   │   │   └── textinput.module.scss
+│   │   ├── textinput.json
+│   │   └── textinput.module.scss
+│   ├── snippets
+│   │   ├── account-information.snippet.liquid
+│   │   ├── account-order-return-app-menu-link.snippet.liquid
+│   │   ├── account-order-return-app.snippet.liquid
+│   │   ├── account-order-return-link.snippet.liquid
+│   │   ├── account-order-return.snippet.liquid
+│   │   ├── account-orderlist.snippet.liquid
+│   │   ├── account-sidebar.snippet.liquid
+│   │   ├── account-subscriptions.snippet.liquid
+│   │   ├── account-wishlist.snippet.liquid
+│   │   ├── advanced-collection-item-filler.snippet.liquid
+│   │   ├── advanced-icon-list.snippet.liquid
+│   │   ├── advanced-position-promotion-block-css-vars.snippet.liquid
+│   │   ├── aki-coupon.snippet.liquid
+│   │   ├── aki-discounts.snippet.liquid
+│   │   ├── alertmessage
+│   │   │   ├── alertmessage.json
+│   │   │   └── alertmessage.liquid
+│   │   ├── alma-badge-v3.snippet.liquid
+│   │   ├── alma-badge.snippet.liquid
+│   │   ├── app-ab-tasty.snippet.liquid
+│   │   ├── article-card.liquid
+│   │   ├── article-item.snippet.liquid
+│   │   ├── axeptio.snippet.liquid
+│   │   ├── baback-account-order-return-link.snippet.liquid
+│   │   ├── badge
+│   │   │   ├── badge.json
+│   │   │   └── badge.liquid
+│   │   ├── block-common-color-style.snippet.liquid
+│   │   ├── block-headings.snippet.liquid
+│   │   ├── breadcrumb.snippet.liquid
+│   │   ├── button
+│   │   │   ├── button.json
+│   │   │   └── button.liquid
+│   │   ├── button-group.snippet.liquid
+│   │   ├── button.snippet.liquid
+│   │   ├── buy-buttons.liquid
+│   │   ├── card
+│   │   │   ├── card.json
+│   │   │   └── card.liquid
+│   │   ├── card-collection.liquid
+│   │   ├── card-product.liquid
+│   │   ├── caroussel
+│   │   │   ├── caroussel.json
+│   │   │   └── caroussel.liquid
+│   │   ├── cart-drawer.liquid
+│   │   ├── cart-gift-wrap-checkbox.snippet.liquid
+│   │   ├── cart-gift-wrap-form.snippet.liquid
+│   │   ├── cart-line-custom-item.snippet.liquid
+│   │   ├── cart-line-item.snippet.liquid
+│   │   ├── cart-line-price.snippet.liquid
+│   │   ├── cart-notification.liquid
+│   │   ├── cart-terms-conditions-checkbox.snippet.liquid
+│   │   ├── cart-unit-line-price.snippet.liquid
+│   │   ├── checkbox
+│   │   │   ├── checkbox.json
+│   │   │   └── checkbox.liquid
+│   │   ├── collection-breadcrumb-menu.snippet.liquid
+│   │   ├── color-swatch-style.snippet.liquid
+│   │   ├── color-swatch-white.snippet.liquid
+│   │   ├── contentsquare-tag.snippet.liquid
+│   │   ├── countdown.snippet.liquid
+│   │   ├── country-localization.liquid
+│   │   ├── css-variables.snippet.liquid
+│   │   ├── customer-address.snippet.liquid
+│   │   ├── desktop-menu.snippet.liquid
+│   │   ├── device-media.snippet.liquid
+│   │   ├── didomi.snippet.liquid
+│   │   ├── external-return-app-link.snippet.liquid
+│   │   ├── external-return-app-order-return-link.snippet.liquid
+│   │   ├── f_format_css_class.snippet.liquid
+│   │   ├── f_format_money.snippet.liquid
+│   │   ├── f_get_static_items_handles.snippet.liquid
+│   │   ├── f_item_position_size.snippet.liquid
+│   │   ├── f_item_position_size_layout_alternate-2-4-3_2-2-1-2-2.snippet.liquid
+│   │   ├── f_item_position_size_layout_alternate-3-2-4_2-2-1-2-2.snippet.liquid
+│   │   ├── f_item_position_size_layout_alternate-3-3-2_2-2-2-1-1.snippet.liquid
+│   │   ├── f_item_position_size_layout_alternate-4-4-2_2-2-2-2-1-1.snippet.liquid
+│   │   ├── f_item_position_size_layout_fixed-3-3_2.snippet.liquid
+│   │   ├── f_item_position_size_layout_fixed-4-4_2.snippet.liquid
+│   │   ├── f_linkbar.snippet.liquid
+│   │   ├── f_local_font_face.snippet.liquid
+│   │   ├── f_minify-style.snippet.liquid
+│   │   ├── f_render-file-list.snippet.liquid
+│   │   ├── f_render-product-subtitle.snippet.liquid
+│   │   ├── f_render_custom_label.snippet.liquid
+│   │   ├── f_render_free_shipping_bar.snippet.liquid
+│   │   ├── f_render_margin_css_vars.snippet.liquid
+│   │   ├── f_render_product_labels.snippet.liquid
+│   │   ├── f_render_seo-atom-oembed-links.snippet.liquid
+│   │   ├── f_render_seo-hreflang-canonical.snippet.liquid
+│   │   ├── f_subnav_color.snippet.liquid
+│   │   ├── f_text-with-icon.snippet.liquid
+│   │   ├── facet-active-filters.snippet.liquid
+│   │   ├── facet-filters.snippet.liquid
+│   │   ├── facets.liquid
+│   │   ├── forminputgroup
+│   │   │   ├── forminputgroup.json
+│   │   │   └── forminputgroup.liquid
+│   │   ├── free_shipping_bar.snippet.liquid
+│   │   ├── fringuant-button.snippet.liquid
+│   │   ├── ga4-body-tag.snippet.liquid
+│   │   ├── ga4-checkout-tag.snippet.liquid
+│   │   ├── ga4-head-tag.snippet.liquid
+│   │   ├── gift-card-recipient-form.liquid
+│   │   ├── gtm-body-tag.snippet.liquid
+│   │   ├── gtm-checkout-tag.snippet.liquid
+│   │   ├── gtm-head-tag.snippet.liquid
+│   │   ├── header-drawer.liquid
+│   │   ├── header-dropdown-menu.liquid
+│   │   ├── header-fastlinks-menu.snippet.liquid
+│   │   ├── header-icon-list.snippet.liquid
+│   │   ├── header-logo.snippet.liquid
+│   │   ├── header-mega-menu.liquid
+│   │   ├── header-search.liquid
+│   │   ├── header-selectors.snippet.liquid
+│   │   ├── heading.snippet.liquid
+│   │   ├── hidavid
+│   │   │   ├── hidavid.json
+│   │   │   └── hidavid.liquid
+│   │   ├── hola
+│   │   │   ├── hola.json
+│   │   │   └── hola.liquid
+│   │   ├── holafran
+│   │   │   ├── holafran.json
+│   │   │   └── holafran.liquid
+│   │   ├── icon-accordion.liquid
+│   │   ├── icon-header.snippet.liquid
+│   │   ├── icon-with-text.liquid
+│   │   ├── icon.snippet.liquid
+│   │   ├── image-attributes.snippet.liquid
+│   │   ├── inventory-by-markets.snippet.liquid
+│   │   ├── js-variables.snippet.liquid
+│   │   ├── label.snippet.liquid
+│   │   ├── language-localization.liquid
+│   │   ├── loading-spinner.liquid
+│   │   ├── media.snippet.liquid
+│   │   ├── menu-desktop-panel-2.snippet.liquid
+│   │   ├── menu-desktop-panel.snippet.liquid
+│   │   ├── menu-label.snippet.liquid
+│   │   ├── menu-side-footer.snippet.liquid
+│   │   ├── menu-side-image-push.snippet.liquid
+│   │   ├── menu-side.snippet.liquid
+│   │   ├── meta-tags.liquid
+│   │   ├── metaobject-tab-content.snippet.liquid
+│   │   ├── microdata-schema.snippet.liquid
+│   │   ├── mini-cart-recommendations.snippet.liquid
+│   │   ├── mobile-facet-toolbar.snippet.liquid
+│   │   ├── modaldialog
+│   │   │   ├── modaldialog.json
+│   │   │   └── modaldialog.liquid
+│   │   ├── mondial-relay.snippet.liquid
+│   │   ├── navbar
+│   │   │   ├── navbar.json
+│   │   │   └── navbar.liquid
+│   │   ├── newsletter-form.snippet.liquid
+│   │   ├── newsletter-promocode.snippet.liquid
+│   │   ├── nosto-tagging-the-oz.snippet.liquid
+│   │   ├── optional-apps-body.snippet.liquid
+│   │   ├── optional-apps-head.snippet.liquid
+│   │   ├── order-returns-cdn.snippet.liquid
+│   │   ├── order-returns.snippet.liquid
+│   │   ├── oz-related-products-swatches.snippet.liquid
+│   │   ├── pagination.liquid
+│   │   ├── pagination.snippet.liquid
+│   │   ├── password-control.snippet.liquid
+│   │   ├── predictive-search.snippet.liquid
+│   │   ├── price-facet.liquid
+│   │   ├── price.liquid
+│   │   ├── product-description.snippet.liquid
+│   │   ├── product-form-reinsurance.snippet.liquid
+│   │   ├── product-form.snippet.liquid
+│   │   ├── product-info.snippet.liquid
+│   │   ├── product-inventory.snippet.liquid
+│   │   ├── product-item-placeholder.snippet.liquid
+│   │   ├── product-item.snippet.liquid
+│   │   ├── product-labels.snippet.liquid
+│   │   ├── product-media-gallery.liquid
+│   │   ├── product-media-modal.liquid
+│   │   ├── product-media.liquid
+│   │   ├── product-media.snippet.liquid
+│   │   ├── product-price.snippet.liquid
+│   │   ├── product-quick-add.snippet.liquid
+│   │   ├── product-rating.snippet.liquid
+│   │   ├── product-sticky-form.snippet.liquid
+│   │   ├── product-tabs.snippet.liquid
+│   │   ├── product-text-block.snippet.liquid
+│   │   ├── product-thumbnail.liquid
+│   │   ├── product-variant-options.liquid
+│   │   ├── product-variant-picker.liquid
+│   │   ├── product-variants-dropdown.snippet.liquid
+│   │   ├── product-variants.snippet.liquid
+│   │   ├── progress-bar.liquid
+│   │   ├── promotion-block.snippet.liquid
+│   │   ├── quantity-input.liquid
+│   │   ├── quick-order-list-row.liquid
+│   │   ├── quick-order-list.liquid
+│   │   ├── quick-order-product-row.liquid
+│   │   ├── register.snippet.liquid
+│   │   ├── richtext-content.snippet.liquid
+│   │   ├── scripts-optimizer.snippet.liquid
+│   │   ├── scroll-to-top.snippet.liquid
+│   │   ├── section-layout.snippet.liquid
+│   │   ├── share-button.liquid
+│   │   ├── shop-the-look-item.snippet.liquid
+│   │   ├── shopify-consent.snippet.liquid
+│   │   ├── smart-wishlist.snippet.liquid
+│   │   ├── social-icons.liquid
+│   │   ├── social-media.snippet.liquid
+│   │   ├── social-meta-tags.snippet.liquid
+│   │   ├── socloz-button.snippet.liquid
+│   │   ├── spinner
+│   │   │   ├── spinner.json
+│   │   │   └── spinner.liquid
+│   │   ├── static-item.snippet.liquid
+│   │   ├── store-availability.snippet.liquid
+│   │   ├── swatch-input.liquid
+│   │   ├── swatch.liquid
+│   │   ├── tagging-checkout-data.snippet.liquid
+│   │   ├── textinput
+│   │   │   ├── textinput.json
+│   │   │   └── textinput.liquid
+│   │   ├── translation-renderer.snippet.liquid
+│   │   ├── trustcommander.snippet.liquid
+│   │   ├── wishlist-add.snippet.liquid
+│   │   └── wishlist.snippet.liquid
+│   └── themes
+│       ├── client1.tsx
+│       ├── client2.tsx
+│       └── default.tsx
+├── snippets
+│   ├── alert-message
+│   │   ├── .gitkeep
+│   │   ├── alert-message.json
+│   │   └── alert-message.liquid
+│   ├── alertmessage
+│   │   ├── alertmessage.json
+│   │   └── alertmessage.liquid
+│   ├── badge
+│   │   ├── .gitkeep
+│   │   ├── badge.json
+│   │   └── badge.liquid
+│   ├── button
+│   │   ├── .gitkeep
+│   │   ├── button.json
+│   │   └── button.liquid
+│   ├── card
+│   │   ├── .gitkeep
+│   │   ├── card.json
+│   │   └── card.liquid
+│   ├── checkbox
+│   │   ├── .gitkeep
+│   │   ├── checkbox.json
+│   │   └── checkbox.liquid
+│   ├── form-input-group
+│   │   ├── .gitkeep
+│   │   ├── form-input-group.json
+│   │   └── form-input-group.liquid
+│   ├── forminputgroup
+│   │   ├── forminputgroup.json
+│   │   └── forminputgroup.liquid
+│   ├── hola-component
+│   │   ├── .gitkeep
+│   │   ├── hola-component.json
+│   │   └── hola-component.liquid
+│   ├── hola-gabriel
+│   │   ├── .gitkeep
+│   │   ├── hola-gabriel.json
+│   │   └── hola-gabriel.liquid
+│   ├── modal-dialog
+│   │   ├── .gitkeep
+│   │   ├── modal-dialog.json
+│   │   └── modal-dialog.liquid
+│   ├── modaldialog
+│   │   ├── modaldialog.json
+│   │   └── modaldialog.liquid
+│   ├── navbar
+│   │   ├── navbar.json
+│   │   └── navbar.liquid
+│   ├── spinner
+│   │   ├── .gitkeep
+│   │   ├── spinner.json
+│   │   └── spinner.liquid
+│   ├── text-input
+│   │   ├── .gitkeep
+│   │   ├── text-input.json
+│   │   └── text-input.liquid
+│   └── textinput
+│       ├── textinput.json
+│       └── textinput.liquid
+├── sonar-project.mjs
+├── sonar-project.properties
+├── src
+│   ├── __tests__
+│   │   └── sample.test.tsx
+│   ├── _document.tsx
+│   ├── api
+│   │   ├── analytics.ts
+│   │   └── shopify.ts
+│   ├── app
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   └── page.module.css
+│   ├── app.tsx
+│   ├── config
+│   │   ├── clients
+│   │   │   ├── client1.ts
+│   │   │   ├── client2.ts
+│   │   │   └── client3.ts
+│   │   ├── config.ts
+│   │   ├── default.js
+│   │   ├── development.js
+│   │   ├── production.js
+│   │   ├── settings_data.json
+│   │   └── settings_schema.json
+│   ├── entrypoints
+│   │   ├── main.js
+│   │   └── main.scss
+│   ├── layout
+│   ├── modules
+│   │   ├── alma-badge
+│   │   │   ├── alma-badge.js
+│   │   │   └── components
+│   │   ├── analytics.js
+│   │   ├── main-pages
+│   │   │   ├── checkout
+│   │   │   └── main-customers-login
+│   │   ├── notifications.js
+│   │   ├── sections
+│   │   │   ├── announcement-bar
+│   │   │   ├── collection-list
+│   │   │   ├── gallery
+│   │   │   ├── image-with-text
+│   │   │   ├── logo-list
+│   │   │   ├── map-place-list
+│   │   │   ├── multi-column
+│   │   │   ├── nosto-recommandations
+│   │   │   ├── press
+│   │   │   ├── recently-viewed-products
+│   │   │   ├── shop-the-look
+│   │   │   ├── slideshow
+│   │   │   ├── sub-collection-list
+│   │   │   ├── testimonials
+│   │   │   ├── text-timeline
+│   │   │   ├── timeline
+│   │   │   └── webhook-form
+│   │   ├── shopify-api.js
+│   │   └── snippets
+│   │       ├── aki-discounts
+│   │       ├── alma-badge
+│   │       ├── alma-badge-v3
+│   │       ├── contentsquare
+│   │       ├── fringuant
+│   │       ├── ga4-body-tag
+│   │       ├── ga4-checkout-tag
+│   │       ├── gtm-body-tag
+│   │       ├── gtm-checkout-tag
+│   │       ├── nosto-onetrust
+│   │       ├── nosto-tagging
+│   │       ├── onetrust
+│   │       ├── smart-wishlist
+│   │       ├── trustCommander
+│   │       └── wishlist
+│   ├── pages
+│   │   ├── index.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── schemas
+│   │   ├── afp.schema.js
+│   │   ├── blog-posts.schema.js
+│   │   ├── collection-description.schema.js
+│   │   ├── collection-list.schema.js
+│   │   ├── collection-promotion-ban.schema.js
+│   │   ├── colors.schema.js
+│   │   ├── contact-form.schema.js
+│   │   ├── custom-html.schema.js
+│   │   ├── custom-liquid.schema.js
+│   │   ├── deprecated.schema.js
+│   │   ├── faq.schema.js
+│   │   ├── feat-collections-aside.schema.js
+│   │   ├── featured-collections.schema.js
+│   │   ├── featured-product.schema.js
+│   │   ├── footer.schema.js
+│   │   ├── gallery.schema.js
+│   │   ├── heading.schema.js
+│   │   ├── headings-aside-layout.schema.js
+│   │   ├── headings.schema.js
+│   │   ├── image-with-text-block.schema.js
+│   │   ├── image-with-text-overlay.schema.js
+│   │   ├── image-with-text.schema.js
+│   │   ├── instafeed-theoz.schema.js
+│   │   ├── logo-list.schema.js
+│   │   ├── main-advanced-collection.schema.js
+│   │   ├── main-customers-login.schema.js
+│   │   ├── main-customers-register.schema.js
+│   │   ├── multi-column.schema.js
+│   │   ├── newsletter-popup.schema.js
+│   │   ├── newsletter-social.schema.js
+│   │   ├── newsletter.schema.js
+│   │   ├── nosto-recommandations-the-oz.schema.js
+│   │   ├── popup.schema.js
+│   │   ├── press.schema.js
+│   │   ├── privacy-banner.schema.js
+│   │   ├── product-recommendations.schema.js
+│   │   ├── promotion-block-basic-settings.schema.js
+│   │   ├── promotion-block-featured-products-settings.schema.js
+│   │   ├── promotion-block-settings.schema.js
+│   │   ├── promotion-blocks-basic.schema.js
+│   │   ├── promotion-blocks.schema.js
+│   │   ├── recently-viewed-products.schema.js
+│   │   ├── register-blocks.schema.js
+│   │   ├── rich-text.schema.js
+│   │   ├── richtext-content.schema.js
+│   │   ├── sectionLayout.schema.js
+│   │   ├── separator.schema.js
+│   │   ├── shop-the-look.schema.js
+│   │   ├── slideshow.schema.js
+│   │   ├── spacer.schema.js
+│   │   ├── static-newsletter.schema.js
+│   │   ├── static-text-with-icons.schema.js
+│   │   ├── sub-collection-list.schema.js
+│   │   ├── testimonials.schema.js
+│   │   ├── text-timeline.schema.js
+│   │   ├── text-with-icons.schema.js
+│   │   ├── timeline.schema.js
+│   │   ├── toggle-visiblity.schema.js
+│   │   └── video.schema.js
+│   ├── sections
+│   ├── snippets
+│   ├── stories
+│   │   ├── Configure.mdx
+│   │   ├── assets
+│   │   │   ├── accessibility.png
+│   │   │   ├── accessibility.svg
+│   │   │   ├── addon-library.png
+│   │   │   ├── assets.png
+│   │   │   ├── avif-test-image.avif
+│   │   │   ├── context.png
+│   │   │   ├── discord.svg
+│   │   │   ├── docs.png
+│   │   │   ├── figma-plugin.png
+│   │   │   ├── github.svg
+│   │   │   ├── share.png
+│   │   │   ├── styling.png
+│   │   │   ├── testing.png
+│   │   │   ├── theming.png
+│   │   │   ├── tutorials.svg
+│   │   │   └── youtube.svg
+│   │   ├── button.css
+│   │   ├── header.css
+│   │   └── page.css
+│   ├── styles
+│   │   ├── _styles.scss
+│   │   ├── _tokens.scss
+│   │   ├── bootstrap.scss
+│   │   ├── bug-fix.scss
+│   │   ├── components
+│   │   │   ├── _components.scss
+│   │   │   ├── advanced-icon-list.scss
+│   │   │   ├── annoncement-bar.scss
+│   │   │   ├── banner.scss
+│   │   │   ├── breadcrumb.scss
+│   │   │   ├── bubble-count.scss
+│   │   │   ├── button.scss
+│   │   │   ├── cart-notification.scss
+│   │   │   ├── cart-terms-conditions-checkbox.scss
+│   │   │   ├── collapsible.scss
+│   │   │   ├── combo-box.scss
+│   │   │   ├── cookie-bar.scss
+│   │   │   ├── countdown-timer.scss
+│   │   │   ├── discount-badge.scss
+│   │   │   ├── dots-nav.scss
+│   │   │   ├── drawer.scss
+│   │   │   ├── empty-state.scss
+│   │   │   ├── file-link.scss
+│   │   │   ├── form.scss
+│   │   │   ├── gift-card.scss
+│   │   │   ├── icon.scss
+│   │   │   ├── image-overlay.scss
+│   │   │   ├── label.scss
+│   │   │   ├── link-bar.scss
+│   │   │   ├── link-wrapper.scss
+│   │   │   ├── linklist.scss
+│   │   │   ├── list.scss
+│   │   │   ├── loading-bar.scss
+│   │   │   ├── menu-nav.scss
+│   │   │   ├── mobile-share-buttons.scss
+│   │   │   ├── mobile-toolbar.scss
+│   │   │   ├── modal.scss
+│   │   │   ├── newsletter.scss
+│   │   │   ├── nl-promocode.scss
+│   │   │   ├── openable.scss
+│   │   │   ├── oz-app-swatches.scss
+│   │   │   ├── pagination.scss
+│   │   │   ├── place-holder.scss
+│   │   │   ├── placeholder-image.scss
+│   │   │   ├── popover.scss
+│   │   │   ├── pre-loader.scss
+│   │   │   ├── prev-next-buttons.scss
+│   │   │   ├── price-list.scss
+│   │   │   ├── price-range.scss
+│   │   │   ├── product-facet.scss
+│   │   │   ├── product-free-shipping.scss
+│   │   │   ├── product-item-meta.scss
+│   │   │   ├── product-item.scss
+│   │   │   ├── product-list.scss
+│   │   │   ├── product-text-block-popover.scss
+│   │   │   ├── progress-bar.scss
+│   │   │   ├── quantity-selector.scss
+│   │   │   ├── rating.scss
+│   │   │   ├── scroll-spy.scss
+│   │   │   ├── scroll-to-top.scss
+│   │   │   ├── scroller.scss
+│   │   │   ├── shop-the-look-item.scss
+│   │   │   ├── shopify-challenge.scss
+│   │   │   ├── shopify-model-viewer-ui.scss
+│   │   │   ├── simple-notification.scss
+│   │   │   ├── social-media.scss
+│   │   │   ├── spacer.scss
+│   │   │   ├── spinner.scss
+│   │   │   ├── split-lines.scss
+│   │   │   ├── square-separator.scss
+│   │   │   ├── store-availability.scss
+│   │   │   ├── swatch.scss
+│   │   │   ├── tabs-nav.scss
+│   │   │   ├── tag.scss
+│   │   │   ├── tooltip.scss
+│   │   │   ├── translatable.scss
+│   │   │   ├── truncate-content.scss
+│   │   │   └── video-wrapper.scss
+│   │   ├── global
+│   │   │   ├── _global.scss
+│   │   │   └── typography.scss
+│   │   ├── global.css
+│   │   ├── layouts
+│   │   │   ├── _layouts.scss
+│   │   │   ├── account.scss
+│   │   │   ├── article.scss
+│   │   │   ├── checkout.scss
+│   │   │   ├── contact.scss
+│   │   │   ├── container.scss
+│   │   │   ├── content-box.scss
+│   │   │   ├── faq.scss
+│   │   │   ├── footer.scss
+│   │   │   ├── header.scss
+│   │   │   ├── page.scss
+│   │   │   ├── payment-methods-list.scss
+│   │   │   ├── product.scss
+│   │   │   ├── reviews.scss
+│   │   │   ├── search.scss
+│   │   │   ├── section.scss
+│   │   │   ├── shopify-section.scss
+│   │   │   └── vertical-breather.scss
+│   │   ├── mixins
+│   │   │   ├── _breakpoints.scss
+│   │   │   └── _mixins.scss
+│   │   ├── reset.scss
+│   │   ├── sections
+│   │   │   ├── _sections.scss
+│   │   │   ├── collection-banner-custom.scss
+│   │   │   ├── collection-description.scss
+│   │   │   ├── customer-account-panel.scss
+│   │   │   ├── feat-collections-aside.scss
+│   │   │   ├── featured-collections.scss
+│   │   │   ├── image-with-text-block.scss
+│   │   │   ├── instafeed-theoz.scss
+│   │   │   ├── list-collection.scss
+│   │   │   ├── mini-cart.scss
+│   │   │   ├── newsletter-social.scss
+│   │   │   ├── password.scss
+│   │   │   ├── predective-search.scss
+│   │   │   ├── promotion-block.scss
+│   │   │   ├── slideshow.scss
+│   │   │   ├── text-with-icons.scss
+│   │   │   ├── video.scss
+│   │   │   └── wishlist.scss
+│   │   ├── utils
+│   │   │   ├── _utils.scss
+│   │   │   ├── accessibility.scss
+│   │   │   ├── anchor.scss
+│   │   │   ├── animated-element.scss
+│   │   │   ├── animated-plus.scss
+│   │   │   ├── aspect-ratio.scss
+│   │   │   ├── custom-drag-cursor.scss
+│   │   │   ├── effect.scss
+│   │   │   ├── hide-scrollbar.scss
+│   │   │   ├── lock.scss
+│   │   │   ├── media-hidden.scss
+│   │   │   ├── no-js-reveal.scss
+│   │   │   ├── tabbing-management.scss
+│   │   │   └── tap-area.scss
+│   │   ├── variables.scss
+│   │   └── vendors
+│   │       ├── _vendors.scss
+│   │       ├── flickity.scss
+│   │       └── photoswipe.scss
+│   ├── templates
+│   │   ├── 404.json
+│   │   ├── article.json
+│   │   ├── blog.json
+│   │   ├── cart.json
+│   │   ├── collection.json
+│   │   ├── customers
+│   │   │   ├── account.json
+│   │   │   ├── activate_account.json
+│   │   │   ├── addresses.json
+│   │   │   ├── login.json
+│   │   │   ├── order.json
+│   │   │   ├── register.json
+│   │   │   └── reset_password.json
+│   │   ├── gift_card.liquid
+│   │   ├── index.json
+│   │   ├── list-collections.json
+│   │   ├── package.json
+│   │   ├── page.contact.json
+│   │   ├── page.faq.json
+│   │   ├── page.json
+│   │   ├── page.list-collections.json
+│   │   ├── page.livraison.json
+│   │   ├── page.no-layout.json
+│   │   ├── page.order-returns.json
+│   │   ├── page.paiement.json
+│   │   ├── page.qui-sommes-nous.json
+│   │   ├── page.sca-storelocator.json
+│   │   ├── page.service-client.json
+│   │   ├── page.wishlist.json
+│   │   ├── password.json
+│   │   ├── product.json
+│   │   ├── product.pre-order.json
+│   │   ├── product.quick-buy-drawer.json
+│   │   ├── product.quick-buy-popover.json
+│   │   └── search.json
+│   └── utils
+│       └── helpers.ts
+├── storybook.log
+├── templates
+│   ├── 404.json
+│   ├── alertmessage.json
+│   ├── article.json
+│   ├── badge.json
+│   ├── blog.json
+│   ├── button.json
+│   ├── card.json
+│   ├── caroussel.json
+│   ├── cart.json
+│   ├── checkbox.json
+│   ├── collection.json
+│   ├── customers
+│   │   ├── account.json
+│   │   ├── activate_account.json
+│   │   ├── addresses.json
+│   │   ├── login.json
+│   │   ├── order.json
+│   │   ├── register.json
+│   │   └── reset_password.json
+│   ├── footer-group copy.json
+│   ├── footer-group.context.b2b copy.json
+│   ├── footer-group.context.b2b.json
+│   ├── footer-group.context.fr copy.json
+│   ├── footer-group.context.fr.json
+│   ├── footer-group.context.mexico copy.json
+│   ├── footer-group.context.mexico.json
+│   ├── footer-group.json
+│   ├── footer-page-group copy.json
+│   ├── footer-page-group.context.fr copy.json
+│   ├── footer-page-group.context.fr.json
+│   ├── footer-page-group.json
+│   ├── forminputgroup.json
+│   ├── gift_card.liquid
+│   ├── header-group copy.json
+│   ├── header-group.context.b2b copy.json
+│   ├── header-group.context.b2b.json
+│   ├── header-group.context.fr copy.json
+│   ├── header-group.context.fr.json
+│   ├── header-group.context.mexico copy.json
+│   ├── header-group.context.mexico.json
+│   ├── header-group.json
+│   ├── hidavid.json
+│   ├── hola.json
+│   ├── holafran.json
+│   ├── index.json
+│   ├── list-collections.json
+│   ├── modaldialog.json
+│   ├── navbar.json
+│   ├── overlay-group copy.json
+│   ├── overlay-group.context.b2b copy.json
+│   ├── overlay-group.context.b2b.json
+│   ├── overlay-group.context.fr copy.json
+│   ├── overlay-group.context.fr.json
+│   ├── overlay-group.context.mexico copy.json
+│   ├── overlay-group.context.mexico.json
+│   ├── overlay-group.json
+│   ├── page.contact.json
+│   ├── page.faq.json
+│   ├── page.json
+│   ├── page.list-collections.json
+│   ├── page.livraison.json
+│   ├── page.no-layout.json
+│   ├── page.order-returns.json
+│   ├── page.paiement.json
+│   ├── page.qui-sommes-nous.json
+│   ├── page.sca-storelocator.json
+│   ├── page.service-client.json
+│   ├── page.wishlist.json
+│   ├── password.json
+│   ├── product.json
+│   ├── product.pre-order.json
+│   ├── product.quick-buy-drawer.json
+│   ├── product.quick-buy-popover.json
+│   ├── search.json
+│   ├── spinner.json
+│   └── textinput.json
+├── theme.liquid
+└── tsconfig.json
+
+173 directories, 1166 files
