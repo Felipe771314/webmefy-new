@@ -1,4 +1,6 @@
 {{ 'caroussel.scss' | asset_url | stylesheet_tag }}
+{{ 'caroussel.js' | asset_url | script_tag }}
+
 
 {%- style -%}
 .caroussel {
@@ -15,9 +17,11 @@
   <h2>{{ section.settings.title }}</h2>
 
   <div
-    class="caroussel-track"
-    data-transition="{{ section.settings.transitionType }}"
-  >
+  class="caroussel-track"
+  data-transition="{{ section.settings.transitionType }}"
+  data-autoplay="{{ section.settings.autoPlay }}"
+  data-loop="{{ section.settings.loop }}"
+>
     {% for block in section.blocks %}
       {% assign val = block.settings.value %}
       <div class="caroussel-item">
