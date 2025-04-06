@@ -223,6 +223,44 @@
     "navbar_ceEehG": {
       "type": "navbar",
       "settings": {}
+    },
+    "caroussel_AngBUE": {
+      "type": "caroussel",
+      "blocks": {
+        "items_FhcGnR": {
+          "type": "items",
+          "settings": {
+            "value": "Slide 1"
+          }
+        },
+        "items_FPzN7K": {
+          "type": "items",
+          "settings": {
+            "value": "Slide 1"
+          }
+        },
+        "items_drq7LE": {
+          "type": "items",
+          "settings": {
+            "value": "Slide 1"
+          }
+        }
+      },
+      "block_order": [
+        "items_FhcGnR",
+        "items_FPzN7K",
+        "items_drq7LE"
+      ],
+      "settings": {
+        "title": "Título del carrusel",
+        "autoPlay": true,
+        "showArrows": true,
+        "loop": false,
+        "transitionType": "fade",
+        "itemStyle": "style-1",
+        "containerStyle": "container-fluid",
+        "arrowsPosition": "left"
+      }
     }
   },
   "order": [
@@ -232,6 +270,7 @@
     "collage",
     "video",
     "multicolumn",
-    "navbar_ceEehG"
+    "navbar_ceEehG",
+    "caroussel_AngBUE"
   ]
 }
