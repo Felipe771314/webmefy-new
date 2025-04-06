@@ -1,16 +1,26 @@
-{{ 'caroussel.scss' | asset_url | stylesheet_tag }}
 
+{{ 'caroussel.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.caroussel {
+  padding: 20px;
+}
+{%- endstyle -%}
+{%- liquid
+  assign title = section.settings.title
+-%}
+
+<!-- Caroussel -->
 <div class="caroussel section-{{ section.id }}">
-  {%- if section.settings.title != blank -%}
-    <h2>{{ section.settings.title }}</h2>
-  {%- endif -%}
+  {{ title }}
+  {% for block in section.blocks %}
+  <p>{{ block.settings.value }}</p>
+{% endfor %}
 </div>
 
 {% schema %}
 {
   "name": "Caroussel",
-  "tag": "section",
-  "class": "caroussel",
   "settings": [
     {
       "type": "text",
@@ -21,13 +31,13 @@
     {
       "type": "checkbox",
       "id": "autoPlay",
-      "label": "Autoplay",
+      "label": "AutoPlay",
       "default": ""
     },
     {
       "type": "checkbox",
       "id": "showArrows",
-      "label": "Showarrows",
+      "label": "ShowArrows",
       "default": ""
     },
     {
@@ -39,32 +49,32 @@
     {
       "type": "text",
       "id": "transitionType",
-      "label": "Transitiontype",
+      "label": "TransitionType",
       "default": ""
     },
     {
       "type": "text",
       "id": "itemStyle",
-      "label": "Itemstyle",
+      "label": "ItemStyle",
       "default": ""
     },
     {
       "type": "text",
       "id": "containerStyle",
-      "label": "Containerstyle",
+      "label": "ContainerStyle",
       "default": ""
     },
     {
       "type": "text",
       "id": "arrowsPosition",
-      "label": "Arrowsposition",
+      "label": "ArrowsPosition",
       "default": ""
     }
   ],
   "blocks": [
     {
-      "type": "item",
-      "name": "Item",
+      "type": "items",
+      "name": "Items",
       "settings": [
         {
           "type": "text",
@@ -79,11 +89,11 @@
       "name": "Caroussel",
       "category": "Custom",
       "blocks": [
-        { "type": "item" },
-        { "type": "item" }
+        {
+          "type": "items"
+        }
       ]
     }
   ]
 }
-
 {% endschema %}

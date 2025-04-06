@@ -1,3 +1,4 @@
+
 const fs = require('fs');
 const path = require('path');
 const { Project } = require('ts-morph');
@@ -17,32 +18,60 @@ function parsePropsFromFile(tsxPath, interfaceName) {
   const interfaceDec = sourceFile.getInterface(interfaceName);
   if (!interfaceDec) return [];
 
-  return interfaceDec.getProperties().map((prop) => ({
-    name: prop.getName(),
-    type: prop.getType().getText(),
-    shopifyType: mapTsTypeToShopifyType(prop.getType().getText()),
-    defaultValue: '',
-  }));
+  return interfaceDec.getProperties().map((prop) => {
+    const name = prop.getName();
+    const tsType = prop.getType().getText();
+    const isArray = tsType.endsWith('[]');
+    const baseType = isArray ? tsType.replace('[]', '') : tsType;
+    return {
+      name,
+      type: tsType,
+      shopifyType: mapTsTypeToShopifyType(baseType),
+      isArray,
+      defaultValue: '',
+    };
+  });
 }
 
 // Estructura Shopify schema
 function mapPropsToShopifySchema(componentName, propsArray) {
+  const settings = [];
+  const blocks = [];
+
+  propsArray.forEach((prop) => {
+    if (prop.isArray) {
+      blocks.push({
+        type: prop.name,
+        name: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
+        settings: [
+          {
+            type: prop.shopifyType,
+            id: 'value',
+            label: 'Value'
+          }
+        ]
+      });
+    } else {
+      settings.push({
+        type: prop.shopifyType,
+        id: prop.name,
+        label: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
+        default: prop.defaultValue
+      });
+    }
+  });
+
   return {
     name: componentName,
-    settings: propsArray.map((prop) => ({
-      type: prop.shopifyType,
-      id: prop.name,
-      label: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
-      default: prop.defaultValue,
-    })),
-    blocks: [],
+    settings,
+    blocks,
     presets: [
       {
         name: componentName,
         category: 'Custom',
-        blocks: [],
-      },
-    ],
+        blocks: blocks.map(b => ({ type: b.type }))
+      }
+    ]
   };
 }
 
@@ -57,16 +86,21 @@ function createLiquidFile(componentName, schemaObj, isSection) {
 }
 {%- endstyle -%}`;
 
-  const liquidLogic = isSection
-    ? `{%- liquid
+  const liquidLogic = isSection ? `{%- liquid
   assign title = section.settings.title
--%}`
+-%}` : '';
+
+  const blockHtml = schemaObj.blocks.length > 0
+    ? `{% for block in section.blocks %}
+  <p>{{ block.settings.value }}</p>
+{% endfor %}`
     : '';
 
   const html = `
 <!-- ${componentName} -->
 ${isSection ? `<div class="${componentName.toLowerCase()} section-{{ section.id }}">` : `<div class="${componentName.toLowerCase()}">`}
   ${isSection ? '{{ title }}' : ''}
+  ${blockHtml}
 </div>`;
 
   return `
@@ -87,22 +121,18 @@ function generateComponentFiles(category, componentName, propsArray) {
   const shopifyFolder = isSection ? 'sections' : 'snippets';
   const componentLower = componentName.toLowerCase();
   const schemaObj = mapPropsToShopifySchema(componentName, propsArray);
-
   const liquidContent = createLiquidFile(componentName, schemaObj, isSection);
 
   const liquidPath = path.resolve(__dirname, `../${shopifyFolder}/${componentLower}.liquid`);
   const scssPath = path.resolve(__dirname, `../assets/${componentLower}.css`);
 
-  // Liquid
   fs.writeFileSync(liquidPath, liquidContent, 'utf8');
 
-  // CSS
   if (!fs.existsSync(scssPath)) {
-    fs.writeFileSync(
-      scssPath,
-      `.${componentLower} {\n  /* estilos base para ${componentName} */\n}\n`,
-      'utf8'
-    );
+    fs.writeFileSync(scssPath, `.${componentLower} {
+  /* estilos base para ${componentName} */
+}
+`, 'utf8');
   }
 
   console.log(`✅ ${componentName} generado en ${shopifyFolder}`);
@@ -111,10 +141,7 @@ function generateComponentFiles(category, componentName, propsArray) {
 // Recorre cada categoría (atoms, molecules, organisms)
 function processCategory(categoryDir) {
   const category = path.basename(categoryDir);
-  const components = fs
-    .readdirSync(categoryDir, { withFileTypes: true })
-    .filter((item) => item.isDirectory())
-    .map((dir) => dir.name);
+  const components = fs.readdirSync(categoryDir, { withFileTypes: true }).filter((item) => item.isDirectory()).map((dir) => dir.name);
 
   components.forEach((componentName) => {
     const tsxPath = path.join(categoryDir, componentName, `${componentName}.tsx`);
