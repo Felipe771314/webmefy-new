@@ -7,12 +7,13 @@
 }
 {%- endstyle -%}
 
-
+{%- liquid
+  assign title = section.settings.title
+-%}
 
 <!-- Badge -->
 <div class="badge section-{{ section.id }}">
   {{ title }}
-  
 </div>
 
 {% schema %}

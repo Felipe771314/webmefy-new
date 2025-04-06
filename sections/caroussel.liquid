@@ -11,13 +11,12 @@
   assign title = section.settings.title
 -%}
 
-
 <!-- Caroussel -->
 <div class="caroussel section-{{ section.id }}">
   {{ title }}
   {% for block in section.blocks %}
-  <p>{{ block.settings.value }}</p>
-{% endfor %}
+    <p>{{ block.settings.value }}</p>
+  {% endfor %}
 </div>
 
 {% schema %}
@@ -89,15 +88,24 @@
     }
   ],
   "presets": [
-    {
-      "name": "Caroussel",
-      "category": "Custom",
-      "blocks": [
-        {
-          "type": "items"
+  {
+    "name": "Caroussel",
+    "category": "Custom",
+    "blocks": [
+      {
+        "type": "items",
+        "settings": {
+          "value": "Item 1"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "items",
+        "settings": {
+          "value": "Item 2"
+        }
+      }
+    ]
+  }
+]
 }
 {% endschema %}

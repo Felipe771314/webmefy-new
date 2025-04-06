@@ -1,21 +1,16 @@
-// generate-shopify-sections.js
 const fs = require('fs');
 const path = require('path');
 const { Project } = require('ts-morph');
 
-// 1. Mapeo de tipos TypeScript a tipos de campos Shopify
-function mapTsTypeToShopifyType(tsType, comment = '') {
-  if (comment.includes('@color') || tsType === 'Color') return 'color';
-  if (comment.includes('@range')) return 'range';
-  if (comment.includes('@select')) return 'select';
+// Shopify Types
+function mapTsTypeToShopifyType(tsType) {
   if (tsType.includes('boolean')) return 'checkbox';
   if (tsType.includes('number')) return 'number';
   if (tsType.includes('string[]')) return 'blockArray';
-  if (tsType.includes('string')) return 'text';
   return 'text';
 }
 
-// 2. Parsear las props desde una interfaz .tsx
+// Detecta props
 function parsePropsFromFile(tsxPath, interfaceName) {
   const project = new Project();
   const sourceFile = project.addSourceFileAtPath(tsxPath);
@@ -23,21 +18,16 @@ function parsePropsFromFile(tsxPath, interfaceName) {
   if (!interfaceDec) return [];
 
   return interfaceDec.getProperties().map((prop) => {
-    const name = prop.getName();
     const tsType = prop.getType().getText();
-    const comment = prop.getJsDocs().map((doc) => doc.getComment()).join(' ') || '';
     return {
-      name,
+      name: prop.getName(),
       type: tsType,
-      shopifyType: mapTsTypeToShopifyType(tsType, comment),
-      label: name.charAt(0).toUpperCase() + name.slice(1),
-      default: '',
-      comment
+      shopifyType: mapTsTypeToShopifyType(tsType),
     };
   });
 }
 
-// 3. Construir el schema de Shopify completo
+// Mapea props a schema de Shopify
 function mapPropsToShopifySchema(componentName, props) {
   const settings = [];
   const blocks = [];
@@ -46,21 +36,21 @@ function mapPropsToShopifySchema(componentName, props) {
     if (prop.shopifyType === 'blockArray') {
       blocks.push({
         type: prop.name,
-        name: prop.label,
+        name: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
         settings: [
           {
             type: 'text',
             id: 'value',
-            label: 'Value'
-          }
-        ]
+            label: 'Value',
+          },
+        ],
       });
     } else {
       settings.push({
         type: prop.shopifyType,
         id: prop.name,
-        label: prop.label,
-        default: prop.default
+        label: prop.name.charAt(0).toUpperCase() + prop.name.slice(1),
+        default: '',
       });
     }
   });
@@ -75,18 +65,26 @@ function mapPropsToShopifySchema(componentName, props) {
       {
         name: componentName,
         category: 'Custom',
-        blocks: blocks.map(b => ({ type: b.type }))
-      }
-    ]
+        blocks: blocks.map((b) => ({ type: b.type })),
+      },
+    ],
   };
 }
 
-// 4. Crear el archivo Liquid con estructura válida
+// Estructura Liquid con SCSS, lógica y loop
 function createLiquidFile(componentName, schemaObj, isSection) {
   const lower = componentName.toLowerCase();
-  const scssFile = `${lower}.scss`;
+  const scssAsset = `${lower}.scss`;
 
-  const assets = `{{ '${scssFile}' | asset_url | stylesheet_tag }}`;
+  const conditionalCSS = `
+{{ '${scssAsset}' | asset_url | stylesheet_tag }}`;
+
+  const blockLoop = schemaObj.blocks.length > 0
+    ? `
+  {% for block in section.blocks %}
+    <p>{{ block.settings.value }}</p>
+  {% endfor %}`
+    : '';
 
   const styleBlock = `
 {%- style -%}
@@ -95,38 +93,30 @@ function createLiquidFile(componentName, schemaObj, isSection) {
 }
 {%- endstyle -%}`;
 
-  const logicBlock = `
+  const logicLiquid = `
 {%- liquid
   assign title = section.settings.title
 -%}`;
 
-  const blocksHTML = schemaObj.blocks.length > 0
-    ? `{% for block in section.blocks %}
-  <p>{{ block.settings.value }}</p>
-{% endfor %}`
-    : '';
-
   const html = `
 <!-- ${componentName} -->
 <div class="${lower} section-{{ section.id }}">
-  {{ title }}
-  ${blocksHTML}
+  {{ title }}${blockLoop}
 </div>`;
 
-  return `
-${assets}
-${styleBlock}
-${isSection ? logicBlock : ''}
-
-${html}
-
+  const schema = `
 {% schema %}
 ${JSON.stringify(schemaObj, null, 2)}
-{% endschema %}
-`;
+{% endschema %}`;
+
+  return `${conditionalCSS}
+${styleBlock}
+${logicLiquid}
+${html}
+${schema}`;
 }
 
-// 5. Generar archivos necesarios (Liquid + SCSS)
+// Genera archivos de componente
 function generateComponentFiles(category, name, props) {
   const isSection = category !== 'atoms';
   const folder = isSection ? 'sections' : 'snippets';
@@ -136,25 +126,27 @@ function generateComponentFiles(category, name, props) {
   const liquid = createLiquidFile(name, schema, isSection);
 
   const liquidPath = path.resolve(__dirname, `../${folder}/${lower}.liquid`);
-  const scssSource = path.resolve(__dirname, `../components/${category}/${name}/${name}.module.scss`);
-  const scssTarget = path.resolve(__dirname, `../assets/${lower}.scss`);
+  const scssPath = path.resolve(__dirname, `../assets/${lower}.scss`);
+  const sourceScss = path.resolve(__dirname, `../components/${category}/${name}/${name}.module.scss`);
 
   fs.writeFileSync(liquidPath, liquid, 'utf8');
 
-  if (!fs.existsSync(scssTarget)) {
-    const base = fs.existsSync(scssSource) ? fs.readFileSync(scssSource, 'utf8') : '';
-    fs.writeFileSync(scssTarget, base || `.${lower} {\n  /* estilos para ${name} */\n}\n`, 'utf8');
+  if (!fs.existsSync(scssPath)) {
+    const fallbackStyle = fs.existsSync(sourceScss)
+      ? fs.readFileSync(sourceScss, 'utf8')
+      : `.${lower} { }\n`;
+    fs.writeFileSync(scssPath, fallbackStyle, 'utf8');
   }
 
   console.log(`✅ ${name} generado como ${folder}`);
 }
 
-// 6. Procesar categoría (atoms, molecules, organisms)
+// Procesa componentes
 function processCategory(categoryDir) {
   const category = path.basename(categoryDir);
-  const components = fs.readdirSync(categoryDir).filter(c =>
-    fs.lstatSync(path.join(categoryDir, c)).isDirectory()
-  );
+  const components = fs
+    .readdirSync(categoryDir)
+    .filter((f) => fs.lstatSync(path.join(categoryDir, f)).isDirectory());
 
   components.forEach((name) => {
     const tsxPath = path.join(categoryDir, name, `${name}.tsx`);
@@ -164,12 +156,12 @@ function processCategory(categoryDir) {
       const props = parsePropsFromFile(tsxPath, interfaceName);
       generateComponentFiles(category, name, props);
     } else {
-      console.warn(`⚠️ No se encontró ${tsxPath}`);
+      console.warn(`⚠️ No se encontró archivo TSX para ${name}`);
     }
   });
 }
 
-// 7. Ejecutar script
+// MAIN
 const componentsDir = path.resolve(__dirname, '../components');
 ['atoms', 'molecules', 'organisms'].forEach((cat) => {
   const dir = path.join(componentsDir, cat);
