@@ -53,13 +53,17 @@ const shopifyTypeFolder = 'snippets';
 
 // Función que recorre un directorio de categoría (atoms, molecules, organisms, etc.)
 function processCategory(categoryDir) {
+  const category = path.basename(categoryDir); // 'atoms', 'molecules', etc.
+
+  // Determina el destino en función de la categoría
+  const shopifyTypeFolder = category === 'atoms' ? 'snippets' : 'sections';
+
   const components = fs
     .readdirSync(categoryDir, { withFileTypes: true })
     .filter((item) => item.isDirectory())
     .map((dir) => dir.name);
 
   components.forEach((componentName) => {
-    // Ruta esperada del componente (por ejemplo: components/atoms/Badge/Badge.tsx)
     const tsxPath = path.join(categoryDir, componentName, `${componentName}.tsx`);
     if (fs.existsSync(tsxPath)) {
       const interfaceName = `${componentName}Props`;
@@ -67,21 +71,18 @@ function processCategory(categoryDir) {
         const propsArray = parsePropsFromFile(tsxPath, interfaceName);
         const schemaObj = mapPropsToShopifySchema(componentName, propsArray);
 
-        // Ruta de salida en Shopify para este componente
         const shopifyComponentDir = path.join(
           shopifyDir,
           shopifyTypeFolder,
-          componentName.toLowerCase(),
+          componentName.toLowerCase()
         );
         if (!fs.existsSync(shopifyComponentDir)) {
           fs.mkdirSync(shopifyComponentDir, { recursive: true });
         }
 
-        // Genera el archivo JSON
         const jsonPath = path.join(shopifyComponentDir, `${componentName.toLowerCase()}.json`);
         fs.writeFileSync(jsonPath, JSON.stringify(schemaObj, null, 2), 'utf-8');
 
-        // Genera un archivo Liquid básico usando el schema
         const liquidTemplate = `
 {% schema %}
 ${JSON.stringify(schemaObj, null, 2)}
@@ -97,15 +98,16 @@ ${JSON.stringify(schemaObj, null, 2)}
         const liquidPath = path.join(shopifyComponentDir, `${componentName.toLowerCase()}.liquid`);
         fs.writeFileSync(liquidPath, liquidTemplate, 'utf-8');
 
-        console.log(`Shopify schema generated for ${componentName} in ${shopifyTypeFolder}`);
+        console.log(`✅ Shopify schema generated for ${componentName} in ${shopifyTypeFolder}`);
       } catch (error) {
-        console.error(`Error processing ${componentName}: ${error}`);
+        console.error(`❌ Error processing ${componentName}: ${error}`);
       }
     } else {
-      console.warn(`No se encontró archivo TSX para ${componentName} en ${categoryDir}`);
+      console.warn(`⚠️ No se encontró archivo TSX para ${componentName} en ${categoryDir}`);
     }
   });
 }
+
 
 // Procesar todas las categorías (atoms, molecules, organisms)
 // Puedes definir las carpetas que quieras procesar.
