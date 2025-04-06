@@ -1,0 +1,47 @@
+{
+  "name": "TextInput",
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "Id",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "value",
+      "label": "Value",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "onChange",
+      "label": "OnChange",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "disabled",
+      "label": "Disabled",
+      "default": ""
+    },
+    {
+      "type": "number",
+      "id": "type",
+      "label": "Type",
+      "default": ""
+    }
+  ]
+}

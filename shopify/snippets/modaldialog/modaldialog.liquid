@@ -1,0 +1,51 @@
+
+{% schema %}
+{
+  "name": "ModalDialog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "content",
+      "label": "Content",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "primaryActionLabel",
+      "label": "PrimaryActionLabel",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "onPrimaryAction",
+      "label": "OnPrimaryAction",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "secondaryActionLabel",
+      "label": "SecondaryActionLabel",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "onSecondaryAction",
+      "label": "OnSecondaryAction",
+      "default": ""
+    }
+  ]
+}
+{% endschema %}
+
+<!-- Plantilla Liquid para ModalDialog -->
+<div class="modaldialog">
+  {%- for setting in section.settings -%}
+    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
+  {%- endfor -%}
+</div>

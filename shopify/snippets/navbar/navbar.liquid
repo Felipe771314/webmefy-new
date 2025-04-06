@@ -1,0 +1,14 @@
+
+{% schema %}
+{
+  "name": "Navbar",
+  "settings": []
+}
+{% endschema %}
+
+<!-- Plantilla Liquid para Navbar -->
+<div class="navbar">
+  {%- for setting in section.settings -%}
+    <p>{{ setting.id }}: {{ section.settings[setting.id] }}</p>
+  {%- endfor -%}
+</div>
