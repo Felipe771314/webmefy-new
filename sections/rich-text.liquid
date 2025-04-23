@@ -15,11 +15,16 @@
     }
   }
 
-  .rich-text--ellipsis {
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* Cambiá este número por la cantidad de líneas que quieras permitir */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+ {%- for block in section.blocks -%}
+  {%- if block.type == 'text' -%}
+    .rich-text--ellipsis-{{ forloop.index }} {
+      display: -webkit-box;
+      -webkit-line-clamp: {{ block.settings.max_lines | default: 3 }};
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  {%- endif -%}
+{%- endfor -%}
 }
 {%- endstyle -%}
 
