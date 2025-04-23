@@ -51,7 +51,7 @@
               >
                 {{ block.settings.caption | escape }}
               </p>
-            {%- when 'text' -%}
+           {%- when 'text' -%}
   <div
     class="rich-text__text rte rich-text--ellipsis{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     {{ block.shopify_attributes }}
@@ -60,8 +60,10 @@
       style="--animation-order: {{ forloop.index }};"
     {% endif %}
   >
-    {{ block.settings.text | strip_html | truncate: block.settings.max_characters, '...' }}
+    {%- assign max_chars = block.settings.max_characters | default: 120 | plus: 0 -%}
+    {{ block.settings.text | strip_html | truncate: max_chars, '...' }}
   </div>
+
 
             {%- when 'button' -%}
               <div
