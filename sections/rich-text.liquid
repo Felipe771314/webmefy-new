@@ -1,5 +1,7 @@
 {{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
 
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -12,7 +14,14 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  .rich-text--ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 {%- endstyle -%}
+
 
 <div class="isolate{% unless section.settings.full_width %} page-width{% endunless %}">
   <div class="rich-text content-container color-{{ section.settings.color_scheme }} gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding">
@@ -43,16 +52,17 @@
                 {{ block.settings.caption | escape }}
               </p>
             {%- when 'text' -%}
-              <div
-                class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {{ block.shopify_attributes }}
-                {% if settings.animations_reveal_on_scroll %}
-                  data-cascade
-                  style="--animation-order: {{ forloop.index }};"
-                {% endif %}
-              >
-                {{ block.settings.text }}
-              </div>
+  <div
+    class="rich-text__text rte rich-text--ellipsis{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {{ block.shopify_attributes }}
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+      style="--animation-order: {{ forloop.index }};"
+    {% endif %}
+  >
+    {{ block.settings.text | strip_html | truncate: block.settings.max_characters, '...' }}
+  </div>
+
             {%- when 'button' -%}
               <div
                 class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
