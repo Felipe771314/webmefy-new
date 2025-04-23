@@ -59,16 +59,17 @@
               </p>
            {%- when 'text' -%}
   <div
-    class="rich-text__text rte rich-text--ellipsis{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-    {{ block.shopify_attributes }}
-    {% if settings.animations_reveal_on_scroll %}
-      data-cascade
-      style="--animation-order: {{ forloop.index }};"
-    {% endif %}
-  >
-    {%- assign max_chars = block.settings.max_characters | default: 300 | plus: 0 -%}
-    {{ block.settings.text | strip_html | truncate: max_chars, '...' }}
-  </div>
+  class="rich-text__text rte rich-text--ellipsis-{{ forloop.index }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  {{ block.shopify_attributes }}
+  {% if settings.animations_reveal_on_scroll %}
+    data-cascade
+    style="--animation-order: {{ forloop.index }};"
+  {% endif %}
+>
+  {%- assign max_chars = block.settings.max_characters | default: 300 | plus: 0 -%}
+  {{ block.settings.text | strip_html | truncate: max_chars, '...' }}
+</div>
+
 
 
             {%- when 'button' -%}
