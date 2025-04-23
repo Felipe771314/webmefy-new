@@ -60,7 +60,7 @@
       style="--animation-order: {{ forloop.index }};"
     {% endif %}
   >
-    {%- assign max_chars = block.settings.max_characters | default: 120 | plus: 0 -%}
+    {%- assign max_chars = block.settings.max_characters | default: 300 | plus: 0 -%}
     {{ block.settings.text | strip_html | truncate: max_chars, '...' }}
   </div>
 
