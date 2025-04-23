@@ -70,7 +70,8 @@
           "type": "text",
           "settings": {
             "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-            "max_characters": 120
+            "max_characters": 120,
+            "max_lines": 3
           }
         }
       },
@@ -276,8 +277,9 @@
         "text_HAG3d4": {
           "type": "text",
           "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-            "max_characters": 500
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.Hola fatima cpmo estas</p>",
+            "max_characters": 120,
+            "max_lines": 5
           }
         },
         "button_rFtnRN": {
