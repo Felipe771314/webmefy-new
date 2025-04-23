@@ -16,10 +16,11 @@
   }
 
   .rich-text--ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Cambiá este número por la cantidad de líneas que quieras permitir */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 {%- endstyle -%}
 
 
